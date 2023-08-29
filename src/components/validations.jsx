@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimeField } from '@mui/x-date-pickers/TimeField';
-import { Box, Stack, Typography } from '@mui/material';
-import validator from 'validator';
+import { Stack, Typography } from '@mui/material';
 import {Client} from '@googlemaps/google-maps-services-js';
 
 // export function ValidateEmail({email, setValidFlag}) {
@@ -36,7 +32,7 @@ export function ValidateWhatsapp({whatsapp, setValidFlag}) {
 
     useEffect(() => {
         setValid(isValidWhatsapp());
-    }, [whatsapp, setValidFlag]);
+    }, [whatsapp, setValidFlag, isValidWhatsapp]);
     
     // Regex for 10 digit numbers starting with 05 or 07
     const tenDigitPattern = /^0[57][0-9]{8}$/;
@@ -64,7 +60,7 @@ export function ValidatePhone({phone, setValidFlag}) {
 
     useEffect(() => {
         setValid(isValidPhone());
-    }, [phone, setValidFlag]);
+    }, [phone, setValidFlag, isValidPhone]);
     // Regex for 10 digit numbers starting with 05 or 07
     const tenDigitPattern = /^0[57][0-9]{8}$/;
 
@@ -91,7 +87,7 @@ export function ValidateWebsite({url, setValidFlag}) {
     
     useEffect(() => {
         setValid(isValidWebsite());
-    }, [url, setValidFlag]);
+    }, [url, setValidFlag, isValidWebsite]);
 
     function isValidWebsite() {
         const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?');
@@ -112,7 +108,7 @@ export function ValidateInstagram({instagram, setValidFlag}) {
     
     useEffect(() => {
         setValid(isValidInstagram());
-    }, [instagram, setValidFlag]);
+    }, [instagram, setValidFlag, isValidInstagram]);
 
     function isValidInstagram() {
         const regexp = new RegExp("(http(s?)://)?(?:www.)?(?:instagram|instagr).([a-z])+/(\\w*)?/?", 'gs');
@@ -134,7 +130,7 @@ export function ValidateFacebook({facebook, setValidFlag}) {
     
     useEffect(() => {
         setValid(isValidFacebook());
-    }, [facebook, setValidFlag]);
+    }, [facebook, setValidFlag, isValidFacebook]);
 
     function isValidFacebook() {
         const regexp = new RegExp('/(?:https?:\\/\\/)?(?:www\\.)?(mbasic.facebook|m\\.facebook|facebook|fb)\\.(com|me)\\/?(?:(?:\\w\\.)*#!\\/)?(?:pages\\/)?(?:[\\w\\-\\.]*\\/)*([\\w\\-\\.]*)/');
@@ -156,7 +152,7 @@ export function ValidateWorkingHours({open, close, setValidFlag}) {
     // const [value2, setValue2] = React.useState(dayjs('2022-04-17T17:300'));
   
     const [validRange, setValidRange] = useState(true);
-    const [valid, setValid] = useState(true);
+    const [setValid] = useState(true);
   
     useEffect(() => {
       validateHours();

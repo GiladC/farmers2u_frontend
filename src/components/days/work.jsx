@@ -21,7 +21,7 @@ export default function Work({days}) {
           <Typography>ימי ושעות עבודה</Typography>
         </AccordionSummary>
           {days.sunday === 'סגור' && days.monday === 'סגור' && days.tuesday === 'סגור' && days.wednesday === 'סגור'
-          && days.thursday == 'סגור' && days.friday === 'סגור' && days.saturday === 'סגור'
+          && days.thursday === 'סגור' && days.friday === 'סגור' && days.saturday === 'סגור'
           ? <AccordionDetails><Typography variant='body2'>טרם עודכנו שעות העבודה</Typography></AccordionDetails>
           :
           <AccordionDetails>

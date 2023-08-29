@@ -19,7 +19,7 @@ function OurFarmers( { token }) {
     const searched = filteredCards.filter((item) =>
       item.farm_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    if(searchTerm == '' || !searchTerm){
+    if(searchTerm === '' || !searchTerm){
       setCurrentCards(filteredCards);
     }
     else{
@@ -44,7 +44,7 @@ function OurFarmers( { token }) {
 
   useEffect(() => {
     handleSearch(searchTerm);
-  }, [filteredCards])
+  }, [filteredCards, handleSearch, searchTerm])
 
   return (
     <Box display='flex' flexDirection='column' overflowX= 'none'>

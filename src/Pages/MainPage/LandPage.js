@@ -1,6 +1,5 @@
 import { Box, IconButton } from "@mui/material";
 import Guide from "./Guide";
-import HeaderTop from "./HeaderTop";
 import NewHeaderTop from "./NewHeaderTop";
 import { Link } from "react-scroll";
 import { ExpandMore } from "@mui/icons-material";
@@ -8,7 +7,6 @@ import { ExpandMore } from "@mui/icons-material";
 function LandPage() {
   return (
     <>
-      {/* <HeaderTop /> */}
       <NewHeaderTop />
       <Box display= 'flex' justifyContent={"space-around"} sx={{mt: '-11rem', boxSizing: "border-box"}}>
                 <Link to='place_to_visit' smooth={true}>

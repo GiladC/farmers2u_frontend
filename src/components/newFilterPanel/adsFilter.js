@@ -2,7 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import PlacesAutocomplete, {
@@ -52,50 +52,6 @@ const marks = [
     label: '150',
   },
 ];
-
-
-const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-  width: 62,
-  height: 34,
-  padding: 7,
-  '& .MuiSwitch-switchBase': {
-    margin: 1,
-    padding: 0,
-    transform: 'translateX(6px)',
-    '&.Mui-checked': {
-      color: '#fff',
-      transform: 'translateX(22px)',
-      '& .MuiSwitch-thumb:before': {
-        backgroundImage: `url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M3 4a2 2 0 0 0-2 2v11h2a3 3 0 0 0 3 3a3 3 0 0 0 3-3h6a3 3 0 0 0 3 3a3 3 0 0 0 3-3h2v-5l-3-4h-3V4m-7 2l4 4l-4 4v-3H4V9h6m7 .5h2.5l1.97 2.5H17M6 15.5A1.5 1.5 0 0 1 7.5 17A1.5 1.5 0 0 1 6 18.5A1.5 1.5 0 0 1 4.5 17A1.5 1.5 0 0 1 6 15.5m12 0a1.5 1.5 0 0 1 1.5 1.5a1.5 1.5 0 0 1-1.5 1.5a1.5 1.5 0 0 1-1.5-1.5a1.5 1.5 0 0 1 1.5-1.5Z"%2F%3E%3C%2Fsvg%3E')`,
-      },
-      '& + .MuiSwitch-track': {
-        opacity: 1,
-        backgroundColor: theme.palette.mode === 'dark' ? '#E8AA42' : '#aab4be',
-      },
-    },
-  },
-  '& .MuiSwitch-thumb': {
-    backgroundColor: '#E8AA42',
-    width: 32,
-    height: 32,
-    '&:before': {
-      content: "''",
-      position: 'absolute',
-      width: '100%',
-      height: '100%',
-      left: 0,
-      top: 0,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      backgroundImage: `url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" fill-rule="evenodd" d="M9 8a3 3 0 1 1 6 0H9ZM7 8a5 5 0 0 1 10 0h3a1 1 0 0 1 .996 1.09l-.835 9.182A3 3 0 0 1 17.174 21H6.826a3 3 0 0 1-2.987-2.728L3.004 9.09A1 1 0 0 1 4 8h3Z" clip-rule="evenodd"%2F%3E%3C%2Fsvg%3E')`,
-    },
-  },
-  '& .MuiSwitch-track': {
-    opacity: 1,
-    backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
-    borderRadius: 20 / 2,
-  },
-}));
 
 const PrettoSlider = styled(Slider)({
     width:'90%',
@@ -208,8 +164,8 @@ const PrettoSlider = styled(Slider)({
     
     const [isRealAddress, setIsRealAddress] = useState(true);
 
-    const distanceWithoutAddress = address === "" && distance != 0;
-    const addressWithoutDistance = isRealAddress && address != "" && distance === 0;
+    const distanceWithoutAddress = address === "" && distance !== 0;
+    const addressWithoutDistance = isRealAddress && address !== "" && distance === 0;
     const [validDatesRange, setValidDatesRange] = useState(true);
     const [validDates, setValidDates] = useState(true);
     const notValidRequest = distanceWithoutAddress || !isRealAddress || !validDatesRange || !validDates || addressWithoutDistance;

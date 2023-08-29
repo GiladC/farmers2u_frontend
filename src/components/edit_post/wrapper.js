@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import EditPost from './edit_modal';
 import dayjs from 'dayjs';
 

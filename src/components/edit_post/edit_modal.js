@@ -114,7 +114,7 @@ const EditPost = ({ post, open, onClose }) => {
     post.initial_products.includes(prod.label)
   )
   const [selectedProducts, setSelectedProducts] = useState(matchingProducts);
-  const [pfpAndName, setPfpAndName] = useState({
+  const [pfpAndName] = useState({
     profilePicture: localStorage.getItem('profilePicture'),
     profileName: localStorage.getItem('farmName'),
   })
@@ -231,7 +231,7 @@ const handleSelect = async value => {
       })
     }
     else {
-      if (value == "") {	
+      if (value === "") {	
         setValidDescription(false);	
       } else {	
         setValidDescription(true);	
@@ -335,7 +335,7 @@ useEffect(() => {
       setValidHours(true);	
     }	
   }	
-}, [value2, value3]);
+}, [value2, value3, matchingProducts, post]);
 
 
 

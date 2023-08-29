@@ -2,7 +2,7 @@ import * as React from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -26,7 +26,7 @@ export default function WorkingHours(props) {
 
   useEffect(() => {
     validateHours();
-  }, [props.opening, props.closing, props.setValidFlag]);
+  }, [props.opening, props.closing, props.setValidFlag, validateHours]);
 
   function validateHours()
   {

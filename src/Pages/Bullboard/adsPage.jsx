@@ -44,11 +44,11 @@ import CircularProgress from '@mui/material/CircularProgress';
                     </Box>
                   </div>
                 ) : 
-                filteredPosts.length == 0 ? (
+                filteredPosts.length === 0 ? (
                   <>
                   <div className='noResults'>
                     <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                      <img className='noResultsImage' src={"https://storage.googleapis.com/image_storage_farmers2u/noResults.png"} style={{ width: '100%'}}/>
+                      <img alt='no results' className='noResultsImage' src={"https://storage.googleapis.com/image_storage_farmers2u/noResults.png"} style={{ width: '100%'}}/>
                     </Box>
                     <Typography sx={{ 
                       textAlign: 'center', fontSize: '36px', color: '#1d3c45', display: 'flex', 

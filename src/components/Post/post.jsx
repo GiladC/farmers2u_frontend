@@ -120,9 +120,9 @@ export default function Post({ post, token, disabled }) {
                 color={'black'}
                 sx={{overflow: 'hidden'}}
               >
-                <a style={{fontFamily: 'unset'}}>
+                <span style={{fontFamily: 'unset'}}>
                 {post.farmName.length > 20 ? post.farmName.slice(0,21) + "..." : post.farmName}
-                </a>
+                </span>
               </Typography>
             </IconButton>
             <NewBusinessCard

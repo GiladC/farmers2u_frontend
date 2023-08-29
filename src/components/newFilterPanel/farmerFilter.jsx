@@ -230,17 +230,12 @@ const products = [
   const FarmerFilter = (props) => {
     const [address, setAddress] = useState("")
 
-    const [coordintes,setCoordinates] = useState({
-        lat: 'none',
-        lng: 'none'
-      })
     const handleSelect = async value => {
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
         console.log(latLng);
         setIsRealAddress(true);
         setAddress(value);
-        setCoordinates(latLng);
       };
 
       const handleChangeAddress = value => {
@@ -268,8 +263,8 @@ const products = [
     const [categories, setCategories] = useState([])
 
     const [isRealAddress, setIsRealAddress] = useState(true);
-    const distanceWithoutAddress = !isShipping && address === "" && distance != 0;
-    const addressWithoutDistance = !isShipping && isRealAddress && address != "" && distance === 0;
+    const distanceWithoutAddress = !isShipping && address === "" && distance !== 0;
+    const addressWithoutDistance = !isShipping && isRealAddress && address !== "" && distance === 0;
     const notValidRequest = distanceWithoutAddress || !isRealAddress || addressWithoutDistance
 
     const handleFilter = (data) => {

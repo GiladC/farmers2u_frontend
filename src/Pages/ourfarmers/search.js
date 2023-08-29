@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import './searchbarstyles.css';
-import { Box, Typography } from '@mui/material';
 
 const Searchbar = ({ onSearch, searchTerm, setSearchTerm }) => {
   // const [searchTerm, setSearchTerm] = useState('');

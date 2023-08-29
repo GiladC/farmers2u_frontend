@@ -1,7 +1,7 @@
-import { Autocomplete, Box, Button, Checkbox, Container, FormControlLabel, Grid, InputAdornment, InputBase, ListItem, Menu, MenuItem, Stack, Switch, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Checkbox, Container, InputAdornment, InputBase, ListItem, Stack, Switch, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import './profileSettings.css'
-import { Add, AssignmentInd, CheckBox, CheckBoxOutlineBlank, Close, Facebook, Home, Instagram, Language, Person2, Phone, Remove, WhatsApp } from '@mui/icons-material'
+import { AssignmentInd, CheckBox, CheckBoxOutlineBlank, Close, Facebook, Home, Instagram, Language, Person2, Phone, WhatsApp } from '@mui/icons-material'
 import AddPost from '../../components/Post/AddPost'
 import WorkingHours from '../../components/Settings/workingHours'
 import axios from 'axios'
@@ -15,7 +15,7 @@ import dayjs from 'dayjs'
 import UserPosts from './userPosts'
 import './userPosts.css'
 import PropTypes from 'prop-types';
-import {ValidateAddress, ValidateFacebook, ValidateFarmName, ValidateFarmerName, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
+import {ValidateFacebook, ValidateFarmName, ValidateFarmerName, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
 
 const products = [
   {
@@ -180,89 +180,8 @@ const IOSSwitch = styled((props) => (
 
 const {palette} = createTheme();
 const { augmentColor } = palette;
-const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 
 
-function CheckboxMenu(props) {
-    return (
-      <div>
-        <Button variant="outlined" onClick={props.handleClick}
-         style={{
-          width: "580px",
-          height: "50px",
-          border: "1px solid #bdbdbd", 
-          overflowX: "scroll", 
-          whiteSpace: "nowrap", 
-          display: "flex", 
-          alignItems: "center", 
-         justifyContent: "flex-start", 
-        //  background: "#FFFFFF",
-         '&:hover': {
-          color: 'initial',
-          backgroundColor: 'initial !important'
-         },
-         }}>
-  
-        {Boolean(props.anchorEl) ? <Remove /> : <Add />}
-        <Typography style={{ color: '#37474f', fontSize: '15px', fontFamily: 'aleph'}}>
-        {props.selectedItems.length > 0 ? 
-            <div style={{ display: 'flex', overflowX: 'scroll'}}>
-              {props.selectedItems.map((item, index) => (
-                <div key={index} style={{backgroundColor: '#f5f5f5', margin: '5px', padding: '5px'}}>
-                  {item }
-                  <span style={{ cursor: 'pointer', marginRight: '10px' }} onClick={(event) => props.handleRemove(event,item)}>
-                    x
-                  </span>
-                </div>
-              ))}
-            </div>
-            : 'אילו סוגי מוצרים אתם מוכרים?'}
-              </Typography>
-          </Button>
-        <Menu
-          id="checkbox-menu"
-          anchorEl={props.anchorEl}
-          keepMounted
-          variant='outlined'
-          dir="rtl"
-          open={Boolean(props.anchorEl)}
-          onClose={props.handleClose}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} // Position where the menu will be attached
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}  // Position from where the menu will appear
-          PaperProps={{
-            style: {
-              maxHeight: 200, // Sets the maximum height for menu
-              width: '57.7ch',
-              flexGrow:1,
-              
-            },
-          }}
-        >
-        <Grid container rowSpacing={1} columnSpacing={-5}>
-        {props.labels.map((label, i) => (
-            <Grid item xs={4} key={i}>
-            <MenuItem disableRipple onClick={(event) => event.stopPropagation()} sx={{'&:hover':{
-        backgroundColor:'white'}, '&:focus':{backgroundColor:'white'}
-          }}>
-              <FormControlLabel
-                control={<Checkbox checked={props.checked[i]} onChange={() => props.handleToggle(i)} color={props.checked[i] ? 'default' : 'default'} sx={{'&:hover':{
-                  backgroundColor:'white'}, '&:focus':{backgroundColor:'white'}
-                    }} />}
-                label={label}
-  
-              />
-            </MenuItem>
-            </Grid>
-          ))}
-              </Grid>
-      <div style={{ borderTop: '1px solid #ccc', marginTop: '10px', paddingTop: '10px' }}>
-        {props.selectedItems.join(', ')}
-      </div>
-        </Menu>
-      </div>
-  
-    );
-  }
 
 const ProfileSettings = (props) => {
 
@@ -273,7 +192,6 @@ const ProfileSettings = (props) => {
     const [newProductsImages, setNewProductsImages] = useState("");
     const [newFarmImages, setNewFarmImages] = useState("");
     const [farmName, setFarmName] = useState("");
-    const [displayedFarmName, setDisplayedFarmName] = useState(farmName);
     const [email, setEmail] = useState("");
     const [about, setAbout] = useState("");
     const [whatsApp, setWhatsapp] = useState("");
@@ -281,17 +199,12 @@ const ProfileSettings = (props) => {
     const [address, setAddress] = useState("");
     const [menu,setMenu] = useState("");
     const [categories, setCategories] = useState([])
-    const [coordintes,setCoordinates] = useState({
-        lat: 'none',
-        lng: 'none'
-      })
     
     const handleSelect = async value => {
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
         setAddress(value);
         setValidAddress(true);
-        setCoordinates(latLng);
       };
     const [farmer, setFarmer] = useState("");
     const [delivery, setDelivery] = useState('');
@@ -317,12 +230,7 @@ const ProfileSettings = (props) => {
     const [fridayClosing, setFridayClosing] = useState(null);
     const [saturdayOpening, setSaturdayOpening] = useState(null);
     const [saturdayClosing, setSaturdayClosing] = useState(null);
-    const labels = ["ירקות", "פירות", "גבינות ומוצרי חלב", "ביצים", "דבש", "צמחים", "יינות ושמן זית", "תבלינים", "דגנים"];
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [checked, setChecked] = useState(
-      Array(9).fill(false) // Initial state for 9 checkboxes
-    );
-    const [selectedItems, setSelectedItems] = useState([]);
+
     const [validPhone, setValidPhone] = useState(true);
     const [validWhatsapp, setValidWhatsapp] = useState(true);
     const [validWebsite, setValidWebsite] = useState(true);
@@ -346,49 +254,10 @@ const ProfileSettings = (props) => {
     const [disabledProducts, setDisabledProducts] = useState(Array(2).fill(false)); // disable: [delete products images, replace products images]
 
     const validDays = validSunday && validMonday && validTuesday && validWednesday && validThursday && validFriday && validSaturday;
-    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address != "" && phone && phone != "";
+    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone != "";
   
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
   
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
   
-    const handleToggle = (index) => {
-      setChecked((prevChecked) => {
-        const newChecked = [...prevChecked];
-        newChecked[index] = !newChecked[index];
-        return newChecked;
-      });
-      setSelectedItems((prevSelectedItems) => {
-        const newSelectedItems = [...prevSelectedItems];
-        if (newSelectedItems.includes(labels[index])) {
-          const itemIndex = newSelectedItems.indexOf(labels[index]);
-          newSelectedItems.splice(itemIndex, 1);
-        } else {
-          newSelectedItems.push(labels[index]);
-        }
-        return newSelectedItems;
-      });
-    };
-    const handleRemove = (event,label) => {
-      event.stopPropagation();
-      const index = labels.indexOf(label);
-      setChecked((prevChecked) => {
-        const newChecked = [...prevChecked];
-        newChecked[index] = false;
-        return newChecked;
-      });
-  
-      setSelectedItems((prevSelectedItems) => {
-        const newSelectedItems = [...prevSelectedItems];
-        const itemIndex = newSelectedItems.indexOf(label);
-        newSelectedItems.splice(itemIndex, 1);
-        return newSelectedItems;
-      });
-    };
 
     const handleSwitch = (event) => {
         const val = event.target.checked;
@@ -412,11 +281,11 @@ const ProfileSettings = (props) => {
     
     function checkNull(val , alternative, format) {
         if (format === true){
-            const ret1 = val != null? val.format() : alternative;
+            const ret1 = val !== null? val.format() : alternative;
             return(ret1)
         }
         else{
-            const ret2 = val != "none"? dayjs(val) : alternative;
+            const ret2 = val !== "none"? dayjs(val) : alternative;
             return (ret2);
         }
 
@@ -467,7 +336,6 @@ const ProfileSettings = (props) => {
             const res = response.data;
             res.access_token && props.setToken(res.access_token);
             setFarmName(res.farm_name);
-            setDisplayedFarmName(res.farm_name);
             setEmail(profileEmail);
             setAbout(res.about);
             setWhatsapp(res.phone_number_whatsapp);
@@ -617,10 +485,9 @@ const ProfileSettings = (props) => {
             alert("שגיאה");
         }
     });
-        setDisplayedFarmName(farmName);
     }
 
-    const handleDeletePhotoLogo = (e) => {
+    const handleDeletePhotoLogo = () => {
         setLogoFlag(true)
         setLogo([])
         setNewlogo("")
@@ -661,7 +528,7 @@ const ProfileSettings = (props) => {
         setDisabledLogo(disable);
       }
     };
-  const hadnleDeleteProductsPhotos = (e) => {
+  const hadnleDeleteProductsPhotos = () => {
       console.log("prodcuts flag" ,productsFlag)
       setProductsFlag(true)
       setProductsImages([])
@@ -712,7 +579,7 @@ const ProfileSettings = (props) => {
           setDisabledProducts(disable);
         }
     };
-    const handleDeleteFarmPhotos = (e) => {
+    const handleDeleteFarmPhotos = () => {
       console.log("farmIMages");
       setFarmFlag(true)
       setFarmImages([])
@@ -1260,7 +1127,8 @@ const ProfileSettings = (props) => {
                         position: 'relative',
                         textAlign: 'center'
                     }}>
-                        <img 
+                        <img
+                        alt='logo picture'
                         src = {logo}
                         width= {150}
                         height= {150}

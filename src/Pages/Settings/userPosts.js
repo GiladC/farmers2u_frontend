@@ -6,8 +6,6 @@ import noResults from '../../assets/noResults.png';
 
 const UserPosts = ({ width, height, position, email, token }) => {
   const [posts, setPosts] = useState([]);
-  const storedEmail = localStorage.getItem('email');
-
   useEffect(() => {
     const mail = new FormData();
     mail.append('email', email);
@@ -19,7 +17,7 @@ const UserPosts = ({ width, height, position, email, token }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [email]);
 
   const containerStyle = {
     width: `${width}px`,

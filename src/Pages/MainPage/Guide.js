@@ -1,9 +1,9 @@
-import { Box, Button, Container, IconButton, styled, Typography } from "@mui/material";
+import { Box, Container, IconButton, styled, Typography } from "@mui/material";
 import React from "react";
 import './Main.css';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { Link } from "react-scroll";
-import { ArrowDropDown, ExpandMore } from "@mui/icons-material";
+import { ArrowDropDown } from "@mui/icons-material";
 
 import farmer2u_logo from '../../assets/farmers2u_logo.png'
 
