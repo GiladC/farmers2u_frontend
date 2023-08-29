@@ -179,7 +179,6 @@ const IOSSwitch = styled((props) => (
   }));
 
 const {palette} = createTheme();
-const { augmentColor } = palette;
 
 
 
@@ -200,9 +199,7 @@ const ProfileSettings = (props) => {
     const [menu,setMenu] = useState("");
     const [categories, setCategories] = useState([])
     
-    const handleSelect = async value => {
-        const results = await geocodeByAddress(value);
-        const latLng = await getLatLng(results[0]);
+    const handleSelect = value => {
         setAddress(value);
         setValidAddress(true);
       };
@@ -254,7 +251,7 @@ const ProfileSettings = (props) => {
     const [disabledProducts, setDisabledProducts] = useState(Array(2).fill(false)); // disable: [delete products images, replace products images]
 
     const validDays = validSunday && validMonday && validTuesday && validWednesday && validThursday && validFriday && validSaturday;
-    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone != "";
+    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone !== "";
   
   
   
@@ -317,7 +314,7 @@ const ProfileSettings = (props) => {
     useEffect(() => {
         setIsInitialized(false);
         getUsers();
-      }, [props.token, props.profileEmail]);
+      }, [props.token, props.profileEmail, getUsers]);
     
       const storedEmail = localStorage.getItem('email');
       const profileEmail = props.token?.profile_email || storedEmail || '';
@@ -1128,7 +1125,7 @@ const ProfileSettings = (props) => {
                         textAlign: 'center'
                     }}>
                         <img
-                        alt='logo picture'
+                        alt='logo'
                         src = {logo}
                         width= {150}
                         height= {150}

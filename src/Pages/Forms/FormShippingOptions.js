@@ -1,34 +1,10 @@
 import React from 'react'
-import { Checkbox, TextField, Box, Typography, Grid, InputLabel, Autocomplete, Popper, Paper,Slider, FormControl, FormLabel, FormControlLabel } from '@mui/material'
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import Switch, { SwitchProps } from '@mui/material/Switch';
+import { TextField, Box, Typography, Grid } from '@mui/material'
+import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 
-const marks = [
-  {
-    value: 0,
-    label: '0',
-  },
-  {
-    value: 50,
-    label: '50',
-  },
-  {
-    value: 100,
-    label: '100',
-  },
-  {
-    value: 150,
-    label: '150',
-  },
-];
-
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({
@@ -98,10 +74,7 @@ const IOSSwitch = styled((props) => (
 
 
 function FormShippingOptions({values, handleChange, setFormValue}) {
-  const {farm_name, /*email,*/ google_profile_picture, google_name, google_family_name,
-  shipping_distance, is_shipping, opening_hours, closing_hours, logo_picture, products_pictures, types_of_products,
-  farm_pictures, phone_number_official, phone_number_whatsapp, phone_number_telegram, about, address,
-  farmer_name, delivery_details, products, farm_site, facebook, instagram
+  const {shipping_distance
   } = values
   const [isShipping, setIsShipping] = useState(values.is_shipping || false)
   const handleSwitch = (event) => {
@@ -109,17 +82,6 @@ function FormShippingOptions({values, handleChange, setFormValue}) {
     setFormValue("is_shipping", event.target.checked)
     console.log(values.is_shipping)
   };
-  
-  const handleChangeRange = (event) => {
-    const val = event.target.value;
-    // Regular expression to match numbers from 1 to 999, disallowing leading zeros
-    const regex = /^[1-9][0-9]{0,2}$/;
-    if (regex.test(val) || val === '') {
-      setDistance(val);
-    }
-  }
-
-  const [distance, setDistance] = useState(5)
 
   const handleDistanceChange = (event) => {
     const val = event.target.value;
@@ -127,7 +89,6 @@ function FormShippingOptions({values, handleChange, setFormValue}) {
     const regex = /^[1-9][0-9]{0,2}$/;
   
     if (regex.test(val) || val === '') {
-      setDistance(val); // Update the local state
       setFormValue("shipping_distance", val); // Update the form value
     }
   };

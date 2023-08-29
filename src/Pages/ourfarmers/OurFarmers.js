@@ -6,6 +6,7 @@ import { Box, Typography } from '@mui/material';
 import FarmerFilter from '../../components/newFilterPanel/farmerFilter';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useCallback } from 'react';
 
 
 function OurFarmers( { token }) {
@@ -15,7 +16,7 @@ function OurFarmers( { token }) {
   const [currentCards, setCurrentCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = useCallback((searchTerm) => {
     const searched = filteredCards.filter((item) =>
       item.farm_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -25,7 +26,7 @@ function OurFarmers( { token }) {
     else{
     setCurrentCards(searched);
     }
-  };
+  }, []);
 
   useEffect(() => {
     axios
