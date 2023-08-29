@@ -1,14 +1,11 @@
 import { Autocomplete, Box, Button, Checkbox, Container, InputAdornment, InputBase, ListItem, Stack, Switch, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './profileSettings.css'
 import { AssignmentInd, CheckBox, CheckBoxOutlineBlank, Close, Facebook, Home, Instagram, Language, Person2, Phone, WhatsApp } from '@mui/icons-material'
 import AddPost from '../../components/Post/AddPost'
 import WorkingHours from '../../components/Settings/workingHours'
 import axios from 'axios'
-import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
-  } from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
 import {createTheme, styled} from '@mui/material/styles'
 import Slider from '../../Pages/ShowFarmerProfile/ImageSlider'
 import dayjs from 'dayjs'
@@ -320,10 +317,10 @@ const ProfileSettings = (props) => {
       const profileEmail = props.token?.profile_email || storedEmail || '';
 
     
-      function getUsers() {
+      const getUsers = useCallback(() => {
         axios({
           method: 'GET',
-          url: `http://127.0.0.1:5000/settings/${profileEmail}`,
+          url: `https://farmers-please-77d4b71f9957.herokuapp.com/settings/${profileEmail}`,
           headers: {
             Authorization: 'Bearer ' + props.token,
           },
@@ -396,7 +393,7 @@ const ProfileSettings = (props) => {
               console.log(error.response.headers);
             }
           });
-      }
+      }, []);
 
       const handleSave = (data) => {
         data.preventDefault();
@@ -462,7 +459,7 @@ const ProfileSettings = (props) => {
           data_update.append("labels[]", "6");
         }
           
-          axios.put(`http://127.0.0.1:5000/settings/${profileEmail}`, data_update, {
+          axios.put(`https://farmers-please-77d4b71f9957.herokuapp.com/settings/${profileEmail}`, data_update, {
             headers: {
               Authorization: 'Bearer ' + props.token,
             }

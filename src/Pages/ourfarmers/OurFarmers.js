@@ -30,7 +30,7 @@ function OurFarmers( { token }) {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:5000/businessCard')
+      .get('https://farmers-please-77d4b71f9957.herokuapp.com/businessCard')
       .then((response) => {
         console.log(response.data);
         setCards(response.data);

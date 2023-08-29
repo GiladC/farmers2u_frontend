@@ -10,7 +10,7 @@ const UserPosts = ({ width, height, position, email, token }) => {
     const mail = new FormData();
     mail.append('email', email);
     axios
-      .post('http://127.0.0.1:5000/api/getuserposts', mail)
+      .post('https://farmers-please-77d4b71f9957.herokuapp.com/api/getuserposts', mail)
       .then((response) => {
         setPosts(response.data);
       })
