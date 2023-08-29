@@ -291,7 +291,7 @@ export function ValidateAddress({address, setValidFlag, isInitialized}){
           }
       }
         {
-           isValidAddress();
+           isValidAddress()hhh;
         }
     }, [address, setValidFlag]);
 
