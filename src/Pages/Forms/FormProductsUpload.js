@@ -3,6 +3,7 @@ import { TextField, Button, Box, Typography, Grid, Paper, ThemeProvider, Checkbo
 import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles'
+import products from '../../assets/lists';
 
 function Tag(props) {
   const { label, onDelete, ...other } = props;
@@ -59,45 +60,6 @@ const StyledTag = styled(Tag)(
 );
 
 
-const products_categories = [
-  {
-    id: 1,
-    label: 'ירקות'
-  },
-  {
-    id: 2,
-    label: 'פירות'
-  },
-  {
-    id: 3,
-    label: 'גבינות ומוצרי חלב'
-  },
-  {
-    id: 4,
-    label: 'ביצים'
-  },
-  {
-    id: 5,
-    label: 'דבש'
-  },
-  {
-    id: 6,
-    label: 'צמחים'
-  },
-  {
-    id: 7,
-    label: 'יינות ושמן זית'
-  },
-  {
-    id: 8,
-    label: 'תבלינים'
-  },
-  {
-    id: 9,
-    label: 'דגנים'
-  },
-]
-  
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBox fontSize="small" />;
 
@@ -116,7 +78,7 @@ const themeForButton = createTheme({
 });
 
 function FormProductsUpload({values, handleChange, setFormValue}) {
-  const matchingProducts = products_categories.filter((prod) => 
+  const matchingProducts = products.filter((prod) => 
                 values.types_of_products.includes(prod.label));
 
   const handleChangeCategories = (event, newValue) => {
@@ -266,7 +228,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           // value={categories}
           defaultValue = {matchingProducts}
           onChange={handleChangeCategories}
-          options={products_categories}
+          options={products}
           direction= 'rtl'
           disableCloseOnSelect
           disablePortal

@@ -1,101 +1,83 @@
-import React, {useEffect, useState} from 'react'
-import { TextField, Box, Typography, Grid, Paper} from '@mui/material'
+import React, { useEffect, useState } from 'react';
+import { TextField, Box, Typography, Grid, Paper } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LanguageIcon from '@mui/icons-material/Language';
 
-function ValidateFacebook({facebook, setValidFlag}) {
-  const [valid ,setValid] = useState(true);
-  
+function ValidateFacebook({ facebook, setValidFlag }) {
+  const [valid, setValid] = useState(true);
+
   useEffect(() => {
-      setValid(isValidFacebook());
+    function isValidFacebook() {
+      const regexp = /(?:https?:\/\/)?(?:www\.)?(mbasic\.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/; // eslint-disable-line no-useless-escape
+      const res = regexp.test(facebook) || facebook === '';
+      setValidFlag(res);
+      return res;
+    }
+
+
+    setValid(isValidFacebook());
   }, [facebook, setValidFlag]);
 
-  function isValidFacebook() {
-      const regexp = new RegExp('/(?:https?:\\/\\/)?(?:www\\.)?(mbasic.facebook|m\\.facebook|facebook|fb)\\.(com|me)\\/(?:(?:\\w\\.)*#!\\/)?(?:pages\\/)?(?:[\\w\\-\\.]*\\/)*([\\w\\-\\.]*)/');
-      const res =  regexp.test(facebook) || facebook === "";
+  return <div style={{ height: '0px' }}>{!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}</div>;
+}
+
+function ValidateInstagram({ instagram, setValidFlag }) {
+  const [valid, setValid] = useState(true);
+
+  useEffect(() => {
+    function isValidInstagram() {
+      const regexp = /(?:http(s?):\/\/)?(?:www\.)?(?:instagram|instagr)\.([a-z])+\/(\w*)?\/?/gs;
+      const res = regexp.test(instagram) || instagram === '';
       setValidFlag(res);
       return res;
     }
 
-  return (
-    <div style={{ height: "0px" }}>
-    {!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}
-  </div>
-);
-}
-
-function ValidateInstagram({instagram, setValidFlag}) {
-  const [valid ,setValid] = useState(true);
-  
-  useEffect(() => {
-      setValid(isValidInstagram());
+    setValid(isValidInstagram());
   }, [instagram, setValidFlag]);
 
-  function isValidInstagram() {
-      const regexp = new RegExp("(http(s?)://)?(?:www.)?(?:instagram|instagr).([a-z])+/(\\w*)?/?", 'gs');
-      const res = regexp.test(instagram) || instagram === "";
+  return <div style={{ height: '0px' }}>{!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}</div>;
+}
+
+function ValidateWebsite({ url, setValidFlag }) {
+  const [valid, setValid] = useState(true);
+
+  useEffect(() => {
+    function isValidWebsite() {
+      const regexp = /(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?/;
+      const res = regexp.test(url) || url === '';
       setValidFlag(res);
       return res;
     }
 
-  return (
-    <div style={{ height: "0px" }}>
-    {!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}
-  </div>
-);
-}
-
-function ValidateWebsite({url, setValidFlag}) {
-  const [valid ,setValid] = useState(true);
-  
-  useEffect(() => {
-      setValid(isValidWebsite());
+    setValid(isValidWebsite());
   }, [url, setValidFlag]);
 
-  function isValidWebsite() {
-    const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?')
-    const res = regexp.test(url) || url === "";
-    setValidFlag(res);
-    console.log(res)
-    return res;
-    }
-
-  return (
-    <div style={{ height: "0px" }}>
-    {!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}
-  </div>
-);
+  return <div style={{ height: '0px' }}>{!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}</div>;
 }
 
-function FormOtherInfo({values, handleChange, props, setIsFormOtherInfoValid}) {
-  console.log(values, handleChange);
-  //const [facebookLink, setFacebookLink] = useState('');
+function FormOtherInfo({ values, handleChange, setIsFormOtherInfoValid }) {
   const [isValidFacebook, setIsValidFacebook] = useState(true);
-  //const [instagramLink, setInstagramLink] = useState('');
   const [isValidInstagram, setIsValidInstagram] = useState(true);
-  //const [websiteLink, setWebsiteLink] = useState('');
   const [isValidWebsite, setIsValidWebsite] = useState(true);
   const formValid = isValidFacebook && isValidInstagram && isValidWebsite;
 
   useEffect(() => {
     setIsFormOtherInfoValid(formValid);
-}, [formValid]);
+  }, [formValid, setIsFormOtherInfoValid]);
 
-  const handleChangeFacebook = (event) =>{
+  const handleChangeFacebook = (event) => {
     handleChange('facebook')(event);
-    //setFacebookLink(event.target.value);
   };
-  const handleChangeInstagram = (event) =>{
+
+  const handleChangeInstagram = (event) => {
     handleChange('instagram')(event);
-    //setInstagramLink(event.target.value);
   };
-  const handleChangeWebsite = (event) =>{
+
+  const handleChangeWebsite = (event) => {
     handleChange('farm_site')(event);
-    //setWebsiteLink(event.target.value);
   };
-  
 
   return (
     <div  >  

@@ -1,7 +1,5 @@
 import React from 'react'
-import { TextField, Box, Typography, Grid, Paper} from '@mui/material'
-import InputAdornment from '@mui/material/InputAdornment';
-import PhoneIcon from '@mui/icons-material/Phone';
+import { Box, Typography} from '@mui/material'
 
 function FormSubmitted() {
   return (

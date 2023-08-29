@@ -14,44 +14,7 @@ import './userPosts.css'
 import PropTypes from 'prop-types';
 import {ValidateFacebook, ValidateFarmName, ValidateFarmerName, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
 
-const products = [
-  {
-    id: 1,
-    label: 'ירקות'
-  },
-  {
-    id: 2,
-    label: 'פירות'
-  },
-  {
-    id: 3,
-    label: 'גבינות ומוצרי חלב'
-  },
-  {
-    id: 4,
-    label: 'ביצים'
-  },
-  {
-    id: 5,
-    label: 'דבש'
-  },
-  {
-    id: 6,
-    label: 'צמחים'
-  },
-  {
-    id: 7,
-    label: 'יינות ושמן זית'
-  },
-  {
-    id: 8,
-    label: 'תבלינים'
-  },
-  {
-    id: 9,
-    label: 'דגנים'
-  },
-]
+import products from '../../assets/lists';
 
 function Tag(props) {
   const { label, onDelete, ...other } = props;

@@ -3,76 +3,70 @@ import { Box, Typography, Grid, Paper } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
-import {ValidateWorkingHours} from '../../components/validations'
+import { ValidateWorkingHours } from '../../components/validations';
 
-
-function FormOpeningHours({values, setFormValue, setIsFormOpeningHoursValid}) {
+function FormOpeningHours({ values, setFormValue, setIsFormOpeningHoursValid }) {
   const [openingTimesNew, setOpeningTimesNew] = useState(values.opening_hours || Array(7).fill(null));
   const [closingTimesNew, setClosingTimesNew] = useState(values.closing_hours || Array(7).fill(null));
   const [validSundayHours, setValidSundayHours] = useState(true);
   const [validMondayHours, setValidMondayHours] = useState(true);
-  const [validTuedayHours, setValidTuedayHours] = useState(true);
+  const [validTuesdayHours, setValidTuesdayHours] = useState(true);
   const [validWednesdayHours, setValidWednesdayHours] = useState(true);
   const [validThursdayHours, setValidThursdayHours] = useState(true);
   const [validFridayHours, setValidFridayHours] = useState(true);
   const [validSaturdayHours, setValidSaturdayHours] = useState(true);
-  
-  const formValid = validSundayHours && validMondayHours && validTuedayHours && validWednesdayHours && validThursdayHours && validFridayHours && validSaturdayHours;
-    useEffect(() => {
-      console.log(formValid);
-      setIsFormOpeningHoursValid(formValid);
-  }, [formValid]);
+
+  const formValid =
+    validSundayHours &&
+    validMondayHours &&
+    validTuesdayHours &&
+    validWednesdayHours &&
+    validThursdayHours &&
+    validFridayHours &&
+    validSaturdayHours;
+
+  useEffect(() => {
+    setIsFormOpeningHoursValid(formValid);
+  }, [
+    setIsFormOpeningHoursValid,
+    formValid
+  ]);
 
   const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
 
   const handleSetOpeningTimeNew = (index, newValue) => {
-    let inputTime = newValue;
+    const inputTime = newValue;
     const newOpeningTime = [...openingTimesNew];
     newOpeningTime[index] = inputTime;
     setOpeningTimesNew(newOpeningTime);
-    setFormValue("opening_hours",newOpeningTime);
-};
+    setFormValue('opening_hours', newOpeningTime);
+  };
 
   const handleSetClosingTimeNew = (index, newValue) => {
     const inputTime = newValue;
     const newClosingTime = [...closingTimesNew];
-    newClosingTime[index] = inputTime
-    setClosingTimesNew(newClosingTime)
-    setFormValue("closing_hours",newClosingTime)
-  }
-
-  // const validDayFlag = (index) => (flag) => {
-  //   const flags = [...validDayHours];
-  //   console.log("index: " + index );
-  //   console.log(flag);
-  //   flags[index] = flag;
-  //   console.log(flags);
-  //   setValidDayHours(flags);
-  // };
+    newClosingTime[index] = inputTime;
+    setClosingTimesNew(newClosingTime);
+    setFormValue('closing_hours', newClosingTime);
+  };
 
   const validDayFlag = (index) => (flag) => {
-    if (index === 0){
+    if (index === 0) {
       setValidSundayHours(flag);
-    }
-    else if (index === 1) {
+    } else if (index === 1) {
       setValidMondayHours(flag);
-    }
-    else if (index === 2) {
-      setValidTuedayHours(flag);
-    }
-    else if (index === 3) {
+    } else if (index === 2) {
+      setValidTuesdayHours(flag);
+    } else if (index === 3) {
       setValidWednesdayHours(flag);
-    }
-    else if (index === 4) {
+    } else if (index === 4) {
       setValidThursdayHours(flag);
-    }
-    else if (index === 5) {
+    } else if (index === 5) {
       setValidFridayHours(flag);
-    }
-    else {
+    } else {
       setValidSaturdayHours(flag);
     }
-  }
+  };
 
   return (
     <form autoComplete="off" dir="rtl">
