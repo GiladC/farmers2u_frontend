@@ -42,7 +42,6 @@ const FormLogin = (props) => {
 
 
     console.log(userObject.email);
-    setEmail(userObject.email); 
     axios({
       method: 'POST',
       url: 'https://farmers-please-77d4b71f9957.herokuapp.com/logintoken',
@@ -72,8 +71,6 @@ const FormLogin = (props) => {
         }
       });
 
-    setEmail('');
-    setPassword('');
   };
 
   const initializeGoogleSignIn = () => {
