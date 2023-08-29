@@ -35,7 +35,7 @@ const themeForButton = createTheme({
     }
 });
 
-const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) => {
+const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFormOpeningHoursValid}) => {
     const modalTextStyle = {
       fontSize: 'larger', 
       textAlign: 'center',
@@ -102,14 +102,14 @@ const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) =>
     }*/
     let opening_hours2 = ["none","none","none","none","none","none","none"]
     let closing_hours2 = ["none","none","none","none","none","none","none"]
-    if (values.opening_hours != "") {
+    if (values.opening_hours !== "") {
         opening_hours2 = values.opening_hours.map(p => {
             return p && p !== "none" ? p.format() : "none";
         });
         //opening_hours2 = opening_hours2.join(",");
         //alert(opening_hours2)
     }
-    if (values.closing_hours != "") {
+    if (values.closing_hours !== "") {
         closing_hours2 = values.closing_hours.map(p => {
             return p && p !== "none" ? p.format() : "none";
         });
@@ -140,6 +140,9 @@ const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) =>
         farmer_name, delivery_details, products, farm_site, facebook, instagram
     } = values
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const isOpeningHoursEmpty = (days.sunday === "סגור") && (days.monday === "סגור") && (days.tuesday === "סגור") && (days.wednesday === "סגור") && (days.thursday === "סגור") && (days.friday === "סגור") && (days.saturday === "סגור");
+    const tenDigitPattern = /^0[57][0-9]{8}$/;
+    const nineDigitPattern = /^0[23489][0-9]{7}$/;
 
     useEffect(() => {   
         window.scrollTo(0, 0); // Scroll to the top of the page
@@ -159,20 +162,20 @@ const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) =>
         e.preventDefault();
         let openingHours = "none,none,none,none,none,none,none"
         let closingHours = "none,none,none,none,none,none,none"
-        if (values.opening_hours != "") {
+        if (values.opening_hours !== "") {
             const opening_hours = values.opening_hours.map(p => {
                 return p && p !== "none" ? p.format() : "none";
             });
             openingHours = opening_hours.join(",");
         }
-        if (values.closing_hours != "") {
+        if (values.closing_hours !== "") {
             const closing_hours = values.closing_hours.map(p => {
                 return p && p !== "none" ? p.format() : "none";
             });
             closingHours = closing_hours.join(",");
         }
         const data = new FormData();
-        if (values.is_shipping == false) {
+        if (values.is_shipping === false) {
             values.shipping_distance = 0
         }
 
@@ -279,41 +282,84 @@ const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) =>
                 <Box>
                 <Typography color="#37474f" fontFamily="aleph" fontWeight={'bold'} fontSize={50} marginTop="-9.2rem" variant='h3' textAlign={"center"}> הרשמת חקלאי </Typography>
                 <Typography color="#37474f" fontFamily="aleph" minHeight={45} fontWeight={'bold'} fontSize={22}  mr={-1} marginTop={3} variant='h2'  textAlign={"center"}>שלב 7 - אישור והרשמה</Typography>
+                {isFormValid ? 
                 <Typography color="#37474f" fontFamily="aleph" minHeight={45} fontWeight={'bold'} fontSize={16}  mr={-1} variant='h2'  textAlign={"center"}>הפרטים ניתנים לשינוי גם לאחר סיום הליך ההרשמה</Typography>
+                :
+                <Typography dir="rtl" color="error" fontFamily="aleph" minHeight={45} fontWeight={'bold'} fontSize={16}  mr={-1} variant='h2'  textAlign={"center"}>יש לתקן את השדות המסומנים ב-*</Typography>
+                }
                 </Box>
                 <>
                 <Grid container direction="column" spacing={2} dir="rtl" style={{ fontFamily: "aleph" }}>
                     <Grid item>
+                      {values.farm_name !== "" ? 
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             שם העסק:
                         </Typography>
+                        :
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            *שם העסק:
+                        </Typography>
+                        }
                         <Typography maxWidth={580} variant="body2" color="textPrimary" textAlign={"center"}>
                             {values.farm_name || "---"}
                         </Typography>
                     </Grid>
 
                     <Grid item>
+                      {values.farmer_name !== "" ?
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             שם איש הקשר:
                         </Typography>
+                        :
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            *שם איש הקשר:
+                        </Typography>  
+                      }
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
                             {values.farmer_name || "---"}
                         </Typography>
                     </Grid>
 
                     <Grid item>
+                      {values.address !== "" ? 
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             כתובת:
                         </Typography>
+                        :
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                           *כתובת:
+                        </Typography> 
+                      }
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
                             {values.address || "---"}
                         </Typography>
                     </Grid>
 
                     <Grid item>
+                      {isFormSignUpInfoValid ? 
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            כתובת מייל:
+                        </Typography>
+                        :
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                           *כתובת מייל:
+                        </Typography> 
+                      }
+                        <Typography variant="body2" color="textPrimary" textAlign={"center"}>
+                            {values.email || "---"}
+                        </Typography>
+                    </Grid>
+
+                    <Grid item>
+                      {((tenDigitPattern.test(values.phone_number_official) || nineDigitPattern.test(values.phone_number_official)) && values.phone_number_official !== "") ? 
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             מספר טלפון של העסק:
                         </Typography>
+                        :
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            *מספר טלפון של העסק:
+                        </Typography>
+                     }
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
                             {values.phone_number_official || "---"}
                         </Typography>
@@ -331,28 +377,33 @@ const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) =>
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             שעות פתיחה:
                         </Typography>
+                        {(isFormOpeningHoursValid && isOpeningHoursEmpty) && 
+                        <Typography variant="body2" color="textPrimary" textAlign={"center"} >
+                            לא הוזנו שעות פתיחה
+                        </Typography>  
+                        }
                         {isFormOpeningHoursValid ? 
                         <div>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           ראשון{days.sunday == "סגור" ? " - " : ": "}{days.sunday}
+                           ראשון{days.sunday === "סגור" ? " - " : ": "}{days.sunday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שני{days.monday == "סגור" ? " - " : ": "}{days.monday}
+                           שני{days.monday === "סגור" ? " - " : ": "}{days.monday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שלישי{days.tuesday == "סגור" ? " - " : ": "}{days.tuesday}
+                           שלישי{days.tuesday === "סגור" ? " - " : ": "}{days.tuesday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           רביעי{days.wednesday == "סגור" ? " - " : ": "}{days.wednesday}
+                           רביעי{days.wednesday === "סגור" ? " - " : ": "}{days.wednesday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           חמישי{days.thursday == "סגור" ? " - " : ": "}{days.thursday}
+                           חמישי{days.thursday === "סגור" ? " - " : ": "}{days.thursday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שישי{days.friday == "סגור" ? " - " : ": "}{days.friday}
+                           שישי{days.friday === "סגור" ? " - " : ": "}{days.friday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שבת{days.saturday == "סגור" ? " - " : ": "}{days.saturday}
+                           שבת{days.saturday === "סגור" ? " - " : ": "}{days.saturday}
                         </Typography>
                         </div>
                           : 
@@ -370,7 +421,7 @@ const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) =>
                         </Typography>
                     </Grid>
 
-                    {shipping == "כן" && (
+                    {shipping === "כן" && (
                         <Grid item>
                             <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                                 טווח המשלוח:

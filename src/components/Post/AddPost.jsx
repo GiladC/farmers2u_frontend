@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { Add, AddPhotoAlternate, Close } from '@mui/icons-material'
 import {
   Avatar, Box, Button,
-  Fab, FormControlLabel, Radio,
+  Fab, FormControlLabel,
   Checkbox, IconButton,
   Modal, Autocomplete,
   TextField, Tooltip, Typography, ThemeProvider, createTheme, ListItem
@@ -117,7 +117,7 @@ const AddPost = ( { vert, notFixed}) => {
   const [value2, setValue2] = useState(null);
   const [value3, setValue3] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [pfpAndName, setPfpAndName] = useState({
+  const [pfpAndName] = useState({
     profilePicture: localStorage.getItem('profilePicture'),
     profileName: localStorage.getItem('farmName'),
   })
@@ -141,7 +141,7 @@ const AddPost = ( { vert, notFixed}) => {
   const [isDirty, setIsDirty] = useState(Array(5).fill(false)); // desc,addr,date,hours,products
   const [isRelevantDate, setIsRelevantDate] = useState(false);
   const [validProducts, setValidProducts] = useState(false);
-  const [productsText, setProductsText] = useState("")
+  const [productsText] = useState("")
   const validForm = isDirty.every(element => element === true) && validDescription && validDate && validHours && validRange && isRealAddress && validProducts;
 
   const relevantDate = () => {
@@ -166,7 +166,7 @@ const handleSelect = async value => {
   setAddress(value);
   setCoordinates(latLng);
   setIsRealAddress(true);
-  if (isDirty[1] != true) {
+  if (isDirty[1] !== true) {
     const curr = [...isDirty];
     curr[1] = true;
     setIsDirty(curr);
@@ -177,7 +177,7 @@ const handleSelect = async value => {
 const handleProductChange = (event, value) => {
   setSelectedProducts(value);
   console.log(value)
-  if (isDirty[4] != true) {
+  if (isDirty[4] !== true) {
     const curr = [...isDirty];
     curr[4] = true;
     setIsDirty(curr);
@@ -245,13 +245,13 @@ const handleChange = (event) => {
     })
   }
   else {
-    if (isDirty[0] != true) {
+    if (isDirty[0] !== true) {
       const curr = [...isDirty];
       curr[0] = true;
       setIsDirty(curr);
     }
 
-    if (value == "") {
+    if (value === "") {
       setValidDescription(false);
     } else {
       setValidDescription(true);
@@ -269,7 +269,7 @@ const handleClickAddr = value => {
   {
     setIsRealAddress(false);
   }
-  if (isDirty[1] != true) {
+  if (isDirty[1] !== true) {
     const curr = [...isDirty];
     curr[1] = true;
     setIsDirty(curr);
@@ -282,7 +282,7 @@ const handleChangeAddress = async value => {
   console.log(value)
   setAddress(value);
   setIsRealAddress(false);
-  if (isDirty[1] != true) {
+  if (isDirty[1] !== true) {
     console.log(isDirty)
     const curr = [...isDirty];
     curr[1] = true;
@@ -331,7 +331,7 @@ useEffect(() => { // every time the modal is opened or closed, remove the valida
 
 const handleChangeDate = value => {
   console.log(value);
-  if (isDirty[2] != true) {
+  if (isDirty[2] !== true) {
     const curr = [...isDirty];
     curr[2] = true;
     setIsDirty(curr);
@@ -350,7 +350,7 @@ const handleChangeDate = value => {
 
 const handleChangeValue2 = value => {
   setValue2(value);
-  if (isDirty[3] != true) {
+  if (isDirty[3] !== true) {
     const curr = [...isDirty];
     curr[3] = true;
     setIsDirty(curr);
@@ -359,7 +359,7 @@ const handleChangeValue2 = value => {
 
 const handleChangeValue3 = value => {
   setValue3(value);
-  if (isDirty[3] != true) {
+  if (isDirty[3] !== true) {
     const curr = [...isDirty];
     curr[3] = true;
     setIsDirty(curr);

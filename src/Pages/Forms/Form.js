@@ -104,7 +104,7 @@ const steps = [
              values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue} props={props}/>
         }
         else if (page === 6){
-            return <FormSummary isFormOpeningHoursValid={isFormOpeningHoursValid}
+            return <FormSummary isFormSignUpInfoValid={isFormSignUpInfoValid} isFormOpeningHoursValid={isFormOpeningHoursValid}
             isFormValid={isFormValid} handleChange={handleChange} setFormValue={setFormValue} values={multiFormValues} props={props}/>       
         }
         else if (page === 7){

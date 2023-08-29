@@ -1,14 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import { TextField, Box, Typography, Grid, Paper, Button, Stack } from '@mui/material'
+import { TextField, Box, Typography, Grid, Paper} from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LanguageIcon from '@mui/icons-material/Language';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import PublishSharpIcon from '@mui/icons-material/PublishSharp';
+import LanguageIcon from '@mui/icons-material/Language';
 
 function ValidateFacebook({facebook, setValidFlag}) {
   const [valid ,setValid] = useState(true);
@@ -60,11 +55,11 @@ function ValidateWebsite({url, setValidFlag}) {
   }, [url, setValidFlag]);
 
   function isValidWebsite() {
-      const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?');
-      const res = regexp.test(url) || url === "";
-      setValidFlag(res);
-      console.log(res)
-      return res;
+    const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?')
+    const res = regexp.test(url) || url === "";
+    setValidFlag(res);
+    console.log(res)
+    return res;
     }
 
   return (
@@ -88,128 +83,6 @@ function FormOtherInfo({values, handleChange, props, setIsFormOtherInfoValid}) {
     setIsFormOtherInfoValid(formValid);
 }, [formValid]);
 
-  const navigate = useNavigate();
-  const {farm_name, /*email,*/ google_profile_picture, google_name, google_family_name, 
-  shipping_distance, is_shipping, opening_hours, closing_hours, logo_picture, products_pictures, types_of_products,
-  farm_pictures, phone_number_official, phone_number_whatsapp, phone_number_telegram, about, address,
-  farmer_name, delivery_details, products, farm_site, facebook, instagram
-  } = values
-  const [responseMsg, setResponseMsg] = useState({
-    status: "",
-    message: "",
-    error: "",
-  });
-  const submitHandler = (e) => {
-    e.preventDefault();
-    let openingHours = "none,none,none,none,none,none,none"
-    let closingHours = "none,none,none,none,none,none,none"
-    if (values.opening_hours != ""){
-    const opening_hours = values.opening_hours.map(p => {
-      return p && p !== "none" ? p.format() : "none";
-    });
-    openingHours = opening_hours.join(",");
-  }
-    if (values.closing_hours != ""){
-    const closing_hours = values.closing_hours.map(p => {
-      return p && p !== "none" ? p.format() : "none";
-    });
-    closingHours = closing_hours.join(",");
-  }
-    const data = new FormData(); 
-    if (values.is_shipping == false){
-      values.shipping_distance = 0
-    }
-    
-    data.append("jsonData", JSON.stringify({
-      //email: "golan@gmail.com",
-      email: values.email,
-      google_name: values.google_name,
-      google_family_name: values.google_family_name,
-      google_profile_picture: values.google_profile_picture,
-      shipping_distance: values.shipping_distance,
-      is_shipping: values.is_shipping,
-      opening_hours: openingHours,
-      closing_hours: closingHours,
-      farm_name: values.farm_name,
-      about: values.about,
-      phone_number_official: values.phone_number_official,
-      phone_number_whatsapp: values.phone_number_whatsapp,
-      phone_number_telegram: "0",
-      address: values.address,
-      types_of_products: values.types_of_products,
-      farmer_name: values.farmer_name,
-      delivery_details: values.delivery_details,
-      products: values.products,
-      farm_site: values.farm_site,
-      facebook: values.facebook,
-      instagram: values.instagram
-
-    }))
-    if (values.logo_picture){
-    for (let i = 0; i < values.logo_picture.length; i++) {
-      data.append("files[]", values.logo_picture[i]);
-      data.append("labels[]", "1");
-    }
-    }
-    if (values.products_pictures){
-    for (let i = 0; i < values.products_pictures.length; i++) {
-      data.append("files[]", values.products_pictures[i]);
-      data.append("labels[]", "2");
-    }
-  }
-  if (values.farm_pictures){
-    for (let i = 0; i < values.farm_pictures.length; i++) {
-      data.append("files[]", values.farm_pictures[i]);
-      data.append("labels[]", "3");
-    }
-  }
-    //console.log(image)
-    //console.log(productsImages)
-    //console.log(farmImages)
-    
-    
-    axios.post("http://127.0.0.1:5000/signup", data)
-    .then(function (response) {
-      //handle success
-      console.log(response)
-      axios({
-        method: 'POST',
-        url: 'http://127.0.0.1:5000/logintoken',
-        data: {
-          email: values.email // Include the email in the POST request
-        }
-      })
-        .then(function (response) {
-          console.log(response);
-          props.setToken(response.data.access_token);
-          alert('נרשמת בהצלחה. מיד תועבר לאתר.');
-          localStorage.setItem('email', values.email);
-          //localStorage.setItem('email', "golan@gmail.com");
-          console.log(response.data);
-          navigate('/bullboard');
-        })
-        .catch(function (error) {
-          if (error.response && error.response.status === 409) {
-            alert('הפרטים שהוזנו שגויים');
-          }
-        });
-
-      //alert('המשתמש נוסף בהצלחה.');  
-      //window.location.href = '/';
-      
-  })
-  .catch(function (error) {                          
-      //handle error
-      if (error.response && error.response.status === 409) {
-        alert("שגיאה");
-      alert("המייל שאיתו ביקשתם להירשם כבר רשום במערכת.");
-    }
-    
-});
-
-     
-  };
-
   const handleChangeFacebook = (event) =>{
     handleChange('facebook')(event);
     //setFacebookLink(event.target.value);
@@ -224,25 +97,6 @@ function FormOtherInfo({values, handleChange, props, setIsFormOtherInfoValid}) {
   };
   
 
-  const fileValidate = (file) => {
-    if (
-      file.type === "image/png" ||
-      file.type === "image/jpg" ||
-      file.type === "image/jpeg"
-    ) {
-      setResponseMsg({
-        ...responseMsg,
-        error: "",
-      });
-      return true;
-    } else {
-      setResponseMsg({
-        ...responseMsg,
-        error: "File type allowed only jpg, png, jpeg",
-      });
-      return false;
-    }
-  };
   return (
     <div  >  
     <form mr={3}autoComplete="off" dir="rtl" /*className={classes.root}*/>  
@@ -376,6 +230,3 @@ function FormOtherInfo({values, handleChange, props, setIsFormOtherInfoValid}) {
 }
 
 export default FormOtherInfo
-
-{/*        defaultValue={values.about} 
-onChange={handleChange('about')}*/}

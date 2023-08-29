@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { AppBar, Toolbar, Tabs, Tab, Button, useMediaQuery, Typography,
   ThemeProvider, createTheme, useTheme, Box } from '@mui/material';
 import Farmers2ULogo from '../../assets/farmers2u_logo.svg'
