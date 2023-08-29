@@ -240,67 +240,52 @@ export function ValidateFarmName({farmName, setValidFlag, isInitialized}){
 }
 
 
-export function ValidateAddress({address, setValidFlag, isInitialized}){
-    const [valid ,setValid] = useState(true);
+export function ValidateAddress({ address, setValidFlag, isInitialized }) {
+  const [valid, setValid] = useState(true);
 
-    useEffect(() => {
-        if(isInitialized) 
-        async function isValidAddress(){
-          const client = new Client();
-          try {
-              const response = await client.geocode({
-                  params: {
-                  address: address,
-                  country: 'il',
-                  language: 'iw',
-                  components: 'country: IL',
-                  key: 'AIzaSyAW-HDgK8fdEceybLwvRN_7wYgI_TtHmQ0'
-                  }
-              });
-              
-              if (response.data.status === 'OK') {
-                  const res = response.data.results;
-                  const res_0 = res[0];
-                  console.log(response.data);
-                  if(res > 1)
-                  {
-                      setValid(false);
-                      setValidFlag(false);
-                  }
-                  else if(res_0.partial_match)
-                  {
-                      setValid(false);
-                      setValidFlag(false);
-                  }
-                  else
-                  {
-                      setValid(true);
-                      setValidFlag(true);
-                  }
-              }
-              else
-              {
-                  setValid(false);
-                  setValidFlag(false);
-              }
-          }
-          catch (error) {
-              console.log(error);
-              setValid(false);
-              setValidFlag(false);
-          }
-      }
-        {
-           isValidAddress()hhh;
+  const isValidAddress = useCallback(async () => {
+    const client = new Client();
+    try {
+      const response = await client.geocode({
+        params: {
+          address: address,
+          country: 'il',
+          language: 'iw',
+          components: 'country: IL',
+          key: 'AIzaSyAW-HDgK8fdEceybLwvRN_7wYgI_TtHmQ0'
         }
-    }, [address, setValidFlag]);
+      });
 
+      if (response.data.status === 'OK') {
+        const res = response.data.results;
+        const res_0 = res[0];
+        console.log(response.data);
+        if (res > 1) {
+          setValid(false);
+          setValidFlag(false);
+        } else if (res_0.partial_match) {
+          setValid(false);
+          setValidFlag(false);
+        } else {
+          setValid(true);
+          setValidFlag(true);
+        }
+      } else {
+        setValid(false);
+        setValidFlag(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setValid(false);
+      setValidFlag(false);
+    }
+  }, [address, setValidFlag]);
 
-    return (
-        valid? null
-        :
-        <Stack sx={{color: 'red'}}> נא לוודא שנבחרה במדויק אופציה מבין הקיימות</Stack>
-    )
+  useEffect(() => {
+    if (isInitialized) {
+      isValidAddress();
+    }
+  }, [isValidAddress, isInitialized]);
 
+  return valid ? null : <Stack sx={{ color: 'red' }}> נא לוודא שנבחרה במדויק אופציה מבין הקיימות</Stack>;
 }
-
