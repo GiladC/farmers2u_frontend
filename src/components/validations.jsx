@@ -29,6 +29,7 @@ import {Client} from '@googlemaps/google-maps-services-js';
 export function ValidateWhatsapp({whatsapp, setValidFlag}) {
 
     const [valid, setValid] = useState(true);
+    const isValid = tenDigitPattern.test(whatsapp) || nineDigitPattern.test(whatsapp);
 
     useEffect(() => {
       function isValidWhatsapp() {
@@ -46,8 +47,6 @@ export function ValidateWhatsapp({whatsapp, setValidFlag}) {
     // Regex for 9 digit numbers starting with 02, 03, 04, 08 or 09
     const nineDigitPattern = /^0[23489][0-9]{7}$/;
     
-    const isValid = tenDigitPattern.test(whatsapp) || nineDigitPattern.test(whatsapp);
-
   
     return (
       <div style={{ height: "0px" }}>
@@ -87,7 +86,7 @@ export function ValidateWebsite({ url, setValidFlag }) {
   const [valid, setValid] = useState(true);
 
   const isValidWebsite = useCallback(() => {
-    const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?');
+    const regexp = new RegExp('(https://www\.|http://www\.|https://|http://)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?/[a-zA-Z0-9]{2,}|((https://www\.|http://www\.|https://|http://)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https://www\.|http://www\.|https://|http://)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?');
     const res = regexp.test(url) || url === "";
     setValidFlag(res);
     return res;
