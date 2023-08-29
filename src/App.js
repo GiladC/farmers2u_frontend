@@ -8,7 +8,6 @@ import FAQ from './Pages/FAQ/FAQ'
 import AdsPage from './Pages/Bullboard/adsPage';
 import Form from './Pages/Forms/Form';
 import OurFarmers from './Pages/ourfarmers/OurFarmers';
-import Intro from './Pages/ShowFarmerProfile/intro';
 import ProfileSettings from './Pages/Settings/profileSettings';
 import './App.css';
 import UseToken from './Pages/Forms/UseToken';
@@ -64,13 +63,6 @@ function App() {
             } />
             {token && token !== "" && token !== undefined && (
               <>
-                <Route exact path="/profile" element={
-                  <>
-                    <Intro token={token} setToken={setToken} />
-                    <Footer token={token}/>
-
-                  </>
-                } />
                 <Route path="/settings" element={
                   <>
                     <ProfileSettings token={token} setToken={setToken} />

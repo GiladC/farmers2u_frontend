@@ -44,7 +44,7 @@ function OurFarmers( { token }) {
 
   useEffect(() => {
     handleSearch(searchTerm);
-  }, [filteredCards])
+  }, [filteredCards, handleSearch, searchTerm])
 
   return (
     <Box display='flex' flexDirection='column' overflowX= 'none'>

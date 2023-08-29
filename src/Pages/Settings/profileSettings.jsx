@@ -6,7 +6,7 @@ import AddPost from '../../components/Post/AddPost'
 import WorkingHours from '../../components/Settings/workingHours'
 import axios from 'axios'
 import PlacesAutocomplete from 'react-places-autocomplete';
-import {createTheme, styled} from '@mui/material/styles'
+import {styled} from '@mui/material/styles'
 import Slider from '../../Pages/ShowFarmerProfile/ImageSlider'
 import dayjs from 'dayjs'
 import UserPosts from './userPosts'
@@ -138,7 +138,6 @@ const IOSSwitch = styled((props) => (
     },
   }));
 
-const {palette} = createTheme();
 
 
 
@@ -271,92 +270,93 @@ const ProfileSettings = (props) => {
         }
     }
 
+    const storedEmail = localStorage.getItem('email');
+    const profileEmail = props.token?.profile_email || storedEmail || '';
+
+    const getUsers = useCallback(() => {
+      axios({
+        method: 'GET',
+        url: `https://farmers-please-77d4b71f9957.herokuapp.com/settings/${profileEmail}`,
+        headers: {
+          Authorization: 'Bearer ' + props.token,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          const res = response.data;
+          res.access_token && props.setToken(res.access_token);
+          setFarmName(res.farm_name);
+          setEmail(profileEmail);
+          setAbout(res.about);
+          setWhatsapp(res.phone_number_whatsapp);
+          setPhone(res.phone_number_official);
+          setAddress(res.address);
+          setAbout(res.about);
+          setFacebook(res.facebook);
+          setInstagram(res.instagram);
+          setWebsite(res.farm_site);
+          setMenu(res.products);
+          setIsShipping(parseInt(res.is_shipping));
+          setShippingDist(res.shipping_distance);
+          setDelivery(res.delivery_details);
+          setFarmer(res.farmer_name);
+          
+          setLogo(res.logo_picture);
+          setFarmImages(res.farm_images_list);
+          setProductsImages(res.products_images_list);
+
+          
+          const open = res.opening_hours.split(",");
+
+          setSundayOpening(checkNull(open[0], null, false));
+          setMondayOpening(checkNull(open[1], null, false));
+          setTuesdayOpening(checkNull(open[2], null, false));
+          setWednesdayOpening(checkNull(open[3], null, false));
+          setThursdayOpening(checkNull(open[4], null, false));
+          setFridayOpening(checkNull(open[5], null, false));
+          setSaturdayOpening(checkNull(open[6], null, false));
+
+
+          const close = res.closing_hours.split(",");
+          setSundayClosing(checkNull(close[0], null, false));
+          setMondayClosing(checkNull(close[1], null, false));
+          setTuesdayClosing(checkNull(close[2], null, false));
+          setWednesdayClosing(checkNull(close[3], null, false));
+          setThursdayClosing(checkNull(close[4], null, false));
+          setFridayClosing(checkNull(close[5], null, false));
+          setSaturdayClosing(checkNull(close[6], null, false));
+
+          
+          let types = null;
+          if(res.types_of_products === ''){
+              types = [];
+          }
+          else{
+            const products_list = res.types_of_products.split(',');
+            const matchingProducts = products.filter((prod) => 
+              products_list.includes(prod.label));
+              types = matchingProducts;
+          }
+          setCategories(types);
+          setIsInitialized(true);
+
+        })
+
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          }
+        });
+    }, []);
+
     useEffect(() => {
         setIsInitialized(false);
         getUsers();
       }, [props.token, props.profileEmail, getUsers]);
-    
-      const storedEmail = localStorage.getItem('email');
-      const profileEmail = props.token?.profile_email || storedEmail || '';
+  
 
-    
-      const getUsers = useCallback(() => {
-        axios({
-          method: 'GET',
-          url: `https://farmers-please-77d4b71f9957.herokuapp.com/settings/${profileEmail}`,
-          headers: {
-            Authorization: 'Bearer ' + props.token,
-          },
-        })
-          .then((response) => {
-            console.log(response);
-            const res = response.data;
-            res.access_token && props.setToken(res.access_token);
-            setFarmName(res.farm_name);
-            setEmail(profileEmail);
-            setAbout(res.about);
-            setWhatsapp(res.phone_number_whatsapp);
-            setPhone(res.phone_number_official);
-            setAddress(res.address);
-            setAbout(res.about);
-            setFacebook(res.facebook);
-            setInstagram(res.instagram);
-            setWebsite(res.farm_site);
-            setMenu(res.products);
-            setIsShipping(parseInt(res.is_shipping));
-            setShippingDist(res.shipping_distance);
-            setDelivery(res.delivery_details);
-            setFarmer(res.farmer_name);
-            
-            setLogo(res.logo_picture);
-            setFarmImages(res.farm_images_list);
-            setProductsImages(res.products_images_list);
-
-            
-            const open = res.opening_hours.split(",");
-
-            setSundayOpening(checkNull(open[0], null, false));
-            setMondayOpening(checkNull(open[1], null, false));
-            setTuesdayOpening(checkNull(open[2], null, false));
-            setWednesdayOpening(checkNull(open[3], null, false));
-            setThursdayOpening(checkNull(open[4], null, false));
-            setFridayOpening(checkNull(open[5], null, false));
-            setSaturdayOpening(checkNull(open[6], null, false));
-
-
-            const close = res.closing_hours.split(",");
-            setSundayClosing(checkNull(close[0], null, false));
-            setMondayClosing(checkNull(close[1], null, false));
-            setTuesdayClosing(checkNull(close[2], null, false));
-            setWednesdayClosing(checkNull(close[3], null, false));
-            setThursdayClosing(checkNull(close[4], null, false));
-            setFridayClosing(checkNull(close[5], null, false));
-            setSaturdayClosing(checkNull(close[6], null, false));
-
-            
-            let types = null;
-            if(res.types_of_products === ''){
-                types = [];
-            }
-            else{
-              const products_list = res.types_of_products.split(',');
-              const matchingProducts = products.filter((prod) => 
-                products_list.includes(prod.label));
-                types = matchingProducts;
-            }
-            setCategories(types);
-            setIsInitialized(true);
-
-          })
-
-          .catch((error) => {
-            if (error.response) {
-              console.log(error.response);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-            }
-          });
-      }, []);
 
       const handleSave = (data) => {
         data.preventDefault();
