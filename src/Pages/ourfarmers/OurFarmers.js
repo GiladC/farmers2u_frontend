@@ -25,7 +25,7 @@ function OurFarmers( { token }) {
     else{
     setCurrentCards(searched);
     }
-  }, []);
+  }, [filteredCards, setCurrentCards]);
 
   useEffect(() => {
     axios
