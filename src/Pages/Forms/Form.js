@@ -123,7 +123,8 @@ const steps = [
               <StepLabel>
               <Typography style={{ fontFamily: 'aleph', fontSize: '13px' }}>
                     {label}
-                </Typography></StepLabel>
+            </Typography>
+            </StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -134,7 +135,7 @@ const steps = [
             <div className='body' style={{ display: "flex", justifyContent: "center" }}> 
                 {PageDisplay()}   
             </div>
-            <div className='footer' style={{ display: "flex", justifyContent: "center" }}> 
+            <div className='footer' style={{ marginTop: page === 6 ? "0%" : page === 1 ? "-1.47%" : "-1.5%", display: "flex", justifyContent: "center" }}> 
                 <Button style= {{
                 maxHeight: page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? "100px":'0px',
                 minWidth:"80px",

@@ -257,7 +257,7 @@ const PrettoSlider = styled(Slider)({
       setEndDate(null);
       setStartDate(null);
       axios
-      .get('http://127.0.0.1:5000/api/getposts')
+      .get('https://farmers-please-77d4b71f9957.herokuapp.com/api/getposts')
       .then((response) => {
         setFilteredPosts(response.data);
       })
@@ -296,7 +296,7 @@ const PrettoSlider = styled(Slider)({
     
       const handleRequest = () => {
         axios
-          .post("http://127.0.0.1:5000/api/filter_posts", formData)
+          .post("https://farmers-please-77d4b71f9957.herokuapp.com/api/filter_posts", formData)
           .then((response) => {
             console.log(response.data)
             setFilteredPosts(response.data)

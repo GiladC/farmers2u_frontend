@@ -275,7 +275,7 @@ const products = [
   
       axios({
         method: 'POST',
-        url: `http://127.0.0.1:5000/farmerFilter`,
+        url: `https://farmers-please-77d4b71f9957.herokuapp.com/farmerFilter`,
         headers: {
           Authorization: 'Bearer ',
         },

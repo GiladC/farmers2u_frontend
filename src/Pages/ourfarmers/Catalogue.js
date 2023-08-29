@@ -4,19 +4,7 @@ import './styles.css';
 import { Box, Container, Typography } from '@mui/material';
 
 const Catalogue = ({ List, token }) => {
-  // const [businesses, setBusinesses] = useState(List)
 
-    // useEffect(() => {
-    //   axios
-    //     .get('http://127.0.0.1:5000/businessCard')
-    //     .then((response) => {
-    //       console.log(response.data);
-    //       setBusinesses(response.data)
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // }, []);
 
   
   

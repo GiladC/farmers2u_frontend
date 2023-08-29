@@ -80,7 +80,7 @@ export default function Post({ post, token, disabled }) {
     const id = new FormData();
     id.append('postId', post.id);
     axios
-      .post('http://127.0.0.1:5000/api/delete_post', id)
+      .post('https://farmers-please-77d4b71f9957.herokuapp.com/api/delete_post', id)
       .then((response) => {
         console.log('Post deleted successfully');
         window.location.reload();

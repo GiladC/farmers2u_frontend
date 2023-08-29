@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Grid, Paper } from '@mui/material';
+import { Box, Typography, Grid, Paper, InputAdornment, IconButton } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
@@ -101,6 +101,18 @@ function FormOpeningHours({ values, setFormValue, setIsFormOpeningHoursValid }) 
                           },
                           width: '150px',
                         }}
+                        InputProps={{
+                          endAdornment: (
+                              <InputAdornment position="end">
+                                  <IconButton
+                                      edge="end"
+                                      onClick={() => handleSetOpeningTimeNew(index, null)}
+                                  >
+                                      x
+                                  </IconButton>
+                              </InputAdornment>
+                          ),
+                      }}
                       />
                     </Paper>
                   </Box>
@@ -117,6 +129,18 @@ function FormOpeningHours({ values, setFormValue, setIsFormOpeningHoursValid }) 
                       },
                       width: '150px',
                     }}
+                    InputProps={{
+                      endAdornment: (
+                          <InputAdornment position="end">
+                              <IconButton
+                                  edge="end"
+                                  onClick={() => handleSetClosingTimeNew(index, null)}
+                              >
+                                  x
+                              </IconButton>
+                          </InputAdornment>
+                      ),
+                  }}
                   />
                   <ValidateWorkingHours open={openingTimesNew[index]} close={closingTimesNew[index]} setValidFlag={validDayFlag(index)}/>
                 </Paper>

@@ -439,7 +439,7 @@ const handlePost = () => { /* The actual object to extract to the backend */
 
     const handleRequest = () => {
       axios
-        .post("http://127.0.0.1:5000/api/posts", formData)
+        .post("https://farmers-please-77d4b71f9957.herokuapp.com/api/posts", formData)
         .then(() => {
           window.location.reload()
         })

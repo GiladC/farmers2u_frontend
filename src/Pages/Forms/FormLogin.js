@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 import jwt_decode from "jwt-decode"
-import './Forms.css';
-
 
 const {palette} = createTheme();
 const { augmentColor } = palette;
@@ -19,7 +17,6 @@ const themeForButton = createTheme({
 const FormLogin = (props) => {
   const [user, setUser] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
-  const [buttonText, setButtonText] = useState('התחבר עם Google');
   const [showPopup, setShowPopup] = useState(false);
   const modalTextStyle = {
     fontSize: 'larger', 
@@ -30,7 +27,6 @@ const FormLogin = (props) => {
     justifyContent: 'center',
     marginTop: "5%",
   };
-  
 
   const navigate = useNavigate();
 
@@ -38,10 +34,6 @@ const FormLogin = (props) => {
     const userObject = jwt_decode(response.credential);
     setUser(userObject);
 
-    setButtonText(`התחבר עם Google (${userObject.given_name} ${userObject.name})`);
-
-
-    console.log(userObject.email);
     axios({
       method: 'POST',
       url: 'https://farmers-please-77d4b71f9957.herokuapp.com/logintoken',
@@ -55,7 +47,6 @@ const FormLogin = (props) => {
         localStorage.setItem('email', userObject.email);
         localStorage.setItem('farmName', response.data.userName);
         localStorage.setItem('profilePicture', response.data.profilePicture)
-        console.log(response.data);
         setShowPopup(true); 
         setTimeout(() => {
         navigate('/bullboard');
@@ -92,8 +83,7 @@ const FormLogin = (props) => {
   
   useEffect(() => {
     initializeGoogleSignIn();
-  }, [buttonText]); // Watch buttonText changes
-  
+  },); // Watch buttonText changes
 
   return (
     <ThemeProvider theme={themeForButton}>

@@ -6,7 +6,6 @@ import { Box, Typography } from '@mui/material';
 import FarmerFilter from '../../components/newFilterPanel/farmerFilter';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useCallback } from 'react';
 
 
 function OurFarmers( { token }) {
@@ -16,7 +15,7 @@ function OurFarmers( { token }) {
   const [currentCards, setCurrentCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleSearch = useCallback((searchTerm) => {
+  const handleSearch = (searchTerm) => {
     const searched = filteredCards.filter((item) =>
       item.farm_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -26,7 +25,7 @@ function OurFarmers( { token }) {
     else{
     setCurrentCards(searched);
     }
-  }, []);
+  };
 
   useEffect(() => {
     axios
@@ -45,7 +44,7 @@ function OurFarmers( { token }) {
 
   useEffect(() => {
     handleSearch(searchTerm);
-  }, [filteredCards, handleSearch, searchTerm])
+  }, [filteredCards])
 
   return (
     <Box display='flex' flexDirection='column' overflowX= 'none'>
@@ -60,7 +59,7 @@ function OurFarmers( { token }) {
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <CircularProgress style={{ color: '#E8AA42', width: '70px', height: '70px' }} />
                 <span className="loadingText" style={{ color: '#1d3c45', fontSize: '18px', marginTop: '1rem' }}>
-                  טוען מודעות...
+                  טוען פרופילים...
                 </span>
               </Box>
             </div>

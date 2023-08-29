@@ -371,7 +371,7 @@ useEffect(() => {
 
       const handleRequest = () => {
         axios
-          .post("http://127.0.0.1:5000/api/update_post", formData)
+          .post("https://farmers-please-77d4b71f9957.herokuapp.com/api/update_post", formData)
           .then((response) => {
               console.log(response.data)
               window.location.reload()

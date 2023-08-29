@@ -7,7 +7,6 @@ import FormLogin from './Pages/Forms/FormLogin';
 import FAQ from './Pages/FAQ/FAQ'
 import AdsPage from './Pages/Bullboard/adsPage';
 import Form from './Pages/Forms/Form';
-import About from './Pages/About';
 import OurFarmers from './Pages/ourfarmers/OurFarmers';
 import Intro from './Pages/ShowFarmerProfile/intro';
 import ProfileSettings from './Pages/Settings/profileSettings';
