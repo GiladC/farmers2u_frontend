@@ -77,7 +77,7 @@ export default function WorkingHours(props) {
       }
     }
     validateHours();
-  }, [props.opening, props.closing, props.setValidFlag]);
+  }, [props.opening, props.closing, props.setValidFlag, close, open, props]);
 
 
   return (

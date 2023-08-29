@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-    TextField,
-    Card,
-    CardContent,
     Grid,
     Button,
     Box,
@@ -12,7 +9,6 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Work from '../../components/days/work.jsx';
 import dayjs from 'dayjs';
 import './Forms.css';
 
@@ -24,24 +20,12 @@ const theme = createTheme({
 });
 
 
-
-const { palette } = createTheme();
-const { augmentColor } = palette;
-const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
-const themeForButton = createTheme({
-    palette: {
-        nice: createColor('#37474f'),
-        button: createColor('#E8AA42')
-    }
-});
-
 const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFormOpeningHoursValid}) => {
     const modalTextStyle = {
       fontSize: 'larger', 
       textAlign: 'center',
       display: 'flex',
       flexDirection: 'row',
-      //flexWrap: 'wrap', 
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: "5%",
@@ -88,33 +72,17 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
             return addZero(dayjs(end).hour()) + ":" + addZero(dayjs(end).minute()) + " - " + addZero(dayjs(start).hour()) + ":" + addZero(dayjs(start).minute())
         }
     }
-    //let openingHours2 = "none,none,none,none,none,none,none"
-    //let closingHours2 = "none,none,none,none,none,none,none"
-    /*if (values.opening_hours != "") {
-        const opening_hours = values.opening_hours.map(p => {
-            return p && p !== "none" ? p.format() : "none";
-        });
-    }
-    if (values.closing_hours != "") {
-        const closing_hours = values.closing_hours.map(p => {
-            return p && p !== "none" ? p.format() : "none";
-        });
-    }*/
     let opening_hours2 = ["none","none","none","none","none","none","none"]
     let closing_hours2 = ["none","none","none","none","none","none","none"]
     if (values.opening_hours !== "") {
         opening_hours2 = values.opening_hours.map(p => {
             return p && p !== "none" ? p.format() : "none";
         });
-        //opening_hours2 = opening_hours2.join(",");
-        //alert(opening_hours2)
     }
     if (values.closing_hours !== "") {
         closing_hours2 = values.closing_hours.map(p => {
             return p && p !== "none" ? p.format() : "none";
         });
-        //closing_hours2 = closing_hours2.join(",");
-        //alert(closing_hours2)
     }
     const sunday = hoursFormat(opening_hours2[0], closing_hours2[0])
     const monday = hoursFormat(opening_hours2[1], closing_hours2[1])
@@ -134,11 +102,6 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
         saturday: saturday
     }
     console.log(days);
-    const { farm_name, /*email,*/ google_profile_picture, google_name, google_family_name,
-        shipping_distance, is_shipping, opening_hours, closing_hours, logo_picture, products_pictures, types_of_products,
-        farm_pictures, phone_number_official, phone_number_whatsapp, phone_number_telegram, about, address,
-        farmer_name, delivery_details, products, farm_site, facebook, instagram
-    } = values
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const isOpeningHoursEmpty = (days.sunday === "סגור") && (days.monday === "סגור") && (days.tuesday === "סגור") && (days.wednesday === "סגור") && (days.thursday === "סגור") && (days.friday === "סגור") && (days.saturday === "סגור");
     const tenDigitPattern = /^0[57][0-9]{8}$/;
@@ -222,19 +185,14 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
                 data.append("labels[]", "3");
             }
         }
-        //console.log(image)
-        //console.log(productsImages)
-        //console.log(farmImages)
 
-
-        axios.post("http://127.0.0.1:5000/signup", data)
+        axios.post("https://farmers-please-77d4b71f9957.herokuapp.com/signup", data)
             .then(function (response) {
                 localStorage.setItem('profilePicture', response.data.logo_picture);
-                //handle success
-                //setShowSuccessMessage(true);
+
                 axios({
                     method: 'POST',
-                    url: 'http://127.0.0.1:5000/logintoken',
+                    url: 'https://farmers-please-77d4b71f9957.herokuapp.com/logintoken',
                     data: {
                         email: values.email
                     }
@@ -245,9 +203,6 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
                         localStorage.setItem('farmName', values.farm_name)
                         setShowSuccessMessage(true);
 
-                        //alert('נרשמת בהצלחה. מיד תועבר לאתר.');
-                        
-                        //navigate('/bullboard');
                     })
                     .catch(function (error) {
                         if (error.response && error.response.status === 409) {
@@ -255,12 +210,8 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
                         }
                     });
 
-                //alert('המשתמש נוסף בהצלחה.');  
-                //window.location.href = '/';
-
             })
             .catch(function (error) {
-                //handle error
                 if (error.response && error.response.status === 409) {
                     alert("שגיאה");
                     alert("המייל שאיתו ביקשתם להירשם כבר רשום במערכת.");
@@ -427,7 +378,7 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
                                 טווח המשלוח:
                             </Typography>
                             <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                                עד {km} ק"מ מ{values.address}
+                                עד {km} ק"מ מ{values.address || "-לא הוזנה כתובת"}
                             </Typography>
                         </Grid>
                     )}

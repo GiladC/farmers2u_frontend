@@ -38,7 +38,7 @@ export function ValidateWhatsapp({whatsapp, setValidFlag}) {
         return res;
       }
         setValid(isValidWhatsapp());
-    }, [whatsapp, setValidFlag]);
+    }, [whatsapp, setValidFlag, isValid]);
     
     // Regex for 10 digit numbers starting with 05 or 07
     const tenDigitPattern = /^0[57][0-9]{8}$/;
@@ -83,22 +83,22 @@ export function ValidatePhone({ phone, setValidFlag }) {
   );
 }
 
-export function ValidateWebsite({url, setValidFlag}) {
-    const [valid ,setValid] = useState(true);
-    
-    useEffect(() => {
-        setValid(isValidWebsite());
-    }, [url, setValidFlag, isValidWebsite]);
+export function ValidateWebsite({ url, setValidFlag }) {
+  const [valid, setValid] = useState(true);
 
-    function isValidWebsite() {
-        const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?');
-        const res = regexp.test(url) || url === "";
-        setValidFlag(res);
-        return res;
-      }
-  
-    return (
-      <div style={{ height: "0px" }}>
+  const isValidWebsite = useCallback(() => {
+    const regexp = new RegExp('(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?\\/[a-zA-Z0-9]{2,}|((https:\\/\\/www\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https:\\/\\/www\\.|http:\\/\\/www\\.|https:\\/\\/|http:\\/\\/)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?');
+    const res = regexp.test(url) || url === "";
+    setValidFlag(res);
+    return res;
+  }, [url, setValidFlag]);
+
+  useEffect(() => {
+    setValid(isValidWebsite());
+  }, [isValidWebsite]);
+
+  return (
+    <div style={{ height: "0px" }}>
       {!valid && <Typography variant="body2" color="error">קישור לא תקין</Typography>}
     </div>
   );
@@ -150,40 +150,32 @@ export function ValidateFacebook({ facebook, setValidFlag }) {
 
 export function ValidateWorkingHours({ open, close, setValidFlag }) {
   const [validRange, setValidRange] = useState(true);
-  const [valid, setValid] = useState(true);
 
   useEffect(() => {
     function validateHours() {
       if (!open && !close) {
-        setValid(true);
         setValidRange(true);
         setValidFlag(true);
       } else if (open && close) {
         if (!(open.isValid() && close.isValid())) {
-          setValid(false);
           setValidRange(true);
           setValidFlag(false);
         } else if (open.diff(close) >= 0) {
           setValidRange(false);
-          setValid(true);
           setValidFlag(false);
         } else {
           setValidRange(true);
-          setValid(true);
           setValidFlag(true);
         }
       } else {
         if (open && !open.isValid()) {
-          setValid(false);
           setValidRange(true);
           setValidFlag(false);
         } else if (close && !close.isValid()) {
-          setValid(false);
           setValidRange(true);
           setValidFlag(false);
         } else {
           setValidRange(false);
-          setValid(true);
           setValidFlag(false);
         }
       }
@@ -230,7 +222,7 @@ export function ValidateFarmName({farmName, setValidFlag, isInitialized}){
       return res;
     }
        setValid(isValidFarmName());
-  }, [farmName, setValidFlag]);
+  }, [farmName, setValidFlag, isInitialized]);
 
   return (
     <div style={{ height: "0px" }}>

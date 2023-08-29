@@ -1,7 +1,5 @@
-
-import { TextField, Button, Box, Typography, Grid, Paper, ThemeProvider, Menu, MenuItem, FormControlLabel, Checkbox, createTheme, Autocomplete, ListItem} from '@mui/material'
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
+import React from 'react'
+import { TextField, Button, Box, Typography, Grid, Paper, ThemeProvider, Checkbox, createTheme, Autocomplete, ListItem} from '@mui/material'
 import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles'
@@ -117,106 +115,15 @@ const themeForButton = createTheme({
   },
 });
 
-function CheckboxMenu(props) {
-
-  
-  return (
-    <div>
-      <Button disableRipple variant="contained" color="white" onClick={props.handleClick}
-       style={{
-        width: "580px",
-        height: "50px",
-        border: "1px solid #bdbdbd", 
-        overflowX: "scroll", 
-        whiteSpace: "nowrap", 
-        display: "flex", 
-        alignItems: "center", 
-       justifyContent: "flex-start", 
-       background: "#FFFFFF",
-       '&:hover': {
-        color: 'initial',
-        backgroundColor: 'initial !important'
-       }, }}>
-
-      {Boolean(props.anchorEl) ? <RemoveIcon /> : <AddIcon />}
-      <Typography style={{ color: '#37474f', fontSize: '15px', fontFamily: 'aleph' }}>
-      {props.selectedItems.length > 0 ? 
-          <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
-            {props.selectedItems.map((item, index) => (
-              <div key={index} style={{ backgroundColor: '#f5f5f5', margin: '5px', padding: '5px' }}>
-                {item }
-                <span style={{ cursor: 'pointer', marginRight: '10px' }} onClick={(event) => props.handleRemove(event,item)}>
-                  x
-                </span>
-              </div>
-            ))}
-          </div>
-          : 'אילו סוגי מוצרים אתם מוכרים?'}
-            </Typography>
-        </Button>
-      <Menu
-        id="checkbox-menu"
-        anchorEl={props.anchorEl}
-        keepMounted
-        dir="rtl"
-        open={Boolean(props.anchorEl)}
-        onClose={props.handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }} // Position where the menu will be attached
-        transformOrigin={{ vertical: 'top', horizontal: 'left' }}  // Position from where the menu will appear
-        PaperProps={{
-          style: {
-            maxHeight: 200, // Sets the maximum height for menu
-            width: '57.7ch',
-            flexGrow:1,
-            
-          },
-        }}
-      >
-      <Grid container rowSpacing={1} columnSpacing={-5}>
-      {props.labels.map((label, i) => (
-          <Grid item xs={4} key={i}>
-          <MenuItem  onClick={(event) => event.stopPropagation()}>
-            <FormControlLabel
-              control={<Checkbox checked={props.checked[i]} onChange={() => props.handleToggle(i)} color={props.checked[i] ? 'button' : 'default'}/>}
-              label={label}
-
-            />
-          </MenuItem>
-          </Grid>
-        ))}
-            </Grid>
-    <div style={{ borderTop: '1px solid #ccc', marginTop: '10px', paddingTop: '10px' }}>
-      {props.selectedItems.join(', ')}
-    </div>
-      </Menu>
-    </div>
-
-  );
-}
-
 function FormProductsUpload({values, handleChange, setFormValue}) {
   const matchingProducts = products_categories.filter((prod) => 
                 values.types_of_products.includes(prod.label));
 
-  const handleChangeCategories = (newValue) => {
+  const handleChangeCategories = (event, newValue) => {
+    console.log(event)
     const types = newValue.map(t => t.label).join();
     setFormValue("types_of_products", types);
   }
-
-  // useEffect(() => {
-  //   // Splitting the types_of_products into an array
-  //   const currentTypes = types_of_products ? types_of_products.split(",") : [];
-
-  //   if (arraysDiffer(currentTypes, selectedItems)) {
-  //       // Updating the checked array based on the current types
-  //       const currentChecked = labels.map(label => currentTypes.includes(label));
-  //       setChecked(currentChecked);
-
-  //       // Updating the selectedItems state with the current types
-  //       setSelectedItems(currentTypes);
-  //   }
-  // }, [types_of_products, labels, selectedItems]);
-
 
   const handleChangePhotoLogo = (e) => {
     if (e.target.files.length > 0) {
@@ -351,34 +258,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
   <Grid item xs={12} style={{ marginBottom:"-1.2rem"}}>
   <Box marginBottom={2} marginTop={8} style={{ marginBottom:"-1rem"}}>
   <Box mb={2} dir="rtl">
-    {/* <CheckboxMenu
-    anchorEl={anchorEl}
-    selectedItems={selectedItems}
-    setSelectedItems={setSelectedItems}
-    handleToggle={handleToggle}
-    handleClick={handleClick}
-    handleClose={handleClose}
-    handleRemove={handleRemove}
-    setChecked={setChecked}
-    checked={checked}
-    labels={labels}
-     /> */}
-  {/* <Typography color="#757575"fontFamily="aleph" marginTop={1} > מוכרים מוצרים מיוחדים? סמנו כאן! </Typography>
-    <Box>
-        <Grid container justifyContent="space-around">
-            {additionalItems.map((item, index) => (
-                <Grid item xs={2} key={index}>
-                    <FormControlLabel
-                        control={<Checkbox />}
-                        label={item}
-                    />
-                </Grid>
-            ))}
-            {[...Array(3)].map((_, index) => (
-                <Grid item xs={2} key={index}></Grid>
-            ))}
-        </Grid>
-    </Box>*/}
+
     <Autocomplete
     style={{backgroundColor:'white'}}
           multiple

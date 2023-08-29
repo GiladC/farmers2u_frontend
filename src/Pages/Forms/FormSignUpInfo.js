@@ -7,36 +7,53 @@ import {
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
-const FormSignUpInfo = ({ setFormValue }) => {
+function FormSignUpInfo({values, setFormValue, setIsFormSignUpInfoValid }) {
   const [buttonText, setButtonText] = useState('הירשם עם Google');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleCallbackResponse = (response) => {
-    const userObject = jwt_decode(response.credential);
 
-    const data = new FormData();
-    data.append("jsonData", JSON.stringify({
-      email: userObject.email,
-    }));
-
-    axios.post("https://farmers-please-77d4b71f9957.herokuapp.com/signup", data, {
-      withCredentials: true,
-    })
-      .then(function (response) {
-        setFormValue("email", userObject.email);
-        setFormValue("google_name", userObject.given_name);
-        setFormValue("google_family_name", userObject.name);
-        setFormValue("google_profile_picture", userObject.picture);
-        setButtonText(`הירשם עם Google (${userObject.given_name} ${userObject.name})`);
-      })
-      .catch(function (error) {
-        if (error.response && error.response.status === 409) {
-          setErrorMessage("משתמש זה כבר רשום במערכת");
-        }
-      });
-  };
 
   useEffect(() => {
+    setIsFormSignUpInfoValid(values.is_valid_email);
+}, [values.is_valid_email, setIsFormSignUpInfoValid]);
+
+
+
+
+  useEffect(() => {
+    const handleCallbackResponse = (response) => {
+      const userObject = jwt_decode(response.credential);
+  
+  
+      const data = new FormData();
+      data.append("jsonData", JSON.stringify({
+        email: userObject.email,
+      }));
+  
+      axios.post("https://farmers-please-77d4b71f9957.herokuapp.com/signup", data, {
+        withCredentials: true,
+      })
+        .then(function (response) {
+          setErrorMessage("");
+          setFormValue("email", userObject.email);
+          setFormValue("google_name", userObject.given_name);
+          setFormValue("google_family_name", userObject.name);
+          setFormValue("google_profile_picture", userObject.picture);
+          setButtonText(`הירשם עם Google (${userObject.given_name} ${userObject.name})`);
+          setFormValue("is_valid_email", true);
+        })
+        .catch(function (error) {
+          if (error.response && error.response.status === 409) {
+            setErrorMessage("משתמש זה כבר רשום במערכת");
+            setFormValue("email", userObject.email);
+            setFormValue("google_name", userObject.given_name);
+            setFormValue("google_family_name", userObject.name);
+            setFormValue("google_profile_picture", userObject.picture);
+            setFormValue("is_valid_email", false);
+          }
+        });
+    };
+
     const initializeGoogleSignUp = () => {
       if (typeof window.google !== 'undefined' && typeof window.google.accounts !== 'undefined') {
         window.google.accounts.id.initialize({
@@ -56,7 +73,7 @@ const FormSignUpInfo = ({ setFormValue }) => {
     };
 
     initializeGoogleSignUp();
-  }, [buttonText]); 
+  }, [buttonText, setErrorMessage, setFormValue]); 
   
   return (
 
@@ -92,7 +109,8 @@ const FormSignUpInfo = ({ setFormValue }) => {
               </form>
             </Box>
             <a href='/login'>
-              <Button /*onClick={() => { <FormLogin></FormLogin> }}*/ variant='text' size='medium' sx={{fontFamily:"aleph",  mt: 4, ml:2, borderRadius: 4, fontSize: 16}} color='inherit'> משתמש קיים? לחץ כאן</Button>  
+              <Button disableRipple variant='text' size='medium'
+              sx={{fontFamily:"aleph",  mt: 4, ml:2, borderRadius: 4, fontSize: 16}} color='inherit'> משתמש קיים? לחץ כאן</Button>  
             </a>
           </Box>  
         </form>

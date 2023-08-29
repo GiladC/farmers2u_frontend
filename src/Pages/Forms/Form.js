@@ -23,6 +23,7 @@ const steps = [
     const [multiFormValues, setMultiFormValues] = useState({
         farm_name: "",
         email: "",
+        is_valid_email: false,
         google_profile_picture: "",
         google_name: "",
         google_family_name: "",
@@ -82,7 +83,7 @@ const steps = [
 
     const PageDisplay = () => {
         if (page === 0) {
-            return <FormSignUpInfo setIsFormSignUpInfoValid={setIsFormSignUpInfoValid} 
+            return <FormSignUpInfo setIsFormSignUpInfoValid={setIsFormSignUpInfoValid}
              values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
         }
         else if (page === 1) {
