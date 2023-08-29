@@ -34,7 +34,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Button from '@mui/material/Button';
-import BusinessCard from '../../components/Post/businessCard';
 import NewBusinessCard from '../../components/Post/newBusinessCard';
 
 
