@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Searchbar from './search';
 import Catalogue from './Catalogue';
 import './styles.css';
@@ -15,7 +15,7 @@ function OurFarmers( { token }) {
   const [currentCards, setCurrentCards] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = useCallback((searchTerm) => {
     const searched = filteredCards.filter((item) =>
       item.farm_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -25,7 +25,7 @@ function OurFarmers( { token }) {
     else{
     setCurrentCards(searched);
     }
-  };
+  });
 
   useEffect(() => {
     axios

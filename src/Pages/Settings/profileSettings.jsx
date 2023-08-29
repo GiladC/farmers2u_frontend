@@ -349,7 +349,7 @@ const ProfileSettings = (props) => {
             console.log(error.response.headers);
           }
         });
-    }, []);
+    }, [profileEmail, props]);
 
     useEffect(() => {
         setIsInitialized(false);
