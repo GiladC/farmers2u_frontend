@@ -1,4 +1,4 @@
-import React, { useState, Grid, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Box,
@@ -11,33 +11,15 @@ const FormSignUpInfo = ({ setFormValue }) => {
   const [buttonText, setButtonText] = useState('הירשם עם Google');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [userData, setUserData] = useState({
-    farm_name: '',
-    email: '',
-    google_profile_picture: '',
-    google_name: '',
-    google_family_name: '',
-    // ... other fields
-  });
-
   const handleCallbackResponse = (response) => {
     const userObject = jwt_decode(response.credential);
-
-    setUserData({
-      farm_name: '',
-      email: userObject.email,
-      google_profile_picture: userObject.picture,
-      google_name: userObject.given_name,
-      google_family_name: userObject.name,
-      // ... other fields
-    });
 
     const data = new FormData();
     data.append("jsonData", JSON.stringify({
       email: userObject.email,
     }));
 
-    axios.post("http://127.0.0.1:5000/signup", data, {
+    axios.post("https://farmers-please-77d4b71f9957.herokuapp.com/signup", data, {
       withCredentials: true,
     })
       .then(function (response) {

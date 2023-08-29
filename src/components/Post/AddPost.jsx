@@ -110,7 +110,8 @@ const themeForButton = createTheme({
 });
 
 
-const AddPost = ( { vert }) => {
+const AddPost = ( { vert, notFixed}) => {
+  const pos = notFixed? 'relative' : 'fixed';
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [value2, setValue2] = useState(null);
@@ -151,7 +152,7 @@ const AddPost = ( { vert }) => {
     const endingMinutes = value3.minute();
     const endingHour = value3.hour();
     const endingTime = value.hour(endingHour).minute(endingMinutes);
-    if (startingTime.isAfter(now, 'minutes') || endingTime.isAfter(now, 'minutes')) {
+    if (startingTime.isAfter(now, 'minute') || endingTime.isAfter(now, 'minute')) {
       return true;
     }
     else {
@@ -393,7 +394,7 @@ useEffect(() => {
       setValidHours(false);
       setValidRange(true);
     }
-    else if (value2.isAfter(value3, 'minutes')) // not valid hours range
+    else if (value2.isAfter(value3, 'minute')) // not valid hours range
     {
       setValidRange(false);
       setValidHours(true);
@@ -460,7 +461,7 @@ return (
   <div className='addPost-wrapper' style={{ display: 'flex', flexDirection: 'column' }}>
     <ThemeProvider theme={themeForButton}>
       <Tooltip onClick={() => setOpen(true)} title="פרסום מודעה"
-        sx={{ position: 'fixed', ...vert, left: 40 }}>
+        sx={{ position: pos, ...vert }}>
         <Fab color="button" aria-label="add">
           <Add />
         </Fab>

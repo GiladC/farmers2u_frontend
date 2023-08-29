@@ -4,13 +4,10 @@ import FormPersonalInfo from './FormPersonalInfo';
 import FormOtherInfo from './FormOtherInfo';
 import FormShippingOptions from './FormShippingOptions';
 import FormProductsUpload from './FormProductsUpload';
-import FormLogin from './FormLogin';
 import FormOpeningHours from './FormOpeningHours'
 import FormSummary from './FormSummary'
 import FormSubmitted from './FormSubmitted'
 import { Button,Stepper,Step,StepLabel,Typography } from '@mui/material';
-import {ValidateFacebook, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
-
 
 const steps = [
     'חשבון גוגל',
@@ -98,7 +95,7 @@ const steps = [
         else if (page === 3){
             return <FormProductsUpload values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
         }
-        else if (page == 4){
+        else if (page === 4){
             return <FormOpeningHours setIsFormOpeningHoursValid={setIsFormOpeningHoursValid}
              values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
         }
@@ -106,10 +103,11 @@ const steps = [
             return <FormOtherInfo setIsFormOtherInfoValid={setIsFormOtherInfoValid}
              values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue} props={props}/>
         }
-        else if (page == 6){
-            return <FormSummary isFormValid={isFormValid} values={multiFormValues} props={props}/>       
+        else if (page === 6){
+            return <FormSummary isFormOpeningHoursValid={isFormOpeningHoursValid}
+            isFormValid={isFormValid} handleChange={handleChange} setFormValue={setFormValue} values={multiFormValues} props={props}/>       
         }
-        else if (page == 7){
+        else if (page === 7){
             return <FormSubmitted />
         }
     }
@@ -137,21 +135,21 @@ const steps = [
             </div>
             <div className='footer' style={{ display: "flex", justifyContent: "center" }}> 
                 <Button style= {{
-                maxHeight: page == 0 || page == 1 ||page == 2 ||page == 3 ||page == 4 || page == 5 ? "100px":'0px',
+                maxHeight: page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? "100px":'0px',
                 minWidth:"80px",
-                backgroundColor:  page == 0 || page == 1 ||page == 2 ||page == 3 ||page == 4 || page == 5 ? '#ffb74d' : "#f7f1e5" , 
-                marginRight: page == 0 ? "0px" : "20px",
+                backgroundColor:  page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? '#ffb74d' : "#f7f1e5" , 
+                marginRight: page === 0 ? "0px" : "20px",
                 marginTop: page === 6 ? '100px' : '20px',
                 fontFamily:"aleph",
                 fontSize: 16,
-                display: page == 6 ? 'none' : 'block',
-                color:  page == 0 || page == 1 ||page == 2 ||page == 3 ||page == 4 || page == 5 ? '#212121' : "#f7f1e5" }}
+                display: page === 6 ? 'none' : 'block',
+                color:  page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? '#212121' : "#f7f1e5" }}
                 variant="outlined"
-                 sx={{borderColor:page == 0 || page == 1 ||page == 2 ||page == 3 ||page == 4 || page == 5 ? 'black': '"#f7f1e5"', '&.Mui-disabled': {
+                 sx={{borderColor:page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? 'black': '"#f7f1e5"', '&.Mui-disabled': {
                     borderColor: 'transparent'
                 }}}
                 onClick={() => { 
-                    if (page == FormTitles.length) 
+                    if (page === FormTitles.length) 
                     {alert("הטופס נשלח")} 
                     else {
                         setPage((currPage) => currPage + 1);}
@@ -162,7 +160,7 @@ const steps = [
                 marginTop: page === 6 ? '-40px' : '20px',
                 marginLeft: page === 6 ? '160px' : "20px", fontFamily:"aleph", fontSize: 16, display: page === 0 ? 'none' : 'block',
                 color: "#212121"}} variant="outlined" sx={{borderColor: 'black'}} 
-                disabled={page == 0} onClick={
+                disabled={page === 0} onClick={
                     () => {setPage((currPage) => currPage - 1);
                     }}> {page === 6 ? 'שינוי פרטים' : 'הקודם'}
                     </Button>

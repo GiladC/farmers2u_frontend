@@ -65,6 +65,31 @@ function ValidateFarmerName({farmerName, setValidFlag}) {
 );
 }
 
+function ValidatePhoneNotEmpty({ phoneNumber, setValidFlag }) {
+  const [valid, setValid] = useState(true);
+
+  useEffect(() => {
+    setValid(isValidPhoneNotEmpty());
+  }, [phoneNumber, setValidFlag]);
+
+  function isValidPhoneNotEmpty() {
+    const res = phoneNumber !== "";
+    setValidFlag(res);
+    return res;
+  }
+
+  return (
+    <div style={{ height: "0px" }}>
+      {!valid && (
+        <Typography dir="rtl" style={{ marginRight: "5.8%" }} variant="body2" color="error">
+          שדה חובה
+        </Typography>
+      )}
+    </div>
+  );
+}
+
+
 function ValidateAddress({ address, setValidFlag }) {
   const [valid, setValid] = useState(true);
 
@@ -94,6 +119,7 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
   })
   const [phone, setPhone] = useState('');
   const [phoneError, setPhoneError] = useState(false);
+  const [isValidPhoneNotEmpty, setIsValidPhoneNotEmpty] = useState('');
   const [isValidPhone, setIsValidPhone] = useState('');
   const [whatsApp, setWhatsApp] = useState('');
   const [whatsAppError, setWhatsAppError] = useState(false);
@@ -104,7 +130,7 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
   const [isValidFarmerName, setIsValidFarmerName] = useState(true);
   const [farmerName, setFarmerName] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
-  const formValid = isValidPhone && isValidWhatsApp && isValidFarmName && isValidAddress && isValidFarmerName;
+  const formValid = isValidPhoneNotEmpty && isValidPhone && isValidWhatsApp && isValidFarmName && isValidAddress && isValidFarmerName;
   // const validateForm = () => {
   //     const phoneIsValid = !phoneError;
   //     const whatsappIsValid = !whatsAppError;
@@ -288,7 +314,7 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
                       console.log(addressN);
                       console.log(address);
 
-                      if (!addressN || addressN == ""){
+                      if (!addressN || addressN === ""){
                         setAddress('');
                         values.address="";
                       } 
@@ -444,7 +470,7 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
         type="text"
         placeholder='מספר וואטסאפ'
         //defaultValue={whatsApp}
-        required="required"
+        //required="required"
         onKeyDown={handleKeyDown}
         //error={whatsAppError}
         // helperText={whatsAppError ? 'Invalid phone number' : ''}
@@ -488,7 +514,7 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
         variant='outlined'
         type="text"
         placeholder='מספר טלפון של העסק'
-        required="required"
+        //required="required"
         onKeyDown={handleKeyDown}
         //error={phoneError}
        // helperText={phoneError ? 'Invalid phone number' : ''}
@@ -518,6 +544,7 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
         /* onChange = {handleInputChange} */
       />
         <ValidatePhone phone={values.phone_number_official} setValidFlag={setIsValidPhone}/>
+        <ValidatePhoneNotEmpty phoneNumber={values.phone_number_official} setValidFlag={setIsValidPhoneNotEmpty} /> 
        {/* <div style={{height: "20px"}}>
         {phoneError && <Typography variant="body2" color="error">טלפון לא חוקי</Typography>}
         </div> */}

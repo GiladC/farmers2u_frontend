@@ -1,67 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Box, Typography, Grid, Paper } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, Typography, Grid, Paper } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
-import dayjs from 'dayjs';
 import {ValidateWorkingHours} from '../../components/validations'
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  margin: theme.spacing(1),
-}));
 
 function FormOpeningHours({values, setFormValue, setIsFormOpeningHoursValid}) {
-  const {farm_name, email, google_profile_picture, google_name, google_family_name, 
-  shipping_distance, is_shipping, opening_hours, closing_hours, logo_picture, products_pictures, types_of_products, 
-  farm_pictures, phone_number_official, phone_number_whatsapp, phone_number_telegram, about, address,
-  farmer_name, delivery_details, products, farm_site, facebook, instagram
-  } = values
   const [openingTimesNew, setOpeningTimesNew] = useState(values.opening_hours || Array(7).fill(null));
   const [closingTimesNew, setClosingTimesNew] = useState(values.closing_hours || Array(7).fill(null));
-  const [validDayHours, setValidDayHours] = useState(Array(7).fill(true));
-  const [openingTimes, setOpeningTimes] = useState(Array(7).fill(null));
-  const [closingTimes, setClosingTimes] = useState(Array(7).fill(null));
-  const formValid = validDayHours;
+  const [validSundayHours, setValidSundayHours] = useState(true);
+  const [validMondayHours, setValidMondayHours] = useState(true);
+  const [validTuedayHours, setValidTuedayHours] = useState(true);
+  const [validWednesdayHours, setValidWednesdayHours] = useState(true);
+  const [validThursdayHours, setValidThursdayHours] = useState(true);
+  const [validFridayHours, setValidFridayHours] = useState(true);
+  const [validSaturdayHours, setValidSaturdayHours] = useState(true);
+  
+  const formValid = validSundayHours && validMondayHours && validTuedayHours && validWednesdayHours && validThursdayHours && validFridayHours && validSaturdayHours;
     useEffect(() => {
+      console.log(formValid);
       setIsFormOpeningHoursValid(formValid);
   }, [formValid]);
 
   const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
-
-  const handleChangeOpeningTime = (index, newValue) => {
-    const timeStr = formatTimeValue(newValue);
-  
-    setOpeningTimes(prevTimes => {
-      const newTimes = [...prevTimes];
-      newTimes[index] = timeStr;
-      return newTimes;
-    });
-  };
-  
-  const handleChangeClosingTime = (index, newValue) => {
-    const timeStr = formatTimeValue(newValue);
-  
-    setClosingTimes(prevTimes => {
-      const newTimes = [...prevTimes];
-      newTimes[index] = timeStr;
-      return newTimes;
-    });
-  };
-  
-  const formatTimeValue = value => {
-    if (value && value.length >= 2) {
-      const hours = value.slice(0, 2);
-      const minutes = value.slice(3, 5);
-      return `${hours}:${minutes}`;
-    }
-    return value;
-  };
 
   const handleSetOpeningTimeNew = (index, newValue) => {
     let inputTime = newValue;
@@ -79,11 +41,38 @@ function FormOpeningHours({values, setFormValue, setIsFormOpeningHoursValid}) {
     setFormValue("closing_hours",newClosingTime)
   }
 
+  // const validDayFlag = (index) => (flag) => {
+  //   const flags = [...validDayHours];
+  //   console.log("index: " + index );
+  //   console.log(flag);
+  //   flags[index] = flag;
+  //   console.log(flags);
+  //   setValidDayHours(flags);
+  // };
+
   const validDayFlag = (index) => (flag) => {
-    const flags = [...validDayHours];
-    flags[index] = flag;
-    setValidDayHours(flags);
-  };
+    if (index === 0){
+      setValidSundayHours(flag);
+    }
+    else if (index === 1) {
+      setValidMondayHours(flag);
+    }
+    else if (index === 2) {
+      setValidTuedayHours(flag);
+    }
+    else if (index === 3) {
+      setValidWednesdayHours(flag);
+    }
+    else if (index === 4) {
+      setValidThursdayHours(flag);
+    }
+    else if (index === 5) {
+      setValidFridayHours(flag);
+    }
+    else {
+      setValidSaturdayHours(flag);
+    }
+  }
 
   return (
     <form autoComplete="off" dir="rtl">

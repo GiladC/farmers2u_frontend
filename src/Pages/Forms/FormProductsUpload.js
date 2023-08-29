@@ -1,14 +1,107 @@
-import React, { useState, useEffect } from 'react'
-import { TextField, Button, Box, Typography, Grid, Paper, ThemeProvider, Menu, MenuItem, FormControlLabel, Checkbox, createTheme, FormControl, FormLabel} from '@mui/material'
+
+import { TextField, Button, Box, Typography, Grid, Paper, ThemeProvider, Menu, MenuItem, FormControlLabel, Checkbox, createTheme, Autocomplete, ListItem} from '@mui/material'
 import RemoveIcon from '@mui/icons-material/Remove';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-// import ProductList from './ProductList';
-import axios from "axios";
-import { unstable_batchedUpdates } from 'react-dom';
+import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material';
+import PropTypes from 'prop-types';
+import {styled} from '@mui/material/styles'
+
+function Tag(props) {
+  const { label, onDelete, ...other } = props;
+  return (
+    <div {...other}>
+      <span>{label}</span>
+      <Close onClick={onDelete} />
+    </div>
+  );
+}
+
+Tag.propTypes = {
+  label: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
+
+const StyledTag = styled(Tag)(
+  ({ theme }) => `
+  display: flex;
+  color: ${'black'};
+  align-items: center;
+  height: 24px;
+  margin: 2px;
+  line-height: 22px;
+  background-color: ${
+    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#E8AA42'
+  };
+  border: 1.5px solid ${theme.palette.mode === 'dark' ? '#1d3c45' : '#1d3c45'};
+  border-radius: 22px;
+  box-sizing: content-box;
+  padding: 0 4px 0 10px;
+  outline: 0;
+  overflow: hidden;
+
+  &:focus {
+    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+    background-color: ${theme.palette.mode === 'dark' ? '#003b57' : '#e6f7ff'};
+  }
+
+  & span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: '#E8AA42';
+  }
+
+  & svg {
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+`,
+);
 
 
+const products_categories = [
+  {
+    id: 1,
+    label: 'ירקות'
+  },
+  {
+    id: 2,
+    label: 'פירות'
+  },
+  {
+    id: 3,
+    label: 'גבינות ומוצרי חלב'
+  },
+  {
+    id: 4,
+    label: 'ביצים'
+  },
+  {
+    id: 5,
+    label: 'דבש'
+  },
+  {
+    id: 6,
+    label: 'צמחים'
+  },
+  {
+    id: 7,
+    label: 'יינות ושמן זית'
+  },
+  {
+    id: 8,
+    label: 'תבלינים'
+  },
+  {
+    id: 9,
+    label: 'דגנים'
+  },
+]
+  
+const icon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
 
 const {palette} = createTheme();
 const { augmentColor } = palette;
@@ -102,195 +195,32 @@ function CheckboxMenu(props) {
 }
 
 function FormProductsUpload({values, handleChange, setFormValue}) {
-  const {farm_name, email, google_profile_picture, google_name, google_family_name, 
-    shipping_distance, is_shipping, opening_hours, closing_hours, logo_picture, products_pictures, types_of_products, 
-    farm_pictures, phone_number_official, phone_number_whatsapp, phone_number_telegram, about, address,
-    farmer_name, delivery_details, products, farm_site, facebook, instagram
-    } = values
-  const labels = ["ירקות", "פירות", "גבינות ומוצרי חלב", "ביצים", "דבש", "צמחים", "יינות ושמן זית", "תבלינים", "דגנים"];
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [checked, setChecked] = React.useState(
-    Array(9).fill(false) // Initial state for 9 checkboxes
-  );
-  const [selectedItems, setSelectedItems] = React.useState([]);
-  // Helper function to check if two arrays are different
-  const arraysDiffer = (a, b) => {
-    return !(JSON.stringify(a) === JSON.stringify(b));
+  const matchingProducts = products_categories.filter((prod) => 
+                values.types_of_products.includes(prod.label));
+
+  const handleChangeCategories = (newValue) => {
+    const types = newValue.map(t => t.label).join();
+    setFormValue("types_of_products", types);
   }
 
-  useEffect(() => {
-    // Splitting the types_of_products into an array
-    const currentTypes = types_of_products ? types_of_products.split(",") : [];
+  // useEffect(() => {
+  //   // Splitting the types_of_products into an array
+  //   const currentTypes = types_of_products ? types_of_products.split(",") : [];
 
-    if (arraysDiffer(currentTypes, selectedItems)) {
-        // Updating the checked array based on the current types
-        const currentChecked = labels.map(label => currentTypes.includes(label));
-        setChecked(currentChecked);
+  //   if (arraysDiffer(currentTypes, selectedItems)) {
+  //       // Updating the checked array based on the current types
+  //       const currentChecked = labels.map(label => currentTypes.includes(label));
+  //       setChecked(currentChecked);
 
-        // Updating the selectedItems state with the current types
-        setSelectedItems(currentTypes);
-    }
-  }, [types_of_products, labels, selectedItems]);
+  //       // Updating the selectedItems state with the current types
+  //       setSelectedItems(currentTypes);
+  //   }
+  // }, [types_of_products, labels, selectedItems]);
 
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleToggle = (index) => {
-    setChecked((prevChecked) => {
-      const newChecked = [...prevChecked];
-      newChecked[index] = !newChecked[index];
-      console.log(newChecked)
-      return newChecked;
-    });
-    setSelectedItems((prevSelectedItems) => {
-      const newSelectedItems = [...prevSelectedItems];
-      if (newSelectedItems.includes(labels[index])) {
-        const itemIndex = newSelectedItems.indexOf(labels[index]);
-        newSelectedItems.splice(itemIndex, 1);
-      } else {
-        newSelectedItems.push(labels[index]);
-      }
-      setFormValue("types_of_products", newSelectedItems.join())
-      return newSelectedItems;
-    });
-  };
-  const handleRemove = (event,label) => {
-    event.stopPropagation();
-    const index = labels.indexOf(label);
-    setChecked((prevChecked) => {
-      const newChecked = [...prevChecked];
-      newChecked[index] = false;
-      return newChecked;
-    });
-
-    setSelectedItems((prevSelectedItems) => {
-      const newSelectedItems = [...prevSelectedItems];
-      const itemIndex = newSelectedItems.indexOf(label);
-      newSelectedItems.splice(itemIndex, 1);
-      setFormValue("types_of_products", newSelectedItems.join())
-      return newSelectedItems;
-    });
-  };
-  console.log(values, handleChange);
-  const additionalItems = ['אורגני', 'טבעוני'];
-  const [image, setImage] = useState(null);
-  const [productsImages, setProductsImages] = useState(null);
-  const [farmImages, setFarmImages] = useState(null);
-  const [responseMsg, setResponseMsg] = useState({
-    status: "",
-    message: "",
-    error: "",
-  });
-  const submitHandler = (e) => {
-    e.preventDefault();
-    const data = new FormData(); 
-    data.append("jsonData", JSON.stringify({
-      email:"tamirsadovsky@gmail.com",
-      google_name: "picture",
-      google_profile_picture: "picture",
-      shipping_distance: "",
-      is_shipping:"",
-      opening_hours:"",
-      closing_hours:"",
-      google_name: "Golan",
-      google_family_name: "Farmson",
-      farm_name: "משק הגולן",
-      logo_picture: "",
-      farm_pictures: "",
-      products_pictures: "",
-      about: "המשק קיים מזה 20 שנה והוא משק משפחתי שעובר מדור לדור. המטרה שלנו היא להביא את הירקות האיכותיים ביותר, במחירים הגונים.",
-      phone_number_official: "0",
-      phone_number_whatsapp: "0",
-      phone_number_telegram: "0",
-      address: "בן דרור 17",
-      farmer_name: "Golan",
-      delivery_details: "משלוחים רק בצפון, החל ממחיר הזמנה של 120 ש\"ח.\n\nניתן לעשות הזמנות מראש ולקחת באיסוף עצמי.",
-      products: "מלפפון: 5.9 ש\"ח לק\"ג\n\nעגבניה: 5 ש\"ח לק\"ג\n\nבצל: 6.4 ש\"ח לק\"ג\n\nגזר: 6 ש\"ח לק\"ג\n\nחציל: 7 ש\"ח לק\"ג",
-      farm_site: "www.golanfarm.com",
-      facebook: "www.facebook/golanfarm.com",
-      instagram: "www.instagram/golanfarm.com"
-
-    }))
-    for (let i = 0; i < image.length; i++) {
-      data.append("files[]", image[i]);
-      data.append("labels[]", "1");
-    }
-    for (let i = 0; i < productsImages.length; i++) {
-      data.append("files[]", productsImages[i]);
-      data.append("labels[]", "2");
-    }
-    for (let i = 0; i < farmImages.length; i++) {
-      data.append("files[]", farmImages[i]);
-      data.append("labels[]", "3");
-    }
-    console.log(image)
-    console.log(productsImages)
-    console.log(farmImages)
-    
-    axios.post("http://127.0.0.1:5000/signup", data)
-    .then((response) => {
-            console.log(response)
-        if (response.status === 201) {
-          this.setState({
-            responseMsg: {
-              status: response.data.status,
-              message: response.data.message,
-            },
-          });
-          setTimeout(() => {
-            this.setState({
-              image: "",
-              responseMsg: "",
-            });
-          }, 100000);
-  
-          document.querySelector("#imageForm").reset();
-        }
-            alert("Successfully Uploaded");
-    })
-    .catch((error) => {
-        console.error(error); 
-        if (error.response) {
-            console.log(error.response)
-            if (error.response.status === 401) {
-                alert("Invalid credentials");
-            }
-        }
-    });
-     
-  };
-  
-
-  const fileValidate = (file) => {
-    if (
-      file.type === "image/png" ||
-      file.type === "image/jpg" ||
-      file.type === "image/jpeg"
-    ) {
-      setResponseMsg({
-        ...responseMsg,
-        error: "",
-      });
-      return true;
-    } else {
-      setResponseMsg({
-        ...responseMsg,
-        error: "File type allowed only jpg, png, jpeg",
-      });
-      return false;
-    }
-  };
 
   const handleChangePhotoLogo = (e) => {
     if (e.target.files.length > 0) {
       const selectedPhotos = e.target.files;
-      const labelLogo = "1"
       for (let i = 0; i < selectedPhotos.length; i++) {
         if (!fileMaxSize(selectedPhotos[i])){
           alert("גודל מקסימלי עבור קובץ הוא 5MB.");
@@ -307,18 +237,15 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           return
         }
       }
-      setImage(selectedPhotos)
       setFormValue("logo_picture", selectedPhotos)
     }
     else {
-      setImage("");
       setFormValue("logo_picture", "");
     }
   };
   const handleChangePhotoFarm = (e) => {
     if (e.target.files.length > 0) {
       const selectedPhotos = e.target.files;
-      const labelLogo = "2"
       if (!filesNumberValidation(selectedPhotos.length)){
         alert("מותר להעלות עד 5 קבצים.");
         e.target.value = null; 
@@ -341,18 +268,15 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           return
         }
       }
-      setFarmImages(selectedPhotos)
       setFormValue("farm_pictures", selectedPhotos)
     }
     else {
-      setFarmImages("");
       setFormValue("farm_pictures", "");
     }
   };
   const handleChangePhotoProducts = (e) => {
     if (e.target.files.length > 0) {
       const selectedPhotos = e.target.files;
-      const labelLogo = "3"
               if (!filesNumberValidation(selectedPhotos.length)){
           alert("מותר להעלות עד 5 קבצים.");
           e.target.value = null; 
@@ -375,11 +299,9 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
             return
           }
         }
-      setProductsImages(selectedPhotos)
       setFormValue("products_pictures", selectedPhotos)
     }
     else {
-      setProductsImages("");
       setFormValue("products_pictures", "");
     }
   };
@@ -429,7 +351,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
   <Grid item xs={12} style={{ marginBottom:"-1.2rem"}}>
   <Box marginBottom={2} marginTop={8} style={{ marginBottom:"-1rem"}}>
   <Box mb={2} dir="rtl">
-    <CheckboxMenu
+    {/* <CheckboxMenu
     anchorEl={anchorEl}
     selectedItems={selectedItems}
     setSelectedItems={setSelectedItems}
@@ -440,7 +362,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
     setChecked={setChecked}
     checked={checked}
     labels={labels}
-     />
+     /> */}
   {/* <Typography color="#757575"fontFamily="aleph" marginTop={1} > מוכרים מוצרים מיוחדים? סמנו כאן! </Typography>
     <Box>
         <Grid container justifyContent="space-around">
@@ -457,6 +379,53 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
             ))}
         </Grid>
     </Box>*/}
+    <Autocomplete
+    style={{backgroundColor:'white'}}
+          multiple
+          id="checkboxes-tags-demo"
+          // value={categories}
+          defaultValue = {matchingProducts}
+          onChange={handleChangeCategories}
+          options={products_categories}
+          direction= 'rtl'
+          disableCloseOnSelect
+          disablePortal
+          position='relative'
+          placement='top'
+          noOptionsText = 'אין תוצאות'
+          ListboxProps={
+            {
+              style:{
+                  maxHeight: '100px',
+                  border: '2px solid #E8AA42',
+                  direction: 'ltr'
+              }
+            }
+          }
+          getOptionLabel={(option) => option.label}
+          renderOption={(props, option, { selected }) => (
+            <ListItem {...props} sx={{direction: 'rtl', fontSize: '18px', position: 'relative', overflowY: 'scroll',
+            '&:hover': {backgroundColor: '#E8AA42!important'}, '&&.Mui-selected':{color: '#E8AA42!important'}}}>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+                sx={{direction: 'rtl', '&.Mui-checked':{color: "black"} }}
+              />
+              {option.label}
+            </ListItem>
+          )}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <StyledTag label={option.label} {...getTagProps({ index })} />
+          ))}
+          sx={{ width: '100%'
+         }}
+          renderInput={(params) => (
+            <TextField {...params} placeholder="סוגי מוצרים"  direction= 'rtl' />
+          )}
+        />
   </Box> 
   <Typography color="#757575"fontFamily="aleph" marginTop={-2} > פירוט מבחר המוצרים ומחיריהם: </Typography>
     <Paper>
@@ -478,7 +447,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
 
   </Grid> 
 
-<form onSubmit={submitHandler} autoComplete="off" dir="rtl" /*className={classes.root}*/ encType="multipart/form-data">
+<form autoComplete="off" dir="rtl" /*className={classes.root}*/ encType="multipart/form-data">
              <Box style={{marginRight: "10%"}}>              
           <Grid marginTop={8} item xs={6} style={{ marginBottom:"-1rem"}}>
               

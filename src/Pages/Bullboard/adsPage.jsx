@@ -80,7 +80,7 @@ import CircularProgress from '@mui/material/CircularProgress';
       <div className="addPostWrapper" dir='rtl'>
       {token && (
                   <>
-        <AddPost vert={{ bottom: 30 }}/>
+        <AddPost vert={{ bottom: 30, left: 40}}/>
         </>
       )}
       </div>

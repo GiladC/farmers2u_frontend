@@ -54,7 +54,7 @@ const Guide = () => {
         <Box>
           <Box sx={{ flex: "1", paddingBottom: '3em'}}>
               <Typography variant="h4"   sx={{fontFamily:"aleph", fontSize: "35px", fontWeight: "bold", color: "#000339"}}>
-                מהי מודעה?
+              מהי מודעה באתר?
               </Typography>
               <Typography variant="body2"
               sx={{
@@ -126,7 +126,7 @@ const Guide = () => {
             fontFamily:"aleph",
           }}
         >
-          2. מצאתם עסק שאהבתם? כנסו לדף העסק ע"י לחיצה על תמונת הפרופיל או על שם העסק.
+          2. מצאתם עסק שאהבתם? כנסו לדף העסק לקבלת פרטים נוספים ודרכי יצירת קשר.
         </Typography>
         <Typography
           variant="body2"
@@ -177,7 +177,7 @@ const Guide = () => {
             fontFamily:"aleph",
           }}
         >
-          1. הירשמו לאתר ע"י מילוי פרטים בנוגע לעסק בטופס ההרשמה או התחברו במידה והמשתמש כבר קיים.
+          1. הירשמו לאתר ע"י מילוי פרטים בנוגע לעסק בטופס ההרשמה.
         </Typography>
         <Typography
           variant="body2"
@@ -189,9 +189,10 @@ const Guide = () => {
             fontFamily:"aleph",
           }}
         >
-          2. היכנסו לאזור האישי או ללוח המודעות ולחצו על האייקון '+'.
+          2. היכנסו ללוח המודעות או לאזור האישי ולחצו על אייקון ה-'+' ליצירת מודעה חדשה.
+          ניתן לערוך את המודעה בכל עת.
         </Typography>
-        <Typography
+        {/* <Typography
           variant="body2"
           sx={{
             fontSize: "24px",
@@ -202,7 +203,7 @@ const Guide = () => {
           }}
         >
           3. הוסיפו מלל חופשי בנוגע למודעה אותה תרצו לפרסם.
-        </Typography>
+        </Typography> */}
         <Typography
           variant="body2"
           sx={{
@@ -213,9 +214,9 @@ const Guide = () => {
             fontFamily:"aleph",
           }}
         >
-          4. מלאו את הפרטים: מיקום, תאריך, טווח שעות, והוסיפו תמונות במידת הצורך, ולבסוף לחצו על 'פרסום מודעה'.
+          3. באזור האישי תוכלו לעדכן את פרטי העסק.
         </Typography>
-        <Typography
+        {/* <Typography
           variant="body2"
           sx={{
             fontSize: "24px",
@@ -225,8 +226,8 @@ const Guide = () => {
             fontFamily:"aleph",
           }}
         >
-          5. מעוניינים לעדכן את הפרטים המופיעים בדף העסק? עשו זאת דרך האזור האישי.
-        </Typography>
+          4. כל מודעה ניתנת לעריכה/מחיקה במידת הצורך.
+        </Typography> */}
         <Box display= 'flex' justifyContent='center' sx={{mt: '1px'}}>
           <Link to='bottom' smooth={true}>
             <IconButton disableRipple sx={{fontSize: '40px', color: 'black', display: 'flex', justifyContent: 'center', justifyItems: 'center', zIndex:'3'}}>

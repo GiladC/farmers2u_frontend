@@ -44,7 +44,7 @@ export default function WorkingHours(props) {
         setValidRange(true);
         props.setValidFlag(false);
       }
-      else if(open.diff(close) >= 0) // not valid hours range
+      else if(open.isAfter(close, 'minute')) // not valid hours range
       {
         setValidRange(false);
         setValid(true);
@@ -112,8 +112,18 @@ export default function WorkingHours(props) {
           }}}
         />
       </Box>
-      {validRange ? null : <Stack sx={{color: 'red', fontWeight: '640'}}>נא להזין טווח שעות תקין</Stack>}
-      {valid ? null : <Stack sx={{color: 'red', fontWeight: '640'}}>נא להזין שעה תקינה </Stack>}
+      {validRange ? null :
+      <div style={{height:0}}>
+      <Typography variant='body2' color='error'>
+        נא להזין טווח שעות תקין
+      </Typography>
+      </div>}
+      {valid ? null :
+      <div style={{height:0}}>
+      <Typography variant='body2' color='error'>
+        נא להזין שעה תקינה
+      </Typography>
+      </div>}
     </LocalizationProvider>
   );
 }

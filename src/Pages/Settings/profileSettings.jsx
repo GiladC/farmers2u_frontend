@@ -1,7 +1,7 @@
-import { Box, Button, Checkbox, Container, FormControlLabel, Grid, InputAdornment, InputBase, Menu, MenuItem, Stack, Switch, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, Checkbox, Container, FormControlLabel, Grid, InputAdornment, InputBase, ListItem, Menu, MenuItem, Stack, Switch, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import './profileSettings.css'
-import { Add, AssignmentInd, Facebook, Home, Instagram, Language, Person2, Phone, Remove, WhatsApp } from '@mui/icons-material'
+import { Add, AssignmentInd, CheckBox, CheckBoxOutlineBlank, Close, Facebook, Home, Instagram, Language, Person2, Phone, Remove, WhatsApp } from '@mui/icons-material'
 import AddPost from '../../components/Post/AddPost'
 import WorkingHours from '../../components/Settings/workingHours'
 import axios from 'axios'
@@ -14,7 +14,104 @@ import Slider from '../../Pages/ShowFarmerProfile/ImageSlider'
 import dayjs from 'dayjs'
 import UserPosts from './userPosts'
 import './userPosts.css'
-import {ValidateAddress, ValidateFacebook, ValidateFarmerName, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
+import PropTypes from 'prop-types';
+import {ValidateAddress, ValidateFacebook, ValidateFarmName, ValidateFarmerName, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
+
+const products = [
+  {
+    id: 1,
+    label: 'ירקות'
+  },
+  {
+    id: 2,
+    label: 'פירות'
+  },
+  {
+    id: 3,
+    label: 'גבינות ומוצרי חלב'
+  },
+  {
+    id: 4,
+    label: 'ביצים'
+  },
+  {
+    id: 5,
+    label: 'דבש'
+  },
+  {
+    id: 6,
+    label: 'צמחים'
+  },
+  {
+    id: 7,
+    label: 'יינות ושמן זית'
+  },
+  {
+    id: 8,
+    label: 'תבלינים'
+  },
+  {
+    id: 9,
+    label: 'דגנים'
+  },
+]
+
+function Tag(props) {
+  const { label, onDelete, ...other } = props;
+  return (
+    <div {...other}>
+      <span>{label}</span>
+      <Close onClick={onDelete} />
+    </div>
+  );
+}
+
+Tag.propTypes = {
+  label: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
+
+const StyledTag = styled(Tag)(
+  ({ theme }) => `
+  display: flex;
+  color: ${'black'};
+  align-items: center;
+  height: 24px;
+  margin: 2px;
+  line-height: 22px;
+  background-color: ${
+    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#E8AA42'
+  };
+  border: 1.5px solid ${theme.palette.mode === 'dark' ? '#1d3c45' : '#1d3c45'};
+  border-radius: 22px;
+  box-sizing: content-box;
+  padding: 0 4px 0 10px;
+  outline: 0;
+  overflow: hidden;
+
+  &:focus {
+    border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+    background-color: ${theme.palette.mode === 'dark' ? '#003b57' : '#e6f7ff'};
+  }
+
+  & span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: '#E8AA42';
+  }
+
+  & svg {
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+`,
+);
+
+const icon = <CheckBoxOutlineBlank fontSize="small" />;
+const checkedIcon = <CheckBox fontSize="small" />;
 
 const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -183,6 +280,7 @@ const ProfileSettings = (props) => {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [menu,setMenu] = useState("");
+    const [categories, setCategories] = useState([])
     const [coordintes,setCoordinates] = useState({
         lat: 'none',
         lng: 'none'
@@ -232,6 +330,7 @@ const ProfileSettings = (props) => {
     const [validInstagram, setValidInstagram] = useState(true);
     const [validAddress, setValidAddress] = useState(true);
     const [ValidFarmer, setValidFarmer] = useState(true);
+    const [validFarmName, setValidFarmName] = useState(true);
     const [isInitialized, setIsInitialized] = useState(false);
 
     const [validSunday, setValidSunday] = useState(true);
@@ -242,8 +341,12 @@ const ProfileSettings = (props) => {
     const [validFriday, setValidFriday] = useState(true);
     const [validSaturday, setValidSaturday] = useState(true);
 
+    const [disabledLogo, setDisabledLogo] = useState(Array(2).fill(false)); //disable: [delete logo, replace logo]
+    const [disabledFarm, setDisabledFarm] = useState(Array(2).fill(false)); //disable:  [delete farm images, replace farm images]
+    const [disabledProducts, setDisabledProducts] = useState(Array(2).fill(false)); // disable: [delete products images, replace products images]
+
     const validDays = validSunday && validMonday && validTuesday && validWednesday && validThursday && validFriday && validSaturday;
-    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer;
+    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address != "" && phone && phone != "";
   
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -405,27 +508,18 @@ const ProfileSettings = (props) => {
             setFridayClosing(checkNull(close[5], null, false));
             setSaturdayClosing(checkNull(close[6], null, false));
 
-            const products_list = res.types_of_products.split(',');
+            
             let types = null;
             if(res.types_of_products === ''){
                 types = [];
             }
             else{
-                types = products_list;
+              const products_list = res.types_of_products.split(',');
+              const matchingProducts = products.filter((prod) => 
+                products_list.includes(prod.label));
+                types = matchingProducts;
             }
-            const indexes = types.map(t => labels.indexOf(t));
-            const newArr = Array(9).fill(false).map((a,index) => {
-                if(indexes.includes(index)){
-                    return true;
-                }
-                else{
-                    return a;
-                }
-            });
-
-            setChecked(newArr);
-            setSelectedItems(types);
-
+            setCategories(types);
             setIsInitialized(true);
 
           })
@@ -458,7 +552,7 @@ const ProfileSettings = (props) => {
           phone_number_whatsapp: whatsApp,
           phone_number_telegram: "0",
           address: address,
-          types_of_products: selectedItems.join(),
+          types_of_products: categories.map((category) => (category.label)).join(','),
           farmer_name: farmer,
           delivery_details: delivery,
           products: menu,
@@ -530,11 +624,17 @@ const ProfileSettings = (props) => {
         setLogoFlag(true)
         setLogo([])
         setNewlogo("")
+        const disable = [...disabledLogo];
+        disable[1] = true;
+        setDisabledLogo(disable);
     }
     const handleChangePhotoLogo = (e) => {
+      let disable;
       if (e.target.files.length > 0) {
         const selectedPhotos = e.target.files;
-
+        disable = [...disabledLogo];
+        disable[0] = true;
+        setDisabledLogo(disable);
         for (let i = 0; i < selectedPhotos.length; i++) {
           if (!fileMaxSize(selectedPhotos[i])){
             alert("גודל מקסימלי עבור קובץ הוא 5MB.");
@@ -555,16 +655,28 @@ const ProfileSettings = (props) => {
         setLogoFlag(false);
         console.log(selectedPhotos);
       }
+      else {
+        disable = [...disabledLogo];
+        disable[0] = false;
+        setDisabledLogo(disable);
+      }
     };
   const hadnleDeleteProductsPhotos = (e) => {
       console.log("prodcuts flag" ,productsFlag)
       setProductsFlag(true)
       setProductsImages([])
       setNewProductsImages([])
+      const disable = [...disabledProducts];
+      disable[1] = true;
+      setDisabledProducts(disable);
   }
     const handleChangeProductsImages = (e) => {
+      let disable;
       console.log("e",e)
         if (e.target.files.length > 0) {
+          disable = [...disabledProducts];
+          disable[0] = true;
+          setDisabledProducts(disable);
           const selectedPhotos = e.target.files;
           if (!filesNumberValidation(selectedPhotos.length)){
             alert("מותר להעלות עד 5 קבצים.");
@@ -594,15 +706,27 @@ const ProfileSettings = (props) => {
           setProductsFlag(false);
           console.log(selectedPhotos);
         }
+        else {
+          disable = [...disabledProducts];
+          disable[0] = false;
+          setDisabledProducts(disable);
+        }
     };
     const handleDeleteFarmPhotos = (e) => {
       console.log("farmIMages");
       setFarmFlag(true)
       setFarmImages([])
       setNewFarmImages([])
+      const disable = [...disabledFarm];
+      disable[1] = true;
+      setDisabledFarm(disable);
   }
     const handleChangeFarmImages = (e) => {
+        let disable;
         if (e.target.files.length > 0) {
+          disable = [...disabledFarm];
+          disable[0] = true;
+          setDisabledFarm(disable);
           const selectedPhotos = e.target.files;
         if (!filesNumberValidation(selectedPhotos.length)){
           alert("מותר להעלות עד 5 קבצים.");
@@ -632,6 +756,11 @@ const ProfileSettings = (props) => {
           setNewFarmImages(selectedPhotos);
           setFarmFlag(false);
           console.log(selectedPhotos);
+        }
+        else {
+          disable = [...disabledFarm];
+          disable[0] = false;
+          setDisabledFarm(disable);
         }
     };
 
@@ -674,18 +803,27 @@ const ProfileSettings = (props) => {
   return (
     // <ThemeProvider theme={themeForButton}>
     <Box sx={{
-        direction: 'rtl'
+        direction: 'rtl',
+        dispaly: 'flex',
+        flexDirection:'column'
     }}>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      <div style={{flex: 0.5}}></div>
         <Typography mt={4} fontFamily="Secular One" fontWeight="bold" variant='h2' sx={{
+        flex: 5,
         display: 'flex',
         justifyContent: 'center',
         color: "#ffb74d",
         WebkitTextStroke: "0.1px #757575"
         }}> {`אזור אישי`}
         </Typography>
+        <div style={{flex: 0.5}}>
+        <AddPost vert={{ mt: 4}} notFixed={true}/>
+        </div>
+      </div>
         <Box sx={{
             display: 'grid',
-            gridTemplateColumns: '3fr 4fr'
+            gridTemplateColumns: '4fr 4fr'
         }}>
             <Container sx={{
                 flex: 5,
@@ -715,6 +853,7 @@ const ProfileSettings = (props) => {
                             className='Form_box_input'
                             />
                         </Box>
+                        <ValidateFarmName farmName={farmName} setValidFlag={setValidFarmName} isInitialized={isInitialized}/>
                     </Box>
                     <Box gap= {1}  sx={{
                         mt: '2rem', flex: 2.5
@@ -740,6 +879,12 @@ const ProfileSettings = (props) => {
                             />
                         </Box>
                         <ValidatePhone phone={phone} setValidFlag={setValidPhone}/>
+                        {phone === "" && validPhone && isInitialized ?
+                        <div style={{height:0}}>
+                          <Typography variant='body2' color="error">שדה חובה</Typography>
+                        </div>
+                        : null
+                        }
                     </Box>
                     </Box>
                     <Box gap={3} sx={{display: 'flex'}}>
@@ -809,10 +954,6 @@ const ProfileSettings = (props) => {
                         mt: '2rem',
                     }}>
                         <label className='inputLabel'>כתובת/מיקום:</label>
-                        {validAddress ? null : 
-                        <div>
-                          <Typography variant='body2' color="error">יש ללחוץ על כתובת מבין האופציות המוצעות</Typography>
-                        </div>}
                         <Box width= '100%' border='2px solid #1d3c45' borderRadius='1rem'
                         alignItems='center' display= 'flex' gap='1rem' overflow='hidden'>
                             <Box fontSize='2rem' bgcolor= '#1d3c45' padding= '0.5rem 1rem'
@@ -863,6 +1004,17 @@ const ProfileSettings = (props) => {
                     );
                   })}
                 </div>
+                {validAddress ? null : 
+                        <div>
+                          <Typography variant='body2' color="error">יש ללחוץ על כתובת מבין האופציות המוצעות</Typography>
+                        </div>
+                }
+                { address === "" && isInitialized ?
+                <div>
+                  <Typography variant='body2' color="error">שדה חובה</Typography>
+                </div>
+                : null
+                }
               </div>
             )}
           </PlacesAutocomplete>
@@ -905,7 +1057,52 @@ const ProfileSettings = (props) => {
                         mt: '2rem',
                     }}>
                         <label className='inputLabel'>סוגי מוצרים:</label>
-                        <CheckboxMenu handleClick={handleClick} anchorEl={anchorEl} selectedItems={selectedItems} handleRemove={handleRemove} handleClose={handleClose} labels={labels} checked={checked} handleToggle={handleToggle}/>
+                        {/* <CheckboxMenu handleClick={handleClick} anchorEl={anchorEl} selectedItems={selectedItems} handleRemove={handleRemove} handleClose={handleClose} labels={labels} checked={checked} handleToggle={handleToggle}/> */}
+                        <Autocomplete
+                        multiple
+                        id="areas-autocomplete"
+                        options={products}
+                        disableCloseOnSelect
+                        direction= 'rtl'
+                        getOptionLabel={(option) => option.label}
+                        renderOption={(props, option, { selected }) => (
+                          <ListItem {...props} sx={{direction: 'rtl', '&:hover': {backgroundColor: '#E8AA42!important'}, '&&.Mui-selected':{color: '#E8AA42!important'}}}>
+                            <Checkbox
+                              icon={icon}
+                              checkedIcon={checkedIcon}
+                              direction="rtl"
+                              checked={selected}
+                              sx={{'&.Mui-checked':{color: "black"}, direction: 'rtl'}}
+                            />
+                            {option.label}
+                          </ListItem>
+                        )}
+                        style={{ width: '100%', direction: 'rtl'}}
+                        value={categories}
+                        onChange={(event, newValue) => {
+                          console.log(newValue);
+                          setCategories([
+                            ...newValue
+                          ]);
+                        }}
+                        noOptionsText="לא נמצאו תוצאות"
+                        renderTags={(value, getTagProps) =>
+                          value.map((option, index) => (
+                            <StyledTag label={option.label} {...getTagProps({ index })} />
+                        ))}
+                        renderInput={(params) => (
+                          <div>
+                          <TextField
+                            {...params}
+                            placeholder="סוגי מוצרים"
+                            dir="rtl"
+                            sx={{
+                              direction: 'rtl',
+                            }}
+                          />
+                          </div>
+                        )}
+                      />
                     </Box>
                     <Box gap= {1}  sx={{
                         mt: '2rem',
@@ -1070,37 +1267,21 @@ const ProfileSettings = (props) => {
                         className= 'profileImg'
                         sx={{marginBottom: '10px'}}
                         />
-                        <Typography  sx={{
-                        fontWeight: '700',
-                        fontSize: '1.2rem',
-                        lineHeight: '0',
-                        mt: '10px',
-                        justifyContent: 'center',
-                        justifyItems: 'center',
-                        marginBottom: '18px',
-                        alignContent: 'center',
-                        color: '#1d3c45',
-                        }}>החלפת תמונה</Typography>
-                        <Button
-                        /*margin={10}*/
-                        disableRipple
-                        variant="contained"
-                        component="label"
-                        style={{color: '#1d3c45', backgroundColor: 'transparent'}}
-                        //color="addPicture"
-                        sx={{   display: 'flex', marginRight: '120px', 
-                        justifyContent: 'center',width:"450px",fontFamily: "aleph", boxShadow: 'none !important', '&:hover , &:active, &:focus':{color: 'initial',
-                        backgroundColor: 'initial', 
-                        boxShadow: 'none !important', opacity: 1,}}}
-                      >
+                        <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                          <div>
+                          <label className='inputLabel'>החלפת תמונה</label>
+                        <Box width= '100%' border='2px solid #1d3c45' borderRadius='1rem'
+                        alignItems='center' display= 'flex' gap='1rem' overflow='hidden'>
                         <input
-                          type="file"
-                          label =""
-                          name="logo_picture"
-                          onChange={handleChangePhotoLogo}
-                        />
-                        </Button>
-                        <Button
+                                type="file"
+                                label =""
+                                name="logo_picture"
+                                onChange={handleChangePhotoLogo}
+                                disabled = {disabledLogo[1]}
+                              />
+                        </Box>
+                          </div>
+                          <Button disabled = {disabledLogo[0]}
                           sx={{
                             fontFamily: 'aleph',
                             backgroundColor: '#E8AA42',
@@ -1113,13 +1294,14 @@ const ProfileSettings = (props) => {
                           }}
                           onClick={handleDeletePhotoLogo}
                         >
-                          מחיקת הלוגו הנוכחי
+                          מחיקת הלוגו הקיים
                         </Button>
+                        </div>
                     </Box>
                     <Box sx={{
                             width: '580px',
                             height: '300px',
-                            marginBottom: '80px',
+                            marginBottom: '10px',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -1127,50 +1309,46 @@ const ProfileSettings = (props) => {
                     <Box display= 'flex' justifyContent='center'>
                     <Typography  sx={{fontWeight: '600', fontSize: '30px',justifySelf: 'center', color: '#1d3c45'}}>תמונות המקום</Typography>
                     </Box>
-                    <Box sx={{ minWidth: '580px', minHeight: '300px'}}>
+                    <Box sx={{ minWidth: '580px', minHeight: '300px', marginBottom: '20px'}}>
                       <Slider slides={farmImages} farm={true} />
                     </Box>
-                    <Button
-                    /*margin={10}*/
-                    disableRipple
-                    variant="contained"
-                    component="label"
-                    style={{color: '#1d3c45', backgroundColor: 'transparent'}}
-                    //color="addPicture"
-                    sx={{   display: 'flex', marginRight: '230px', paddingTop: '40px',
-                    justifyContent: 'space-between',width:"450px",fontFamily: "aleph", boxShadow: 'none !important', '&:hover , &:active, &:focus':{color: 'initial',
-                    backgroundColor: 'initial', 
-                    boxShadow: 'none !important', opacity: 1,}}}
-                  >
-                    <input
-                      type="file"
-                      label =""
-                      name="farm_images"
-                      multiple
-                      onChange={handleChangeFarmImages}
-                    />
-                    </Button>
-                    <Button
-                      sx={{
-                        fontFamily: 'aleph',
-                        backgroundColor: '#E8AA42',
-                        color: 'black',
-                        marginTop: '5px',
-                        ':hover': {
-                          bgcolor: '#E8AA42',
-                          color: 'white',
-                        },
-                      }}
-                      onClick={handleDeleteFarmPhotos}
-                    >
-                      מחיקת תמונות המקום 
-                    </Button>
                     </Box>
+                    <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                        <div style={{textAlign: 'center'}}>
+                          <label className='inputLabel'>החלפת תמונות</label>
+                          <Box width= '100%' border='2px solid #1d3c45' borderRadius='1rem'
+                          alignItems='center' display= 'flex' gap='1rem' overflow='hidden'>
+                          <input
+                          type="file"
+                          label =""
+                          name="farm_images"
+                          multiple
+                          onChange={handleChangeFarmImages}
+                          disabled= {disabledFarm[1]}
+                          />
+                          </Box>
+                        </div>
+                          <Button
+                          disabled = {disabledFarm[0]}
+                          sx={{
+                            fontFamily: 'aleph',
+                            backgroundColor: '#E8AA42',
+                            color: 'black',
+                            marginTop: '5px',
+                            ':hover': {
+                              bgcolor: '#E8AA42',
+                              color: 'white',
+                            },
+                          }}
+                          onClick={handleDeleteFarmPhotos}>
+                          מחיקת התמונות הקיימות  
+                          </Button>
+                        </div>
                     <Box sx={{
                                 width: '580px',
                                 height: '300px',
                                 marginTop: '40px',
-                                marginBottom: '120px',
+                                marginBottom: '10px',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
@@ -1181,42 +1359,39 @@ const ProfileSettings = (props) => {
                         <Box sx={{ minWidth: '580px', minHeight: '300px'}}>
                           <Slider slides={productsImages} farm={false} />
                         </Box>
-                        <Button
-                    /*margin={10}*/
-                    disableRipple
-                    variant="contained"
-                    component="label"
-                    style={{color: '#1d3c45', backgroundColor: 'transparent'}}
-                    //color="addPicture"
-                    sx={{   display: 'flex', marginRight: '230px', paddingTop: '40px',
-                    justifyContent: 'space-between',width:"450px",fontFamily: "aleph", boxShadow: 'none !important', '&:hover , &:active, &:focus':{color: 'initial',
-                    backgroundColor: 'initial', 
-                    boxShadow: 'none !important', opacity: 1,}}}
-                  >
-                    <input
-                      type="file"
-                      label =""
-                      name="product_images"
-                      multiple
-                      onChange={handleChangeProductsImages}
-                    />
-                    </Button>
-                    <Button
-                      sx={{
-                        fontFamily: 'aleph',
-                        backgroundColor: '#E8AA42',
-                        color: 'black',
-                        marginTop: '5px',
-                        ':hover': {
-                          bgcolor: '#E8AA42',
-                          color: 'white',
-                        },
-                      }}
-                      onClick={hadnleDeleteProductsPhotos}
-                    >
-                      מחיקת תמונות המוצרים 
-                    </Button>
                     </Box>
+                    <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                        <div style={{textAlign: 'center'}}>
+                          <label className='inputLabel'>החלפת תמונות</label>
+                          <Box width= '100%' border='2px solid #1d3c45' borderRadius='1rem'
+                          alignItems='center' display= 'flex' gap='1rem' overflow='hidden'>
+                          <input
+                            type="file"
+                            label =""
+                            name="product_images"
+                            multiple
+                            onChange={handleChangeProductsImages}
+                            disabled= {disabledProducts[1]}
+                          />
+                          </Box>
+                        </div>
+                        <Button
+                        disabled = {disabledProducts[0]}
+                          sx={{
+                            fontFamily: 'aleph',
+                            backgroundColor: '#E8AA42',
+                            color: 'black',
+                            marginTop: '5px',
+                            ':hover': {
+                              bgcolor: '#E8AA42',
+                              color: 'white',
+                            },
+                          }}
+                          onClick={hadnleDeleteProductsPhotos}
+                        >
+                      מחיקת התמונות הקיימות  
+                    </Button>
+                        </div>
                     <Box sx={{
                                 width: '580px',
                                 height: '380px',
@@ -1236,7 +1411,6 @@ const ProfileSettings = (props) => {
                            {/* <Typography>מקום לתמונות</Typography>*/}
                 </Container>
             </Container>
-            <AddPost vert={{ top: '20%'}}/>
         </Box>
     </Box>
     // </ThemeProvider>

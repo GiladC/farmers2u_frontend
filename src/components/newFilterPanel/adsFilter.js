@@ -374,27 +374,23 @@ const PrettoSlider = styled(Slider)({
             <div style={{display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 2, justifyContent: 'center'}}>
               <div style={{paddingBottom:' 5%', paddingTop:' 5%', display: 'flex', justifyContent: 'center'}}>
                <DatePicker label={'תאריך התחלה'} views={['day']} sx={{
-                  "& label": {
-                    left: "unset",
-                    right: "6.3rem",
-                    transformOrigin: "center"
-                  },
+                  "& label":{left: "unset",
+                  right: "1.75rem",
+                  transformOrigin: "right"},
                   "& legend": {
-                    textAlign: "center",
-                  }
+                    textAlign: "right",
+                  },
                 }}
               value={startDate} onChange={(newValue) => setStartDate(newValue)} format='DD/MM/YYYY'/>
                </div>
               <div style={{display: 'flex', justifyContent: 'center'}}>
               <DatePicker label={'תאריך סיום'} views={['day']} sx={{
-                  "& label": {
-                    left: "unset",
-                    right: "7rem",
-                    transformOrigin: "center"
-                  },
-                  "& legend": {
-                    textAlign: "center",
-                  }
+                 "& label":{left: "unset",
+                 right: "1.75rem",
+                 transformOrigin: "right"},
+                 "& legend": {
+                   textAlign: "right",
+                 },
                 }}
               value={endDate} onChange={(newValue) => setEndDate(newValue)} format='DD/MM/YYYY'/>
               </div>

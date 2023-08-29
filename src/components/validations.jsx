@@ -241,6 +241,27 @@ export function ValidateFarmerName({name, setValidFlag}){
 );
 }
 
+export function ValidateFarmName({farmName, setValidFlag, isInitialized}){
+  const [valid ,setValid] = useState(true);
+
+  useEffect(() => {
+       setValid(isValidFarmName());
+  }, [farmName, setValidFlag]);
+
+  function isValidFarmName(){
+    const res =  (!isInitialized) || (farmName != "");
+    setValidFlag(res);
+    return res;
+  }
+
+  return (
+    <div style={{ height: "0px" }}>
+    {!valid && <Typography variant="body2" color="error">שדה חובה</Typography>}
+  </div>
+);
+}
+
+
 export function ValidateAddress({address, setValidFlag, isInitialized}){
     const [valid ,setValid] = useState(true);
 

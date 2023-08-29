@@ -35,7 +35,7 @@ const themeForButton = createTheme({
     }
 });
 
-const FormSummary = ({ values , props, isFormValid }) => {
+const FormSummary = ({ values , props, isFormValid ,isFormOpeningHoursValid}) => {
     const modalTextStyle = {
       fontSize: 'larger', 
       textAlign: 'center',
@@ -133,6 +133,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
         friday: friday,
         saturday: saturday
     }
+    console.log(days);
     const { farm_name, /*email,*/ google_profile_picture, google_name, google_family_name,
         shipping_distance, is_shipping, opening_hours, closing_hours, logo_picture, products_pictures, types_of_products,
         farm_pictures, phone_number_official, phone_number_whatsapp, phone_number_telegram, about, address,
@@ -287,7 +288,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             שם העסק:
                         </Typography>
                         <Typography maxWidth={580} variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.farm_name || "לא הוגדר"}
+                            {values.farm_name || "---"}
                         </Typography>
                     </Grid>
 
@@ -296,7 +297,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             שם איש הקשר:
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.farmer_name || "לא הוגדר"}
+                            {values.farmer_name || "---"}
                         </Typography>
                     </Grid>
 
@@ -305,7 +306,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             כתובת:
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.address || "לא הוגדר"}
+                            {values.address || "---"}
                         </Typography>
                     </Grid>
 
@@ -314,7 +315,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             מספר טלפון של העסק:
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.phone_number_official || "לא הוגדר"}
+                            {values.phone_number_official || "---"}
                         </Typography>
                     </Grid>
 
@@ -323,34 +324,42 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             מספר וואטסאפ:
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.phone_number_whatsapp || "לא הוגדר"}
+                            {values.phone_number_whatsapp || "---"}
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             שעות פתיחה:
                         </Typography>
+                        {isFormOpeningHoursValid ? 
+                        <div>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           ראשון - {days.sunday}
+                           ראשון{days.sunday == "סגור" ? " - " : ": "}{days.sunday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שני - {days.monday}
+                           שני{days.monday == "סגור" ? " - " : ": "}{days.monday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שלישי - {days.tuesday}
+                           שלישי{days.tuesday == "סגור" ? " - " : ": "}{days.tuesday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           רביעי - {days.wednesday}
+                           רביעי{days.wednesday == "סגור" ? " - " : ": "}{days.wednesday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           חמישי - {days.thursday}
+                           חמישי{days.thursday == "סגור" ? " - " : ": "}{days.thursday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שישי - {days.friday}
+                           שישי{days.friday == "סגור" ? " - " : ": "}{days.friday}
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                           שבת - {days.saturday}
+                           שבת{days.saturday == "סגור" ? " - " : ": "}{days.saturday}
                         </Typography>
+                        </div>
+                          : 
+                          <Typography variant="body2" color="textPrimary" textAlign={"center"}>
+                           לא הוזנו ערכים תקינים
+                          </Typography>
+                          }
                     </Grid>
                     <Grid item>
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
@@ -376,7 +385,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             מדיניות הזמנות ומשלוחים:
                         </Typography>
                         <Typography style={{ maxWidth: '580px', wordWrap: 'break-word'}} variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.delivery_details || "לא הוגדר"}
+                            {values.delivery_details || "---"}
                         </Typography>
                     </Grid>
 
@@ -385,7 +394,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             סוגי מוצרים:
                         </Typography>
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.types_of_products.replace(/,/g, ', ') || "לא הוגדר"}
+                            {values.types_of_products.replace(/,/g, ', ') || "---"}
                         </Typography>
                     </Grid>
 
@@ -394,7 +403,32 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             מחירון:
                         </Typography>
                         <Typography style={{ maxWidth: '580px', wordWrap: 'break-word'}} variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.products || "לא הוגדר"}
+                            {values.products || "---"}
+                        </Typography>
+                    </Grid>
+                    
+                    <Grid item>
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            תמונת הלוגו:
+                        </Typography>
+                        <Typography style={{ maxWidth: '580px', wordWrap: 'break-word'}} variant="body2" color="textPrimary" textAlign={"center"}>
+                            {logoName || "---"}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            תמונות המוצרים:
+                        </Typography>
+                        <Typography style={{ maxWidth: '580px', wordWrap: 'break-word'}} variant="body2" color="textPrimary" textAlign={"center"}>
+                            {concatenatedNamesProducts.replace(/,/g, ', ') || "---"}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            תמונות החווה:
+                        </Typography>
+                        <Typography style={{ maxWidth: '580px', wordWrap: 'break-word'}} variant="body2" color="textPrimary" textAlign={"center"}>
+                            {concatenatedNamesFarm.replace(/,/g, ', ') || "---"}
                         </Typography>
                     </Grid>
 
@@ -403,7 +437,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             אתר העסק:
                         </Typography>
                         <Typography maxWidth={580} variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.farm_site || "לא הוגדר"}
+                            {values.farm_site || "---"}
                         </Typography>
                     </Grid>
 
@@ -412,7 +446,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             פייסבוק:
                         </Typography>
                         <Typography maxWidth={580} variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.facebook || "לא הוגדר"}
+                            {values.facebook || "---"}
                         </Typography>
                     </Grid>
 
@@ -421,7 +455,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                             אינסטגרם:
                         </Typography>
                         <Typography maxWidth={580} variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.instagram || "לא הוגדר"}
+                            {values.instagram || "---"}
                         </Typography>
                     </Grid>
 
@@ -433,7 +467,7 @@ const FormSummary = ({ values , props, isFormValid }) => {
                                 maxWidth: '580px', 
                                 wordWrap: 'break-word'
                             }}  variant="body2" color="textPrimary" textAlign={"center"}>
-                            {values.about || "לא הוגדר"}
+                            {values.about || "---"}
                         </Typography>
                     </Grid>
 

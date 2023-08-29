@@ -1,11 +1,7 @@
-import { TextField, Button, Box, ThemeProvider, createTheme, Typography } from '@mui/material'
+import { Button, Box, ThemeProvider, createTheme, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import {useNavigate} from "react-router-dom";
-import EmailIcon from '@mui/icons-material/Email';
-import PasswordIcon from '@mui/icons-material/Password';
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import axios from 'axios';
-import { Email } from '@mui/icons-material';
 import jwt_decode from "jwt-decode"
 import './Forms.css';
 
@@ -22,8 +18,6 @@ const themeForButton = createTheme({
 
 const FormLogin = (props) => {
   const [user, setUser] = useState({});
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [buttonText, setButtonText] = useState('התחבר עם Google');
   const [showPopup, setShowPopup] = useState(false);
@@ -44,27 +38,21 @@ const FormLogin = (props) => {
     const userObject = jwt_decode(response.credential);
     setUser(userObject);
 
-    // Check the structure of the response object to access the email
-    var idToken = response.credential.id_token;
-    //var decodedToken = jwt_decode(idToken);
-    //var email = decodedToken.email;
-
     setButtonText(`התחבר עם Google (${userObject.given_name} ${userObject.name})`);
 
 
     console.log(userObject.email);
-    setEmail(userObject.email); // Store the email in the component's state
+    setEmail(userObject.email); 
     axios({
       method: 'POST',
-      url: 'http://127.0.0.1:5000/logintoken',
+      url: 'https://farmers-please-77d4b71f9957.herokuapp.com/logintoken',
       data: {
-        email: userObject.email // Include the email in the POST request
+        email: userObject.email
       }
     })
       .then(function (response) {
         console.log(response);
         props.setToken(response.data.access_token);
-        //alert('התחברת בהצלחה');
         localStorage.setItem('email', userObject.email);
         localStorage.setItem('farmName', response.data.userName);
         localStorage.setItem('profilePicture', response.data.profilePicture)

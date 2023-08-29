@@ -68,7 +68,7 @@ export default function NewBusinessCard({ image, business, open, close, token })
                 <div className='modalWrapper'>
                     <div className='top'>
                         <div className='nameAndContact'>
-                            <h1 style={{fontFamily: 'secular one'}}>{business.farm_name}</h1>
+                            <h1>{business.farm_name}</h1>
                             <div>
                                 <Stack
                                     direction='row'

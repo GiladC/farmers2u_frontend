@@ -149,7 +149,7 @@ const EditPost = ({ post, open, onClose }) => {
     const endingMinutes = value3.minute();	
     const endingHour = value3.hour();	
     const endingTime = value.hour(endingHour).minute(endingMinutes);	
-    if (startingTime.isAfter(now, 'minutes') || endingTime.isAfter(now, 'minutes')) {	
+    if (startingTime.isAfter(now, 'minute') || endingTime.isAfter(now, 'minute')) {	
       return true;	
     }	
     else {	
@@ -324,7 +324,7 @@ useEffect(() => {
       setValidHours(false);	
       setValidRange(true);	
     }	
-    else if (value2.isAfter(value3, 'minutes')) // not valid hours range	
+    else if (value2.isAfter(value3, 'minute')) // not valid hours range	
     {	
       setValidRange(false);	
       setValidHours(true);	
@@ -405,7 +405,7 @@ useEffect(() => {
           <UserBox>
             <Avatar src = {pfpAndName.profilePicture} sx={{ width: 30, height: 30 }} />
             <Typography fontWeight={500} variant="span">
-            {pfpAndName.profileName.length > 20 ? pfpAndName.profileName.slice(0, 21) + "..." : pfpAndName.profileName}
+            {pfpAndName.profileName && pfpAndName.profileName.length > 20 ? pfpAndName.profileName.slice(0, 21) + "..." : pfpAndName.profileName}
             </Typography>
           </UserBox>
           <TextField
