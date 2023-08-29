@@ -18,6 +18,8 @@ const themeForButton = createTheme({
 
 const FormLogin = (props) => {
   const [user, setUser] = useState({});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
   const [buttonText, setButtonText] = useState('התחבר עם Google');
   const [showPopup, setShowPopup] = useState(false);
