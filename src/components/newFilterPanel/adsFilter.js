@@ -9,7 +9,7 @@ import PlacesAutocomplete, {
     getLatLng,
   } from 'react-places-autocomplete';
 import { useState } from 'react';
-import { Autocomplete, Box, Button, Checkbox, Container, ListItem, Slider, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, Checkbox, ListItem, Slider, TextField } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -20,7 +20,7 @@ import axios from 'axios'
 import PropTypes from 'prop-types';
 import products from "../../assets/lists"
 import { useEffect } from 'react';
-import ads from './ads.css';
+import './ads.css';
 
 
 
