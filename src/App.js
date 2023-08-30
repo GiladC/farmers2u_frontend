@@ -64,13 +64,6 @@ function App() {
             } />
             {token && token !== "" && token !== undefined && (
               <>
-                <Route exact path="/profile" element={
-                  <>
-                    <Intro token={token} setToken={setToken} />
-                    <Footer token={token}/>
-
-                  </>
-                } />
                 <Route path="/settings" element={
                   <>
                     <ProfileSettings token={token} setToken={setToken} />
