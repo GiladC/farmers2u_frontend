@@ -70,7 +70,7 @@ a:hover, a:active {
 .details {
     margin-top: 15px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(113px, 1fr)); /* Responsive grid */
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Responsive grid */
     gap: 15px;
     direction: rtl;
     align-items: flex-start;
@@ -170,9 +170,26 @@ a:hover, a:active {
     }
   }
 
+
+
+
   @media screen and (max-width: 250px) {
     .location, .date, .time {
         padding: 0px; /* Decrease padding for narrow screens */
+    }
+}
+
+@media screen and (max-width: 420px) and (max-height: 950px) {
+    .location, .date, .time {
+        padding: 2px; /* Decrease padding for narrow screens */
         font-size: 10px; /* Decrease font size for narrow screens */
     }
+    .details_font{
+        font-size: 14px !important;
+    }
+
+    .details_symbols_font{
+        font-size: 15px !important;
+    }
+
 }

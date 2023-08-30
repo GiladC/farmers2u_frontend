@@ -177,22 +177,22 @@ export default function Post({ post, token, disabled }) {
         <div className='postCenter'>
           <div className='details'>
             <Box className='location'>
-              <Typography>
-                <LocationOn />
+              <Typography >
+                <LocationOn className='details_symbols_font'/>
               </Typography>
-              <Typography>{post.location}</Typography>
+              <Typography className='details_font'>{post.location}</Typography>
             </Box>
             <Box className='date'>
               <Typography>
-                <EventNote />
+                <EventNote className='details_symbols_font'/>
               </Typography>
-              <Typography>{post.date}</Typography>
+              <Typography className='details_font'>{post.date}</Typography>
             </Box>
             <Box className='time'>
               <Typography>
-                <AccessTime />
+                <AccessTime className='details_symbols_font'/>
               </Typography>
-              <Typography>{post.time}</Typography>
+              <Typography className='details_font'>{post.time}</Typography>
             </Box>
           </div>
           <Box

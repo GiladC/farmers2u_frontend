@@ -20,6 +20,7 @@ import axios from 'axios'
 import PropTypes from 'prop-types';
 import products from "../../assets/lists"
 import { useEffect } from 'react';
+import ads from './ads.css';
 
 
 
@@ -509,7 +510,8 @@ const PrettoSlider = styled(Slider)({
       sx={{paddingTop:'0%', direction: 'rtl'}}
     />
         {/* אורגני,טבעוני */}
-        <Container sx={{display:'flex', mt:'11px', justifyContent:'center', direction: 'ltr'}}>
+        <div className='vegan_organic'
+        style={{display:'flex', mt:'11px', justifyContent:'center', direction: 'ltr'}}>
                 <FormControlLabel control={<Checkbox checked={organic} onChange={handleOrganic} sx={{fontFamily:'aleph','&.Mui-checked':{color: "#E8AA42"}}} />} label={<Typography 
                   sx={{fontSize: '1.25rem'}}>אורגני</Typography>}
                   sx={{
@@ -528,7 +530,7 @@ const PrettoSlider = styled(Slider)({
                     
                     direction: 'rtl'
                 }} />
-        </Container>
+        </div>
         </FormGroup>
         <Box display= 'flex' justifyContent='center' paddingBottom= '5px' paddingTop= '5%' gap= {3} sx={{direction: 'rtl'}}>
             <Button disabled = {notValidRequest} sx={{fontFamily:'aleph',backgroundColor: '#E8AA42', color: 'black',
