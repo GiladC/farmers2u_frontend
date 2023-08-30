@@ -20,7 +20,7 @@ const theme = createTheme({
 });
 
 
-const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFormOpeningHoursValid}) => {
+const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFormShippingOptionsValid, isFormOpeningHoursValid}) => {
     const modalTextStyle = {
       fontSize: 'larger', 
       textAlign: 'center',
@@ -43,10 +43,18 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
     if (values.is_shipping){
         shipping = "כן"
         km = values.shipping_distance
+        if (values.shipping_distance){
+
+        }
+        else{
+            values.shipping_distance = "0"
+        }
     }
     else{
         shipping = "לא"
         km = ""
+        values.shipping_distance = "0"
+        values.is_shipping = false
     }
     if (values.logo_picture){
         logoName = values.logo_picture[0].name
@@ -374,11 +382,17 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
 
                     {shipping === "כן" && (
                         <Grid item>
+                            {isFormShippingOptionsValid ? 
                             <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                                 טווח המשלוח:
                             </Typography>
+                            :
+                            <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                                *טווח המשלוח:
+                           </Typography>
+                            }
                             <Typography variant="body2" color="textPrimary" textAlign={"center"}>
-                                עד {km} ק"מ מ{values.address || "-לא הוזנה כתובת"}
+                                עד {isFormShippingOptionsValid ? km : "__"} ק"מ מ{values.address || "-לא הוזנה כתובת"}
                             </Typography>
                         </Grid>
                     )}

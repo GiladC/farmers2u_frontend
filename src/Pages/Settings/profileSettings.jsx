@@ -1,5 +1,5 @@
 import { Autocomplete, Box, Button, Checkbox, Container, InputAdornment, InputBase, ListItem, Stack, Switch, TextField, Typography } from '@mui/material'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import './profileSettings.css'
 import { AssignmentInd, CheckBox, CheckBoxOutlineBlank, Close, Facebook, Home, Instagram, Language, Person2, Phone, WhatsApp } from '@mui/icons-material'
 import AddPost from '../../components/Post/AddPost'
@@ -272,19 +272,18 @@ const ProfileSettings = (props) => {
 
     const storedEmail = localStorage.getItem('email');
     const profileEmail = props.token?.profile_email || storedEmail || '';
-
+    const token = useRef(props.token).current;
     const getUsers = useCallback(() => {
       axios({
         method: 'GET',
         url: `https://farmers-please-77d4b71f9957.herokuapp.com/settings/${profileEmail}`,
         headers: {
-          Authorization: 'Bearer ' + props.token,
+          Authorization: 'Bearer ' + token,
         },
       })
         .then((response) => {
           console.log(response);
           const res = response.data;
-          res.access_token && props.setToken(res.access_token);
           setFarmName(res.farm_name);
           setEmail(profileEmail);
           setAbout(res.about);
@@ -349,7 +348,7 @@ const ProfileSettings = (props) => {
             console.log(error.response.headers);
           }
         });
-    }, [profileEmail, props]);
+    }, [profileEmail, token]);
 
     useEffect(() => {
         setIsInitialized(false);

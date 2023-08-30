@@ -96,18 +96,13 @@ export default function Post({ post, token, disabled }) {
       <div className='postWrapper'>
         <div className='postTop'>
           <div className='postTopLeft'>
-            <IconButton
-              disabled={disabled ? true : false}
-              onClick={(e) => setOpen(true)}
-              disableRipple = {true}
-              sx={{cursor: 'pointer'}}
-            >
               <img
                 className='Img'
                 src={logo}
                 alt=''
+                onClick={(e) => setOpen(true)}
               />
-            </IconButton>
+            
             <IconButton
               disabled={disabled ? true : false}
               onClick={(e) => setOpen(true)}
@@ -118,11 +113,9 @@ export default function Post({ post, token, disabled }) {
                 className='farmName'
                 variant='h5'
                 color={'black'}
-                sx={{overflow: 'hidden'}}
+                sx={{overflow: 'hidden',textDecoration: 'none', '&:hover': { textDecoration: 'underline'}}}
               >
-                <span style={{fontFamily: 'unset'}}>
                 {post.farmName.length > 20 ? post.farmName.slice(0,21) + "..." : post.farmName}
-                </span>
               </Typography>
             </IconButton>
             <NewBusinessCard

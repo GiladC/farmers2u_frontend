@@ -117,8 +117,8 @@ a:hover, a:active {
 
 /* Make the post image (logo) responsive */
 .Img {
-    max-width: 70px;
-    max-height: 70px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;

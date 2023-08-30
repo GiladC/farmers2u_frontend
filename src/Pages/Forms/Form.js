@@ -73,9 +73,10 @@ const steps = [
       };
     const [isFormSignUpInfoValid, setIsFormSignUpInfoValid] = useState(true);
     const [isFormPersonalInfoValid, setIsFormPersonalInfoValid] = useState(true);
+    const [isFormShippingOptionsValid, setIsFormShippingOptionsValid] = useState(true);
     const [isFormOpeningHoursValid, setIsFormOpeningHoursValid] = useState(true);
     const [isFormOtherInfoValid, setIsFormOtherInfoValid] = useState(true);
-    const isFormValid = isFormSignUpInfoValid && isFormPersonalInfoValid && isFormOpeningHoursValid && isFormOtherInfoValid;
+    const isFormValid = isFormSignUpInfoValid && isFormPersonalInfoValid && isFormShippingOptionsValid && isFormOpeningHoursValid && isFormOtherInfoValid;
 
     const[page, setPage] = useState(0);
     /* const FormTitles = ["Sign Up", "Personal Info", "Other", "FormProducts","FormShippingDetails"]; */
@@ -91,7 +92,8 @@ const steps = [
              values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
         }
         else if (page === 2){
-            return <FormShippingOptions values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
+            return <FormShippingOptions setIsFormShippingOptionsValid={setIsFormShippingOptionsValid}
+             values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
         }
         else if (page === 3){
             return <FormProductsUpload values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue}/>
@@ -105,7 +107,7 @@ const steps = [
              values={multiFormValues} handleChange={handleChange} setFormValue={setFormValue} props={props}/>
         }
         else if (page === 6){
-            return <FormSummary isFormSignUpInfoValid={isFormSignUpInfoValid} isFormOpeningHoursValid={isFormOpeningHoursValid}
+            return <FormSummary isFormSignUpInfoValid={isFormSignUpInfoValid} isFormShippingOptionsValid={isFormShippingOptionsValid} isFormOpeningHoursValid={isFormOpeningHoursValid}
             isFormValid={isFormValid} handleChange={handleChange} setFormValue={setFormValue} values={multiFormValues} props={props}/>       
         }
         else if (page === 7){

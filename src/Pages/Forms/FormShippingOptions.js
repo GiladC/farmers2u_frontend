@@ -1,9 +1,8 @@
-import React from 'react'
+import React, {useEffect, useState, useCallback } from 'react'
 import { TextField, Box, Typography, Grid } from '@mui/material'
 import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
 
 const IOSSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -70,24 +69,52 @@ const IOSSwitch = styled((props) => (
   },
 }));
 
+function ValidateShippingDistance({isShipping, val, setValidFlag }) {
+  const [valid, setValid] = useState(true);
+  const isValidShippingDistance = useCallback(() => {
+    const res = (!isShipping) || (isShipping && val !== "");
+    setValidFlag(res);
+    return res;
+  }, [isShipping, val, setValidFlag]);
+  useEffect(() => {
+    setValid(isValidShippingDistance());
+  }, [isShipping, val, setValidFlag, isValidShippingDistance]);
+
+  return (
+    <div style={{ height: "0px" }}>
+      {!valid && (
+        <Typography dir="rtl" style={{marginTop:"60%"}} variant="body2" color="error">
+          שדה חובה
+        </Typography>
+      )}
+    </div>
+  );
+}
 
 
 
-function FormShippingOptions({values, handleChange, setFormValue}) {
+function FormShippingOptions({values, handleChange, setFormValue, setIsFormShippingOptionsValid}) {
   const {shipping_distance
   } = values
   const [isShipping, setIsShipping] = useState(values.is_shipping || false)
+  const [isValidShippingDistance, setIsValidShippingDistance] = useState('');
+  const formValid = isValidShippingDistance;
+
+  useEffect(() => {
+    setIsFormShippingOptionsValid(formValid);
+}, [formValid, setIsFormShippingOptionsValid]);
+
   const handleSwitch = (event) => {
     setIsShipping(event.target.checked);
     setFormValue("is_shipping", event.target.checked)
     console.log(values.is_shipping)
   };
 
+
   const handleDistanceChange = (event) => {
     const val = event.target.value;
     // Regular expression to match numbers from 1 to 999, disallowing leading zeros
     const regex = /^[1-9][0-9]{0,2}$/;
-  
     if (regex.test(val) || val === '') {
       setFormValue("shipping_distance", val); // Update the form value
     }
@@ -118,9 +145,10 @@ function FormShippingOptions({values, handleChange, setFormValue}) {
           type="text"
           placeholder='0' 
           inputProps={{ maxLength: 3 }} 
-          sx={{marginTop:2, width: '4em', marginBottom:-10, backgroundColor:"#ffffff" }}
+          sx={{marginLeft:1, marginTop:2, width: '4em', marginBottom:-10, backgroundColor:"#ffffff" }}
         />
       }
+      <ValidateShippingDistance isShipping={values.is_shipping} val={values.shipping_distance} setValidFlag={setIsValidShippingDistance}></ValidateShippingDistance>
       </Stack>
 
         {/* מרחק המשלוח*/}
