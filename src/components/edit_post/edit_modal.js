@@ -110,9 +110,6 @@ const EditPost = ({ post, open, onClose }) => {
   const [value, setValue] = useState(post.initial_value);
   const [value2, setValue2] = useState(post.initial_value2);
   const [value3, setValue3] = useState(post.initial_value3);
-  const matchingProducts = products.filter((prod) => 
-    post.initial_products.includes(prod.label)
-  )
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [pfpAndName] = useState({
     profilePicture: localStorage.getItem('profilePicture'),

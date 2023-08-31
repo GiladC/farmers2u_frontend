@@ -10,7 +10,7 @@ function ValidateFacebook({ facebook, setValidFlag }) {
 
   useEffect(() => {
     function isValidFacebook() {
-      const regexp = /^(?:https?:\/\/?|:\/\/)?(?:www\.)?(mbasic\.facebook|m\.facebook|facebook|fb)\.(com|me)\/[\w\-\.]*$/;
+      const regexp = /^(?:https?:\/\/?|:\/\/)?(?:www\.)?(mbasic\.facebook|m\.facebook|facebook|fb)\.(com|me)\/[\w\-.]*$/;
       const res = regexp.test(facebook) || facebook === '';
       setValidFlag(res);
       return res;
