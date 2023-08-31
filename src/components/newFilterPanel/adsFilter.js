@@ -429,11 +429,11 @@ const PrettoSlider = styled(Slider)({
             </div>
             {isRealAddress? null
             : 
-            <div style={{height:0}}>
+            <div>
               <Typography variant='body2' color='error' sx={{textAlign: 'center'}}>יש ללחוץ על כתובת מבין האופציות המוצעות</Typography>
             </div>}
         {addressWithoutDistance ?
-        <div style={{height:0}}>
+        <div>
           <Typography variant='body2' color='error' sx={{textAlign: 'center'}}>על מנת לסנן לפי כתובת יש לבחור מרחק</Typography>
         </div>
         : null
@@ -456,7 +456,7 @@ const PrettoSlider = styled(Slider)({
         max={100}
       />
       {distanceWithoutAddress ?
-          <div style={{height: 0}}>
+          <div>
           <Typography variant='body2' color= 'error'sx={{textAlign: 'center'}}>יש להזין כתובת כדי לסנן לפי מרחק</Typography>
           </div>
           : null

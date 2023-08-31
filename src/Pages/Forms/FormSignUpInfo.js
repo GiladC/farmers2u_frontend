@@ -86,10 +86,10 @@ function FormSignUpInfo({values, setFormValue, setIsFormSignUpInfoValid }) {
               </Box>
             <Box container style={{paddingRight: '30px', paddingLeft: '10px'}}>
             <form>
-                <Box sx={{marginLeft:"5%"}}>
+                <Box height={65} sx={{marginLeft:"5%"}}>
                   <div
                     id="signUpDiv"
-                    style={{ marginRight: '27%', paddingTop: '25px' }}
+                    style={{ width: "230px", paddingTop: '25px' }}
                   ></div>
                   {errorMessage && (
                   <Typography

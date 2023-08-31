@@ -265,15 +265,9 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
                     </Grid>
 
                     <Grid item>
-                      {values.farmer_name !== "" ?
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             שם איש הקשר:
                         </Typography>
-                        :
-                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
-                            *שם איש הקשר:
-                        </Typography>  
-                      }
                         <Typography variant="body2" color="textPrimary" textAlign={"center"}>
                             {values.farmer_name || "---"}
                         </Typography>

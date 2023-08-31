@@ -72,7 +72,7 @@ const IOSSwitch = styled((props) => (
 function ValidateShippingDistance({isShipping, val, setValidFlag }) {
   const [valid, setValid] = useState(true);
   const isValidShippingDistance = useCallback(() => {
-    const res = (!isShipping) || (isShipping && val !== "");
+    const res = (!isShipping) || (isShipping && val !== "" && val > 0);
     setValidFlag(res);
     return res;
   }, [isShipping, val, setValidFlag]);
