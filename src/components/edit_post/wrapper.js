@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 
 const EditPostWrapper = ({ open, onClose, original_post }) => {
-    const [endTime, startTime] = original_post.time.split('-');
+    const [startTime, endTime] = original_post.time.split('-');
 
     const post = {
         initial_text: original_post.desc, 

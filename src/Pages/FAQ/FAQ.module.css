@@ -6,12 +6,13 @@ code {
 }
 
 
-.faqs {
-	width: 100%;
-	max-width: 768px;
-	margin: 0 auto;
-	padding: 25px;
-}
+/* .faqs { */
+	/* width: 50%; */
+	/* max-width: 768px; */
+	/* margin: 0 0;
+	align-self: center; */
+	/* padding: 25px; */
+/* } */
 
 .faqs .faq {
 	margin: 15px;
@@ -74,9 +75,9 @@ code {
 }
 
 .sectionTitle {
+	margin-top: 3rem;
     font-size: 1.7rem;
     font-weight: bold;
-    margin-bottom: 1rem;
 	color: #1d3c45;
 	font-family: 'aleph';
 
@@ -90,4 +91,20 @@ code {
 	font-display: swap;
 	src: url(https://fonts.gstatic.com/s/varelaround/v20/w8gdH283Tvk__Lua32TysjIfpcuPLdshZhVB.woff2) format('woff2');
 	unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+  }
+  
+.right{
+	flex: 1;
+}
+.left{
+	flex: 1;
+}
+
+  @media(max-width: 800px) {
+	.right{
+		display: none;
+	}
+	.left{
+		display: none;
+	}
   }

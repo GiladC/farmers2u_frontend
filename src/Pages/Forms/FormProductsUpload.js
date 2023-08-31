@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Button, Box, Typography, Grid, Paper, ThemeProvider, Checkbox, createTheme, Autocomplete, ListItem} from '@mui/material'
+import { TextField, Box, Typography, Grid, Paper, ThemeProvider, Checkbox, createTheme, Autocomplete, ListItem, Container} from '@mui/material'
 import { CheckBox, CheckBoxOutlineBlank, Close } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles'
@@ -222,7 +222,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
   <Box mb={2} dir="rtl">
 
     <Autocomplete
-    style={{backgroundColor:'white'}}
+    style={{backgroundColor:'white', zIndex: '10000'}}
           multiple
           id="checkboxes-tags-demo"
           // value={categories}
@@ -238,7 +238,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           ListboxProps={
             {
               style:{
-                  maxHeight: '100px',
+                  maxHeight: '258px',
                   border: '2px solid #E8AA42',
                   direction: 'ltr'
               }
@@ -265,7 +265,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           sx={{ width: '100%'
          }}
           renderInput={(params) => (
-            <TextField {...params} placeholder="סוגי מוצרים"  direction= 'rtl' />
+            <TextField {...params} sx={{zIndex: '10000'}} placeholder="סוגי מוצרים"  direction= 'rtl' />
           )}
         />
   </Box> 
@@ -294,25 +294,24 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           <Grid marginTop={8} item xs={6} style={{ marginBottom:"-1rem"}}>
               
               <Box margin={2} border="none" Width={1000} style={{ marginBottom:"2rem"}}>
-                <Button
+                <Container
                 /*margin={10}*/
-                disableRipple
-                variant="contained"
-                component="label"
                 color="addPicture"
                 sx={{   display: 'flex',
                 justifyContent: 'space-between',width:"450px",fontFamily: "aleph", boxShadow: 'none !important', '&:hover , &:active, &:focus':{color: 'initial',
                 backgroundColor: 'initial', 
                 boxShadow: 'none !important', opacity: 1,}}}
               >
-              הוספת לוגו
+                <label>
+                הוספת לוגו
+                </label>
                 <input
                   type="file"
                   label =""
                   name="logo_picture"
                   onChange={handleChangePhotoLogo}
                 />
-              </Button>
+              </Container>
             </Box>
           </Grid>
           <Grid item xs={6} style={{ marginBottom:"-1.5rem"}}>
@@ -329,20 +328,17 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           </Grid>
           <Grid item xs={6} style={{ marginBottom:"-1rem"}}>
               <Box margin={2} border="none" Width={1000} style={{ marginBottom:"-1rem"}}>
-                <Button
+                <Container
                 /*margin={10}*/
-                disableRipple
-                variant="contained"
-                component="label"
                 color="addPicture"
                 sx={{    display: 'flex',
                 justifyContent: 'space-between',width:"450px",fontFamily: "aleph", boxShadow: 'none !important', '&:hover':{color: 'initial',
                 backgroundColor: 'initial', 
                 boxShadow: 'none !important', }}}
               >
+                <label>
                 מוצרי המשק
-                <Box margin={2.7}>
-              </Box>
+                </label>
                 <input
                   type="file"
                   label =""
@@ -351,7 +347,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
                   sx={{color:'button'}}
                   onChange={handleChangePhotoProducts}
                 />
-              </Button>
+              </Container>
             </Box>
           </Grid>
           <Grid item xs={6} style={{ marginBottom:"-1rem"}}>
@@ -365,19 +361,16 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
           </Box> */}
             <Grid item xs={6} >
               <Box margin={2} border="none" Width={1000}>
-                <Button
+                <Container
                 /*margin={10}*/
-                disableRipple
-                variant="contained"
-                component="label"
                 color="addPicture"
                 sx={{    display: 'flex',
-                justifyContent: 'space-between', width:"450px"
+                justifyContent: 'space-between', width:"450px", mt: "24px"
 ,                fontFamily: "aleph", boxShadow: 'none !important', '&:hover':{color: 'initial',
                 backgroundColor: 'initial', 
                 boxShadow: 'none !important', }}}
               >
-                תמונות המשק
+                <label>תמונות המשק</label>
                 <input
                   type="file"
                   label =""
@@ -385,7 +378,7 @@ function FormProductsUpload({values, handleChange, setFormValue}) {
                   multiple
                   onChange={handleChangePhotoFarm}
                 />
-              </Button>
+              </Container>
             </Box>
 
           </Grid>

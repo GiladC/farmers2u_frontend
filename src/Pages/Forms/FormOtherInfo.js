@@ -10,7 +10,7 @@ function ValidateFacebook({ facebook, setValidFlag }) {
 
   useEffect(() => {
     function isValidFacebook() {
-      const regexp = /(?:https?:\/\/)?(?:www\.)?(mbasic\.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/; // eslint-disable-line no-useless-escape
+      const regexp = /^(?:https?:\/\/?|:\/\/)?(?:www\.)?(mbasic\.facebook|m\.facebook|facebook|fb)\.(com|me)\/[\w\-\.]*$/;
       const res = regexp.test(facebook) || facebook === '';
       setValidFlag(res);
       return res;
@@ -28,7 +28,7 @@ function ValidateInstagram({ instagram, setValidFlag }) {
 
   useEffect(() => {
     function isValidInstagram() {
-      const regexp = /(?:http(s?):\/\/)?(?:www\.)?(?:instagram|instagr)\.([a-z])+\/(\w*)?\/?/gs;
+      const regexp = new RegExp("^(?:http(s)?://?)?(?:www\\.)?(?:instagram|instagr)\\.com/([\\w\\.]+)?/?$", 'gs');
       const res = regexp.test(instagram) || instagram === '';
       setValidFlag(res);
       return res;

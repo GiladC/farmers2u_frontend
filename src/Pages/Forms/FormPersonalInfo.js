@@ -39,24 +39,6 @@ function ValidateFarmName({farmName, setValidFlag}) {
   );
 }
 
-function ValidateFarmerName({farmerName, setValidFlag}) {
-  const [valid ,setValid] = useState(true);
-  const isValidFarmerName = useCallback(() => {
-    const res = farmerName !== "";
-    setValidFlag(res);
-    return res;
-  }, [farmerName, setValidFlag]);
-
-  useEffect(() => {
-    setValid(isValidFarmerName());
-  }, [farmerName, setValidFlag, isValidFarmerName]);
-
-  return (
-    <div style={{ height: "0px" }}>
-      {!valid && <Typography dir="rtl" style={{ marginRight: "-261%" }} variant="body2" color="error">שדה חובה</Typography>}
-    </div>
-  );
-}
 
 function ValidatePhoneNotEmpty({ phoneNumber, setValidFlag }) {
   const [valid, setValid] = useState(true);
@@ -113,9 +95,8 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
   const [isValidWhatsApp, setIsValidWhatsApp] = useState('');
   const [isValidFarmName, setIsValidFarmName] = useState(true);
   const [isValidAddress, setIsValidAddress] = useState(false);
-  const [isValidFarmerName, setIsValidFarmerName] = useState(true);
   const [showTooltip, setShowTooltip] = useState(false);
-  const formValid = isValidPhoneNotEmpty && isValidPhone && isValidWhatsApp && isValidFarmName && isValidAddress && isValidFarmerName;
+  const formValid = isValidPhoneNotEmpty && isValidPhone && isValidWhatsApp && isValidFarmName && isValidAddress;
 
   useEffect(() => {
     setIsFormPersonalInfoValid(formValid);
@@ -298,7 +279,6 @@ function FormPersonalInfo({values, handleChange, setFormValue, setIsFormPersonal
         }} 
       />
           </Tooltip>
-      <ValidateFarmerName farmerName={values.farmer_name} setValidFlag={setIsValidFarmerName}/>
   </Grid>
   <Grid container item xs={5}>
       <TextField fullWidth multiline dir="rtl"

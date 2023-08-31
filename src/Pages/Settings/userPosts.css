@@ -8,6 +8,6 @@ posts::-webkit-scrollbar {
 }
 
 .posts{
-    border: 5px solid #1d3c45;
+    /* border: 5px solid #1d3c45; */
     direction: ltr;
 }

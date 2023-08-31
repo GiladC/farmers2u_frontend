@@ -69,7 +69,7 @@ const Footer = ({ token }) => {
             <ul style={{ ...columnStyle }}>
               <li style={{ paddingBlock: '10px' }}>
                 <Button href='login' style={color} sx={buttonSX}>
-                  התחברות
+                  התחברות חקלאי
                 </Button>
               </li>
               <li>

@@ -113,7 +113,7 @@ const EditPost = ({ post, open, onClose }) => {
   const matchingProducts = products.filter((prod) => 
     post.initial_products.includes(prod.label)
   )
-  const [selectedProducts, setSelectedProducts] = useState(matchingProducts);
+  const [selectedProducts, setSelectedProducts] = useState([]);
   const [pfpAndName] = useState({
     profilePicture: localStorage.getItem('profilePicture'),
     profileName: localStorage.getItem('farmName'),
@@ -275,7 +275,9 @@ const handleChangeDate = value => {
   }	
 }
 
-useEffect(() => { // every time the modal is opened or closed, remove the validation and the values	
+useEffect(() => { // every time the modal is opened or closed, remove the validation and the values
+  if(open === true)
+  {
   setValidDescription(true);	
   setIsRealAddress(true);	
   setValidDate(true);	
@@ -288,15 +290,18 @@ useEffect(() => { // every time the modal is opened or closed, remove the valida
   setValue(post.initial_value);	
   setValue2(post.initial_value2);	
   setValue3(post.initial_value3);	
-  setSelectedProducts(matchingProducts);	
+  setSelectedProducts(products.filter((prod) => 
+  post.initial_products.includes(prod.label)
+  ));	
   setPostData({	
     isOrganic: post.initial_organic || false,
     isVegan: post.initial_vegan || false,
     text: post.initial_text,
-  });	
+  });
+}
 }, [open, post.initial_address, post.initial_organic, 
   post.initial_text, post.initial_value, post.initial_value2,
-   post.initial_value3, post.initial_vegan, matchingProducts])
+   post.initial_value3, post.initial_vegan, post.initial_products])
 
 useEffect(() => {	
   if (!(value2) || !(value3)) {	
@@ -337,7 +342,7 @@ useEffect(() => {
       setValidHours(true);	
     }	
   }	
-}, [value2, value3, matchingProducts, post]);
+}, [value2, value3]);
 
 
 
@@ -648,5 +653,3 @@ useEffect(() => {
 }
 
 export default EditPost;
-
-

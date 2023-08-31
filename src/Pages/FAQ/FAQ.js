@@ -66,20 +66,19 @@ function FAQ () {
     return (
         <div dir="rtl" className={styles.faqs}>
             <Typography mt={1} fontFamily="secular one" fontWeight="bold" variant='h2' sx={{
-            display: 'flex',
-            justifyContent: 'center',
+            textAlign: 'center',
             color: "#ffb74d",
-            WebkitTextStroke: "0.1px #757575"
+            WebkitTextStroke: "0.1px #757575",
             }}>שאלות נפוצות
             </Typography>
-            <section>
-                <h2 style={{WebkitTextStroke: '0.1px #1d3c45'}} className={styles.sectionTitle}>הרשמה לאתר</h2>
+            <div style={{alignContent: 'center', alignItems: 'center'}}>
+                <h2 style={{WebkitTextStroke: '0.1px #1d3c45', textAlign: 'center'}} className={styles.sectionTitle}>הרשמה לאתר</h2>
                 {faqs1.map((faq, i) => (
                     <FAQItem faq={faq} index={i} toggleFAQ={() => toggleFAQ(faqs1, setFaqs1, i)} key={i} />
                 ))}
-            </section>
+            </div>
             <section>
-                <h2 style={{WebkitTextStroke: '0.1px #1d3c45'}} className={styles.sectionTitle}>
+                <h2 style={{WebkitTextStroke: '0.1px #1d3c45', textAlign: 'center'}} className={styles.sectionTitle}>
                 לוח מודעות
                 <span style={{WebkitTextStroke: '0.1px #1d3c45'}}>, </span>
                 אירועים ופרסומים
@@ -89,7 +88,7 @@ function FAQ () {
                 ))}
             </section>
             <section>
-                <h2 style={{WebkitTextStroke: '0.1px #1d3c45'}} className={styles.sectionTitle}>רכישת מוצרים ומדיניות משלוחים</h2>
+                <h2 style={{WebkitTextStroke: '0.1px #1d3c45', textAlign: 'center'}} className={styles.sectionTitle}>רכישת מוצרים ומדיניות משלוחים</h2>
                 {faqs3.map((faq, i) => (
                     <FAQItem faq={faq} index={i} toggleFAQ={() => toggleFAQ(faqs3, setFaqs3, i)} key={i} />
                 ))}
@@ -113,11 +112,12 @@ function FAQ () {
           >
             <Typography
               variant="body2"
-              sx={{fontFamily:"aleph", fontWeight: "bold", fontSize: "1.7rem", color: "#ffb74d", WebkitTextStroke: "0.1px black" }}
+              sx={{fontFamily:"aleph", fontWeight: "bold", fontSize: "1.7rem", color: "#ffb74d", WebkitTextStroke: "0.1px black", marginBottom: '0.5rem'}}
             >
               המשך ללוח המודעות
             </Typography>
-            <KeyboardBackspaceIcon style={{ 
+            <KeyboardBackspaceIcon style={{
+                marginBottom: '0.5rem',
                 color: "#ffb74d",
                 filter: `
                 drop-shadow( 0.3px 0px 0 black )
@@ -133,16 +133,21 @@ function FAQ () {
 
 function FAQItem({ faq, index, toggleFAQ }) {
     return (
-        <div
-            className={`${styles['faq']} ${faq.open ? styles['open'] : ''}`}
-            onClick={() => toggleFAQ(index)}
-        >
-            <div className={styles['faq-question']}>
-                {faq.question}
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div className={styles['left']}></div>
+            <div
+                className={`${styles['faq']} ${faq.open ? styles['open'] : ''}`}
+                onClick={() => toggleFAQ(index)}
+                style={{justifyContent: 'center', flex:3}}
+            >
+                <div className={styles['faq-question']}>
+                    {faq.question}
+                </div>
+                <div className={styles['faq-answer']}>
+                    {faq.answer}
+                </div>
             </div>
-            <div className={styles['faq-answer']}>
-                {faq.answer}
-            </div>
+            <div className={styles['right']}></div>
         </div>
     )
 }

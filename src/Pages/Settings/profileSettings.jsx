@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import {ValidateFacebook, ValidateFarmName, ValidateFarmerName, ValidateInstagram, ValidatePhone, ValidateWebsite, ValidateWhatsapp} from '../../components/validations'
 
 import products from '../../assets/lists';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Tag(props) {
   const { label, onDelete, ...other } = props;
@@ -143,6 +144,7 @@ const IOSSwitch = styled((props) => (
 
 const ProfileSettings = (props) => {
 
+    const [loading, setLoading] = useState(true);
     const [logoFlag, setLogoFlag] = useState(false);
     const [productsFlag, setProductsFlag] = useState(false);
     const [farmFlag, setFarmFlag] = useState(false);
@@ -164,7 +166,7 @@ const ProfileSettings = (props) => {
       };
     const [farmer, setFarmer] = useState("");
     const [delivery, setDelivery] = useState('');
-    const [shipping_distance, setShippingDist] = useState("");
+    const [shipping_distance, setShippingDist] = useState(0);
     const [facebook, setFacebook] = useState("");
     const [instagram, setInstagram] = useState("");
     const [website, setWebsite] = useState("");
@@ -210,7 +212,8 @@ const ProfileSettings = (props) => {
     const [disabledProducts, setDisabledProducts] = useState(Array(2).fill(false)); // disable: [delete products images, replace products images]
 
     const validDays = validSunday && validMonday && validTuesday && validWednesday && validThursday && validFriday && validSaturday;
-    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone !== "";
+    const shipppingWithoutDist = isShipping && (shipping_distance === 0 || shipping_distance === "");
+    const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone !== "" && !shipppingWithoutDist;
   
   
   
@@ -219,7 +222,7 @@ const ProfileSettings = (props) => {
         const val = event.target.checked;
         setIsShipping(val);
         if(val === false){
-            setShippingDist("");
+            setShippingDist(0);
         }
         
       };
@@ -295,7 +298,7 @@ const ProfileSettings = (props) => {
           setInstagram(res.instagram);
           setWebsite(res.farm_site);
           setMenu(res.products);
-          setIsShipping(parseInt(res.is_shipping));
+          setIsShipping(JSON.parse(res.is_shipping));
           setShippingDist(res.shipping_distance);
           setDelivery(res.delivery_details);
           setFarmer(res.farmer_name);
@@ -338,7 +341,7 @@ const ProfileSettings = (props) => {
           }
           setCategories(types);
           setIsInitialized(true);
-
+          setLoading(false);
         })
 
         .catch((error) => {
@@ -385,7 +388,7 @@ const ProfileSettings = (props) => {
           instagram: instagram
 
         }))
-        if (newLogo){
+        if (newLogo && newLogo !== "https://storage.googleapis.com/image_storage_farmers2u/empty_image.png"){
           //alert(newLogo)
           for (let i = 0; i < newLogo.length; i++) {
             //alert(logo[i])
@@ -445,7 +448,7 @@ const ProfileSettings = (props) => {
 
     const handleDeletePhotoLogo = () => {
         setLogoFlag(true)
-        setLogo([])
+        setLogo("https://storage.googleapis.com/image_storage_farmers2u/empty_image.png")
         setNewlogo("")
         const disable = [...disabledLogo];
         disable[1] = true;
@@ -644,6 +647,16 @@ const ProfileSettings = (props) => {
         <AddPost vert={{ mt: 4}} notFixed={true}/>
         </div>
       </div>
+      {loading ?
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <CircularProgress style={{ color: '#E8AA42', width: '70px', height: '70px' }} />
+        <span className="loadingText" style={{ color: '#1d3c45', fontSize: '18px', marginTop: '1rem' }}>
+          טוען מידע...
+        </span>
+      </Box>
+    </div>
+      :
         <Box sx={{
             display: 'grid',
             gridTemplateColumns: '4fr 4fr'
@@ -979,6 +992,11 @@ const ProfileSettings = (props) => {
                             }}
                             />
                         </Box>
+                        {shipppingWithoutDist ? 
+                            <div style={{hight:0}}>
+                              <Typography variant='body2' color= 'error' sx={{textAlign:'center'}}>יש להזין טווח משלוחים</Typography>
+                            </div>
+                            : null}
                     </Box>: null}
                     <Box gap= {1}  sx={{
                         mt: '2rem',
@@ -1235,7 +1253,7 @@ const ProfileSettings = (props) => {
                            {/* <Typography>מקום לתמונות</Typography>*/}
                 </Container>
             </Container>
-        </Box>
+        </Box>}
     </Box>
     // </ThemeProvider>
   )

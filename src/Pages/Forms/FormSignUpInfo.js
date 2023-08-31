@@ -108,10 +108,12 @@ function FormSignUpInfo({values, setFormValue, setIsFormSignUpInfoValid }) {
                 </Box>
               </form>
             </Box>
-            <a href='/login'>
-              <Button disableRipple variant='text' size='medium'
-              sx={{fontFamily:"aleph",  mt: 4, ml:2, borderRadius: 4, fontSize: 16}} color='inherit'> משתמש קיים? לחץ כאן</Button>  
-            </a>
+            <Box mt={1} display= 'flex' justifyContent='center'>
+              <a href='/login'>
+                <Button disableRipple variant='text' size='medium'
+                sx={{fontFamily:"aleph",  mt: 4, borderRadius: 4, fontSize: 16}} color='inherit'> משתמש קיים? לחץ כאן</Button>  
+              </a>
+            </Box>
           </Box>  
         </form>
   );
