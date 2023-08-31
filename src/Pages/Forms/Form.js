@@ -142,7 +142,7 @@ const steps = [
                 maxHeight: page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? "100px":'0px',
                 minWidth:"80px",
                 backgroundColor:  page === 0 || page === 1 ||page === 2 ||page === 3 ||page === 4 || page === 5 ? '#ffb74d' : "#f7f1e5" , 
-                marginRight: page === 0 ? "0px" : "20px",
+                marginRight: page === 0 ? "-30px" : "20px",
                 marginTop: page === 6 ? '100px' : '20px',
                 fontFamily:"aleph",
                 fontSize: 16,

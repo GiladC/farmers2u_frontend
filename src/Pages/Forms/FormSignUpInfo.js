@@ -79,9 +79,9 @@ function FormSignUpInfo({values, setFormValue, setIsFormSignUpInfoValid }) {
 
         <form autoComplete="off">
           
-          <Box marginTop={5} bgcolor="#f7f1e5" boxShadow={0} borderRadius={2} border={2} display="flex" flexDirection={"column"} width='100%' height={164.7} alignItems={"center"} justifyContent={"center"} mt={3.2} paddingTop={20} paddingBottom={20} sx={{border: '1.5px solid #f7f1e5'}}  >
+          <Box marginTop={5} bgcolor="#f7f1e5" boxShadow={0} borderRadius={2} border={2} display="flex" flexDirection={"column"} width='100%' height={164.7} alignItems={"center"} justifyContent={"center"}  mt={0.8} paddingTop={20} paddingBottom={20} sx={{border: '1.5px solid #f7f1e5'}}  >
               <Box style={{marginTop: "-19.1%"}}>
-              <Typography color="#37474f" fontFamily="aleph" fontWeight={'bold'} fontSize={50} marginTop="-5.5rem" variant='h3' textAlign={"center"}> הרשמת חקלאי </Typography>
+              <Typography color="#37474f" fontFamily="aleph" fontWeight={'bold'} fontSize={50} mr={2.52} marginTop="-5.5rem" variant='h3' textAlign={"center"}> הרשמת חקלאי </Typography>
               <Typography color="#37474f" fontFamily="aleph" fontWeight={'bold'} mt={2} fontSize={22} marginBottom={8} marginTop={3} variant='h2'  textAlign={"center"}> שלב 1 - חשבון גוגל</Typography>
               </Box>
             <Box>
@@ -110,7 +110,7 @@ function FormSignUpInfo({values, setFormValue, setIsFormSignUpInfoValid }) {
                 </Box>
               </form>
             </Box>
-            <Box mt={1} display= 'flex' justifyContent='center'>
+            <Box ml={3} mt={1} display= 'flex' justifyContent='center'>
               <a href='/login'>
                 <Button disableRipple variant='text' size='medium'
                 sx={{fontFamily:"aleph",  mt: 4, borderRadius: 4, fontSize: 16}} color='inherit'> משתמש קיים? לחץ כאן</Button>  
