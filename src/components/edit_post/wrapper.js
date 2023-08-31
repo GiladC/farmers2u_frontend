@@ -9,7 +9,7 @@ const EditPostWrapper = ({ open, onClose, original_post }) => {
 
     const post = {
         initial_text: original_post.desc, 
-        initial_value: dayjs(original_post.date, 'MM/DD/YYYY'),
+        initial_value: dayjs(original_post.date, 'DD/MM/YYYY'),
         initial_value2: dayjs(`1970-01-01T${startTime}`),
         initial_value3: dayjs(`1970-01-01T${endTime}`),
         initial_products: adjust_products(original_post.post_products || ""),
