@@ -212,7 +212,7 @@ const ProfileSettings = (props) => {
     const [disabledProducts, setDisabledProducts] = useState(Array(2).fill(false)); // disable: [delete products images, replace products images]
 
     const validDays = validSunday && validMonday && validTuesday && validWednesday && validThursday && validFriday && validSaturday;
-    const shipppingWithoutDist = isShipping && (shipping_distance === 0 || shipping_distance === "");
+    const shipppingWithoutDist = isShipping && (shipping_distance === '0' || shipping_distance === "");
     const validForm = validPhone && validWhatsapp && validWebsite && validFacebook && validInstagram && validDays && validAddress && ValidFarmer && validFarmName && address && address !== "" && phone && phone !== "" && !shipppingWithoutDist;
   
   
@@ -988,6 +988,7 @@ const ProfileSettings = (props) => {
                             }}
                             value = {shipping_distance}
                             onChange={(event) => {
+                                console.log(event.target.value);
                                 setShippingDist(event.target.value);
                             }}
                             />
