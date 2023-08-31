@@ -85,41 +85,44 @@ const FormLogin = (props) => {
 
   return (
     <ThemeProvider theme={themeForButton}>
-      <div dir="rtl" style={{height: '100vh'}}>
+      <div dir="rtl" style={{ height: '100vh', alignContent: 'center', alignItems: 'center'}} >
         {/*<button onClick={ (e) => handleSignOut(e)}>Sign Out</button>  GOOGLE SIGNOUT BUTTON, incomplete. needs to adapt to regular signout  */}
         <form autoComplete="off" /*onSubmit={handleSubmit}*/>
-        <Typography color="#37474f" fontFamily="aleph" fontWeight={'bold'} fontSize={50} marginBottom={'10vh'} variant='h3' textAlign={"center"} marginTop={'20vh'}> התחברות חקלאי </Typography>
+          <Typography color="#37474f" fontFamily="aleph" fontWeight={'bold'} fontSize={50} marginBottom={'10vh'} variant='h3' textAlign={"center"} marginTop={'20vh'}> התחברות חקלאי </Typography>
           <Box display='flex' justifyContent='center'>
             <div id="signInDiv" style={{ alignSelf: 'center', marginBottom: '3vh' }}></div>
           </Box>
-          <Box display='flex' justifyContent='center'>
             {errorMessage && (
-              <Typography
-                fontSize={13}
-                color="red"
-                textAlign="center"
-                sx={{
-                  fontFamily: 'aleph'
-                }}
-              >
-                {errorMessage || "\u00A0"}
-              </Typography>
+              <div>
+                <Typography
+                  fontSize={13}
+                  color="red"
+                  textAlign="center"
+                  sx={{
+                    fontFamily: 'aleph',
+                    textAlign: 'center'
+                  }}
+                >
+                  {errorMessage || "\u00A0"}
+                </Typography>
+              </div>
             )}
-            <a href="/signup">
-              <Button
-                variant="text"
-                size="medium"
-                sx={{
-                  fontFamily: 'aleph',
-                  mt: 4,
-                  borderRadius: 4,
-                }}
-                color="nice"
-              >
-                מעבר להרשמה
-              </Button>
-            </a>
-          </Box>
+            <Box mt={1} display='flex' justifyContent='center'>
+              <a href="/signup">
+                <Button
+                  variant="text"
+                  size="medium"
+                  sx={{
+                    fontFamily: 'aleph',
+                    mt: 4,
+                    borderRadius: 4,
+                  }}
+                  color="nice"
+                >
+                  מעבר להרשמה
+                </Button>
+              </a>
+            </Box>
           {showPopup && (
             <div style={{
               position: 'fixed',
