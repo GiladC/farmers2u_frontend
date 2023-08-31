@@ -327,9 +327,15 @@ const FormSummary = ({ values , props, isFormValid, isFormSignUpInfoValid, isFor
                         </Typography>
                     </Grid>
                     <Grid item>
+                        {isFormOpeningHoursValid ? 
                         <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
                             שעות פתיחה:
                         </Typography>
+                        :
+                        <Typography variant="body1" color="textSecondary" textAlign={"center"} sx={{textDecoration: 'underline'}}>
+                            *שעות פתיחה:
+                        </Typography>
+                        }
                         {(isFormOpeningHoursValid && isOpeningHoursEmpty) ? 
                         <Typography variant="body2" color="textPrimary" textAlign={"center"} >
                             לא הוזנו שעות פתיחה
