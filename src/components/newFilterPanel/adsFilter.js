@@ -362,7 +362,7 @@ const PrettoSlider = styled(Slider)({
                 </div>}
                 {!endDate && !startDate ?
                 <div>
-                  <Typography variant='body2' color='#E8AA42'>כאשר התאריכים ריקים הטווח הינו השבועיים הקרובים</Typography>
+                  <Typography variant='body2' color='#E8AA42' sx={{textAlign: 'center'}}>כאשר התאריכים ריקים הטווח הינו השבועיים הקרובים</Typography>
                 </div> 
                 : null
                 }
