@@ -96,13 +96,18 @@ export default function Post({ post, token, disabled }) {
       <div className='postWrapper'>
         <div className='postTop'>
           <div className='postTopLeft'>
+          <IconButton
+              disabled={disabled ? true : false}
+              onClick={(e) => setOpen(true)}
+              disableRipple = {true}
+              sx={{cursor: 'pointer'}}
+            >
               <img
                 className='Img'
                 src={logo}
                 alt=''
-                onClick={(e) => setOpen(true)}
               />
-            
+            </IconButton>
             <IconButton
               disabled={disabled ? true : false}
               onClick={(e) => setOpen(true)}
